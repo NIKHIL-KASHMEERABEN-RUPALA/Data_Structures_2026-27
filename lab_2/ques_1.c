@@ -1,13 +1,12 @@
 #include<stdio.h>
 
 int factorial(int number){
-    int temp = number;
-    int result=1;
-    while(temp>0){
-        result*=temp;
-        temp--;
+    if(number==0 || number==1){
+        return 1;
     }
-    return result;
+    else{
+        return number*factorial(number-1);
+    }
 }
 
 int main(){
