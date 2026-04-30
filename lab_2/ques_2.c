@@ -11,10 +11,10 @@ int main(){
 
     int temp = power;
 
-    int final_number;
+    int final_number=1;
 
     while(temp>0){
-        final_number = number*number;
+        final_number*=number;
         temp--;
     }
 
