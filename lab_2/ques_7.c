@@ -39,8 +39,10 @@ int main(){
             sum += j;
             j--;
         }
-        
+
     }
+
+    printf("%d \n",sum);
 
 
     return 0;
