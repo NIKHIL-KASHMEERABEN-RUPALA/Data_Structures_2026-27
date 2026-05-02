@@ -1,69 +1,58 @@
 #include<stdio.h>
-#include<stdbool.h>
-#include<stdlib.h>
-
 #define MAX 20
 
 int stack[MAX];
+
 int top = -1;
 
-void push(int element)
-{
-    if(top>MAX-1){
-        printf("Overflow condition arised !");
+void push(int element){
+    if(top>=MAX-1){
+        printf("\n stack overflow condition arised ! \n");
         return;
-    }
-    else{
+    }else{
         stack[++top]=element;
     }
 }
 
-int pop()
-{
+int pop(){
     if(top<0){
-        printf("Underflow condition arised ");
-        exit(0);
-    }
-    else{
+        printf("\n Stack underflow condition \n");
+        return -1;
+    }else{
         return stack[top--];
     }
 }
 
-
-
-void peep(int position)
-{
+int peep(int position){
     if(top-position+1<0){
-        printf("Invalid position to view ! ");
+        printf("\n Invalid position ! \n");
+        return -1;
     }
     else{
-        printf("%d is the top element !",stack[position]);
+        return stack[top-position+1];
     }
 }
 
-
-
-void change(int position , int element)
-{
-    if(top-position+1<0){
-        printf("invalid position !");
-    }
-    else{
-        stack[position] = element;
-    }
-}
-
-
-void display()
-{
+void display(){
     if(top==-1){
-        printf("The stack is completely empty !");
-    }
-    else{
-        for(int i = top ; i >= 0 ; i-- ){
+        printf("\n Stack is empty ! \n");
+    }else{
+        for(int i = top ; i>=0 ; i--){
             printf(" %d ",stack[i]);
         }
     }
+}
+
+void change(int pos , int element){
+
+    if(top-pos+1<0){
+        printf("\n Invalid position ! \n");
+        return;
+    }else{
+        stack[top-pos+1] = element;
+        printf("\n Element successfully changed \n");
+    }
+
 }
 
 
@@ -72,62 +61,76 @@ int main(){
     int choice ;
 
     do{
-        printf("\n Enter the choice from the following --- \n");
-        printf("1. Push \n");
-        printf("2. Pop \n");
-        printf("3. Peep \n");
-        printf("4. Change \n");
-        printf("5. Display \n");
-        printf("6. Exit \n");
+        printf("Enter the choice from following ------");
+        printf("\n 1. push \n");
+        printf("\n 2. pop \n");
+        printf("\n 3. peep \n");
+        printf("\n 4. display \n");
+        printf("\n 5. change \n");
+        printf("\n 6. exit \n");
         scanf("%d",&choice);
 
-
         switch(choice){
+
             case 1:
                 int element;
-                printf("enter element :         \n");
+                printf("Enter element to enter :        ");
                 scanf("%d",&element);
                 push(element);
                 break;
 
+
             case 2:
-                int y = pop();
-                printf("%d",y);
+                int pop_ans = pop();
+                if(pop_ans != -1){
+                    printf("\n popped element is :  %d ",pop_ans);
+                }
                 break;
+
+
             
             case 3:
-                int pos;
-                printf("Enter position :        ");
-                scanf("%d",&pos);
-                peep(pos);
+                int position;
+                printf("Enter position from top to be viewed :      ");
+                scanf("%d",&position);
+                int result_peep = peep(position);
+                if(result_peep!=-1){
+                    printf("\n The result is %d ",result_peep);
+                }
                 break;
 
             case 4:
-                int position,ele;
-                printf("Enter position from top to change :     ");
-                scanf("%d",&position);
-                printf("Enter the new element :     ");
-                scanf("%d",&ele);
-                change(position , ele);
-                break;
-
-            case 5:
                 display();
                 break;
 
-            case 6:
-                printf("The programme has been terminated !");
+            
+            case 5:
+                int pos , element;
+                printf("Enter position to change :      ");
+                scanf("%d",&pos);
+                printf("Enter new element : ");
+                scanf("%d",&element);
+                change(pos,element);
                 break;
 
-            default:
-                printf("Invalid choice !!");
+
+            case 6:
+                printf("\n The programme has been terminanted \n ");
+                break;
+
+            default :
+                printf("\n invalid number entered \n");
                 break;
 
         }
-        
-        
+
+
+
+
     }while(choice!=6);
 
 
-    return 0;
+
+    return 0 ;
 }
+
