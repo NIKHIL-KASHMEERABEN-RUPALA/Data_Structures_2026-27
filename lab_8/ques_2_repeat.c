@@ -22,6 +22,7 @@ void push(char element){
 char pop(){
     if(top<0){
         printf("\n underflow contdition has been arised ! \n ");
+        return '\0';
     }
     else{
         return stack[top--];
