@@ -1,16 +1,17 @@
+// How stack can be used to recognize strings aca, bcb, abcba, abbcbba? Write a program to solve the above problem.
+
 #include<stdio.h>
-#include<stdlib.h>
 #include<stdbool.h>
 #include<string.h>
-
 #define MAX 20
 
-int top=-1;
+int top = -1;
+
 char stack[MAX];
 
 void push(char element){
-    if(top>MAX-1){
-        printf("The overflow condition is being arised !");
+    if(top>=MAX-1){
+        printf("\n Overflow condition arised ! \n");
         return;
     }
     else{
@@ -20,48 +21,56 @@ void push(char element){
 
 char pop(){
     if(top<0){
-        printf("Underflow condition has been arised !");
-        return '\0';
+        printf("\n underflow contdition has been arised ! \n ");
     }
     else{
-        printf("%d",stack[top--]);
+        return stack[top--];
     }
 }
 
 
-bool isPalindromeCheck(char word[]){
-    int length = strlen(word);
-    int i = 0 ; 
-    while(word[i]!='c'){
-        push(word[i]);
+bool isPalindrome(char arr[]){
+    int length = strlen(arr);
+    int i = 0 ;
+
+    while(arr[i]!='c'){
+        push(arr[i]);
         i++;
     }
     i++;
-    while(word[i]!='\0'){
-        char x = pop();
-        if(x!=word[i]){
-            printf("This is not a match");
-            exit(1);
+    while(arr[i]!='\0'){
+        char popped_element = pop(arr[i]);
+        if(popped_element!=arr[i]){
+            break;
         }
-        i++;
-        
+        else{
+            i++;
+            continue;
+        }
     }
-    return (top==0 && i==length-1);
+
+    return(length==i);
 }
 
 
 int main(){
 
-    char word[MAX];
-    printf("Enter the word which you want to check :        ");
-    scanf("%s",word);
+    char input[MAX];
 
-    if(isPalindromeCheck(word)){
-        printf("perfect word series matched !");
+    printf("Enter the string :          ");
+    scanf("%s",input);
+
+    if(isPalindrome(input)){
+        printf("\n This is the correct pattern \n ");
     }
     else{
-        printf("It was a failed match !");
+        printf("\n Invalid pattern found !");
     }
+
+
+
+
+
 
     return 0;
 }
