@@ -32,6 +32,38 @@ char pop(){
 }
 
 
+bool reqPattern(char str[]){
+    int length = strlen(str);
+    int i = 0 ;
+
+    while(i<length && str[i]=='a'){
+        push(str[i]);
+        i++;
+    }
+    while(i<length && str[i]=='b'){
+        if(isEmpty()){
+            return false;
+        }
+        char x = pop();
+        if(x!='a'){
+            return false;
+        }
+        i++;
+    }
+
+    return(i==length && isEmpty());
+}
+
+
+int main(){
+
+
+
+
+    return 0;
+}
+
+
 
 
 
