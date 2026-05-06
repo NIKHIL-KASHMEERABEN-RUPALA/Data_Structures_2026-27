@@ -107,13 +107,32 @@ void deletePosition(int val){
     if(head==NULL){
         printf("\n Bro the list is already empty ! \n");
     }
+
+    if(val<0){
+        printf("\n The value is invalid ]n");
+    }
+
     else{
         struct node* temp = head;
-        int value = val;
-        for(int i = 0 ; i <val ; i++){
+        struct node* prev = head;
+        for(int i = 1 ; i <val ; i++){
+            prev = temp;
             temp=temp->next;
+            if(temp==NULL){
+                printf("\n The position is out of range ! \n");
+            }
         }
+        printf("Removed the data : %d ",temp->data);
+        prev->next = temp->next;
+        free(temp);
+        
     }
+}
+
+
+void countNodes(){
+    int count = 0 ;
+    
 }
 
 
