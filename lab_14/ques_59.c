@@ -19,7 +19,7 @@ struct node* createNode(int value){
     }
     else{
         newNode->data = value;
-        newNode->next = NULL; 
+        newNode->next = NULL;     
     }
     return newNode;
 }
