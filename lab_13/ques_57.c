@@ -131,8 +131,21 @@ void deletePosition(int val){
 
 
 void countNodes(){
-    int count = 0 ;
-    
+    int count = 1 ;
+    struct node* temp = head;
+
+    if(head==NULL){
+        count = 0;
+        printf("Singly linked list is empty !");
+    }
+
+    while(temp->next!=NULL){
+        temp=temp->next;
+        count++;
+    }
+
+    printf("\n The total number of nodes are :     %d     ",count);
+
 }
 
 
