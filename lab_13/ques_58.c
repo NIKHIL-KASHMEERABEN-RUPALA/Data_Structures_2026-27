@@ -154,7 +154,73 @@ void countNodes(){
 int main(){
 
 
+    int choice= 0;
+
+    do
+    {
     
+        printf("\n Enter your choice :          \n");
+        printf("\n 1. Insert at first \n");
+        printf("\n 2. Insert at end \n");
+        printf("\n 3. delete at first \n");
+        printf("\n 4. delete at end \n");
+        printf("\n 5. delete at nth position \n");
+        printf("\n 6. exit the programme \n");
+        
+        scanf("%d",&choice);
+
+
+        switch(choice){
+            case 1:
+                int n;
+                printf("\n Enter the value to insert :     ");
+                scanf("%d",&n);
+                insertFront(n);
+                break;
+
+            case 2:
+                int n;
+                printf("\n Enter the value to insert :      ");
+                scanf("%d",&n);
+                insertEnd(n);
+                break;
+
+
+            case 3:
+                deleteFront();
+                break;
+            
+            case 4:
+                deleteEnd();
+                break;
+
+            case 5:
+                int n;
+                printf("Enter the value to delete :     ");
+                scanf("%d",&n);
+                deletePosition(n);
+                break;
+
+            case 6:
+                printf("\n The programme has been terminated \n");
+                break;
+
+
+            case 7:
+                countNodes();
+                break;
+
+            
+            
+       
+
+
+        }
+
+
+    }
+    
+    while(choice!=6);
 
 
     return 0;
