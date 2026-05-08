@@ -35,8 +35,26 @@ void check_List(struct node* head1 , struct node* head2){
             printf("\n List are not same , because ---- ");
             printf(" Second list is empty while the first list is empty \n");
         }
-        if(head1==NULL && head2==NULL){
-            printf("\n Both list are same \n");
+        struct node* temp1 = head1;
+        struct node* temp2 = head2;
+        while(temp1->next !=NULL && temp2->next!=NULL){
+            if(temp1->data == temp2->data){
+                temp1 = temp1->next;
+                temp2 = temp2->next;
+                if(temp1==NULL && temp2!=NULL){
+                    printf("list are not same !");
+                    exit(1);
+                }
+                if(temp2==NULL && temp1!=NULL){
+                    printf("list are not same ");
+                    exit(1);
+                }
+            }
+
+            else{
+                printf("list are not same ");
+            }
+
         }
     }
 }
