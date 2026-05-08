@@ -24,7 +24,7 @@ bool check_list(struct node*head1 , struct node*head2){
     struct node* temp1 = head1;
     struct node* temp2 = head2;
 
-    while(temp1->next != NULL && temp2->next!= NULL){
+    while(temp1 != NULL && temp2!= NULL){
         if(temp1->data != temp2->data){
             return 0;
         }
