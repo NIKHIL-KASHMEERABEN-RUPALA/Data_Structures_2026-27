@@ -1,16 +1,17 @@
 #include<stdio.h>
-#define pie 3.14159
+#define pie 3.14
+#include<math.h>
 
 int main(){
 
-    float radius,area;
+    float radius , area;
 
-    printf("Enter the radius of circle :        ");
+    printf("\n Enter the radius of circle :        ");
     scanf("%f",&radius);
 
-    area = pie *radius*radius;
+    area = pie*pow(radius,2);
 
-    printf("\n the area is %f \n",area);
+    printf("\n The area is :    %f    ",area);
 
 
     return 0;
