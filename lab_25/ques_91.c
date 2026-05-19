@@ -1,6 +1,29 @@
 #include<stdio.h>
 #include<stdbool.h>
 
+
+
+void binarySearch(int arr[] , int low , int high , int key){
+    if(low>high){
+        printf("\n THe element is not present in the array");
+        return;
+    }
+
+    int mid = (low+high)/2;
+
+    if(key<arr[mid]){
+        return binarySearch(arr,low,mid-1,key);
+    }
+    else if(key>arr[mid]){
+        return binarySearch(arr,mid+1,high,key);
+    }
+    else if(key==arr[mid]){
+        printf("The element is present at index :   %d  ",mid+1);
+        return;
+    }
+
+}
+
 int main(){
 
     int size;
