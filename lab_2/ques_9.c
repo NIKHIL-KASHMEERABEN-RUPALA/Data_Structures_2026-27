@@ -14,7 +14,7 @@ int main(){
         result*=number;
     }
 
-    printf("\n the power using loop is :     %d   ",result);
+    printf("\n the result using loop is :     %d   ",result);
 
 
     return 0;
