@@ -12,6 +12,7 @@ int main(){
         sum+=i;
     }
 
+    // do type casting becuase integer divided by integer will always give integer and remove decimal part
     avg = (float) sum/n;
 
     printf("\n The result is :  %f  ",avg);
