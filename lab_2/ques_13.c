@@ -9,7 +9,7 @@ int main(){
     scanf("%d",&start);
 
 
-    printf("\n Enter the starting range :       ");
+    printf("\n Enter the ending range :       ");
     scanf("%d",&end);
 
     printf("\n The prime numbers between %d and %d are -------- \n ",start,end);
