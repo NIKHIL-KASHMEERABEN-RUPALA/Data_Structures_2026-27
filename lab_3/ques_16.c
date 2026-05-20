@@ -1,28 +1,23 @@
-// Write a program to read and display n numbers using an array.
-
 #include<stdio.h>
-#include<stdlib.h>
-#include<stdbool.h>
+
+// #include<string.h> 
+// we can use strlen() function to determine size of array and use it in for loop
 
 int main(){
 
     int n;
-
-    printf("\n Enter the size :         ");
+    printf("\n Enter the size of array :        ");
     scanf("%d",&n);
 
     int arr[n];
-
-    printf("\n Start entering the numbers :     ");
-    for(int i = 0 ; i < n ; i++){
+    printf("\n Enter the elements of the array :        ");
+    for(int i = 0 ; i<n ; i++){
         scanf("%d",&arr[i]);
     }
 
-    for(int j = 0 ; j < n ;j++){
-        printf(" %d ",arr[j]);
+    for(int j = 0 ; j<n ; j++){
+        printf(" \n %d ",arr[j]);
     }
-
-
 
     return 0;
 }
