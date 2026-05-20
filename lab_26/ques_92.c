@@ -14,11 +14,11 @@ void bubbleSort(int arr[] , int size){
     for(i=0 ; i<size-1 ; i++){
         swapped = false;
 
-        for(j = i+1 ; j<size-i-1 ; j++){
-            if(arr[i]>arr[j]){
-                temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
+        for(j = 0 ; j<size-i-1 ; j++){
+            if(arr[j]>arr[j+1]){
+                temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
                 swapped = true;
             }
         }
@@ -30,4 +30,28 @@ void bubbleSort(int arr[] , int size){
 
     }
 
+}
+
+
+int main(){
+
+    int size;
+    printf("\n Enter the number of elements :           ");
+    scanf("%d",&size);
+
+    int arr[size];
+
+    printf("\n Enter the array elements --------    \n");
+    for(int i = 0 ; i<size ; i++){
+        scanf("%d",&arr[i]);
+    }
+
+    bubbleSort(arr,size);
+
+    for(int j = 0 ; j<size ; j++){
+        printf("\n %d",arr[j]);
+    }
+
+
+    return 0;
 }
