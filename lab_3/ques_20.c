@@ -1,36 +1,42 @@
-#include <stdio.h>
-#include <stdbool.h>
+#include<stdio.h>
+#include<stdbool.h>
 
-int main() {
+int main(){
+
     int size;
-    printf("\n Enter the size of array: ");
-    scanf("%d", &size);
+    printf("\n Enter the size of array :        ");
+    scanf("%d",&size);
 
     int arr[size];
-    bool foundDuplicate = false;
-
-    printf(" Enter the elements: ");
-    for (int i = 0; i < size; i++) {
-        scanf("%d", &arr[i]);
+    
+    printf("\n Start enterting the array elements :         ");
+    for(int i = 0 ; i<size ;i++){
+        scanf("%d",&arr[i]);
     }
 
-    
-    for (int i = 0; i < size; i++) {
-        for (int j = i + 1; j < size; j++) {
-            if (arr[i] == arr[j]) {
-                foundDuplicate = true;
-                printf("\n Duplicate found: %d", arr[i]);
-                
-                break; 
+    bool duplicate = false;
+
+    for(int i = 0 ; i < size ; i++){
+        for(int j = i+1 ; j < size ; j++){
+            if(arr[i]==arr[j]){
+                duplicate = true;
+                break;
+            }
+            else{
+                continue;
             }
         }
-        if (foundDuplicate) break; 
+        if(duplicate){
+            break;
+        }
     }
 
-    if (!foundDuplicate) {
-        printf("\n No duplicates found.");
+    if(duplicate){
+        printf("\n The array contains duplicate elements! \n");
+    } else {
+        printf("\n All elements are unique (No duplicates found). \n");
     }
 
-    printf("\n");
+
     return 0;
 }
