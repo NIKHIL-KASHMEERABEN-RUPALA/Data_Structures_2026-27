@@ -1,7 +1,5 @@
 #include<stdio.h>
 
-// #include<string.h> 
-// we can use strlen() function to determine size of array and use it in for loop
 
 int main(){
 
