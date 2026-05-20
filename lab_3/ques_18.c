@@ -1,26 +1,21 @@
-// Write a program to calculate average of first n numbers.
-
 #include<stdio.h>
-#include<stdlib.h>
-#include<stdbool.h>
 
 int main(){
 
-    int n;
+    int n,sum=0;
+    float avg = 0;
 
     printf("\n Enter the value of n :       ");
     scanf("%d",&n);
 
-    float avg = 0.0;
-
-    for(int i = 1 ; i <= n ; i++){
-        avg += i;
+    for(int i = 0 ; i<=n ; i++){
+        sum+=i;
     }
 
-    avg = avg/n;
+    avg = (float) sum/n;
 
-    printf("\n  %f is the average ",avg);
+    printf("\n The result is :  %f  ",avg);
+
 
     return 0;
-
 }
