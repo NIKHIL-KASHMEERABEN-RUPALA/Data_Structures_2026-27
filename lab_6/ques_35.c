@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdbool.h>
 #include<string.h>
 #define size 20
 
@@ -26,12 +27,46 @@ char pop(){
     }
 }
 
+
+
+// void isPalindrome(char element[]){
+//     int i = 0;
+
+//     while(element[i]!='c' && element[i]!='\0'){
+//         push(element[i]);
+//         i++;
+//     }
+
+//     if(element[i]=='\0'){
+//         printf("\n Not a valid pattern");
+//     }
+
+//     i++;
+
+//     while(element[i]!='\0'){
+//         char popped = pop();
+//         bool isValid = true;
+//         if(element[i]!=popped){
+//             isValid = false;
+//         }
+//         if(!isValid){
+//             printf("\n String is invalid !");
+//             return;
+//         }
+//         i++;
+//     }
+
+
+// }
+
+
+
 int main(){
 
     char reverse[50] , str[50];
 
     printf("\n Enter a string :     ");
-    scanf("%s",&str);
+    scanf("%s",str);
 
     int length = strlen(str)-1;
 
