@@ -22,14 +22,14 @@ void push(){
 }
 
 
-int pop(){
+void pop(){
     if(top==-1){
         printf("\n Stack underflow condition !");
         return;
     }else{
         int removed = stack[top--];
         printf("\n The element %d was popped ",removed);
-
+        
     }
 }
 
