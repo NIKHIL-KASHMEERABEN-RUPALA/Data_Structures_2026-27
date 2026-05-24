@@ -33,25 +33,33 @@ char pop(){
 bool quesLogic(){
     char input[size];
     printf("\n Enter the string :       ");
-    scanf("%s",&input);
+    scanf("%s",input);
 
-    int count_a = 0 , count_b = 0 , i=0;
+    int i=0;
 
-    while(input[i]!='b' && input[i]!='\0'){
-        count_a++;
+    while(input[i]!='a' ){
         push(input[i]);
         i++;
     }
-    if(input[i]=='\0'){
-        printf("\n Invaliid pattern entered ");
-        return;
+
+    if(i==0){
+        return false;
     }
 
-    while(input[i]!='\0'){
-        count_b++;
+    
+
+    while(input[i]=='b'){
+        if(input[i]=='\0'){
+            return false;
+        }
         i++;
     }
 
-    return(count_a==count_b);
+
+    if(input[i]!='\0' && top!=-1){
+        return false;
+    }
+
+    return true;
     
 }
