@@ -37,7 +37,7 @@ bool quesLogic(){
 
     int i=0;
 
-    while(input[i]!='a' ){
+    while(input[i]=='a' ){
         push(input[i]);
         i++;
     }
@@ -49,17 +49,30 @@ bool quesLogic(){
     
 
     while(input[i]=='b'){
-        if(input[i]=='\0'){
+
+        if(pop()=='\0'){
             return false;
         }
         i++;
     }
 
 
-    if(input[i]!='\0' && top!=-1){
+    if(input[i]!='\0' || top!=-1){
         return false;
     }
 
     return true;
     
+}
+
+
+int main() {
+    
+    if (quesLogic()) {
+        printf("\n Valid string! Matches the pattern a^i b^i\n");
+    } else {
+        printf("\n Invalid string! Does NOT match the pattern a^i b^i\n");
+    }
+
+    return 0;
 }
