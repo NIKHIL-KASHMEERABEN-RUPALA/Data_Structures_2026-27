@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdbool.h>
 #define size 20
 #include<string.h>
 
@@ -29,12 +30,12 @@ char pop(){
 }
 
 
-void quesLogic(){
+bool quesLogic(){
     char input[size];
     printf("\n Enter the string :       ");
     scanf("%s",&input);
 
-    int count_a = 1 , count_b = 1 , i=0;
+    int count_a = 0 , count_b = 0 , i=0;
 
     while(input[i]!='b' && input[i]!='\0'){
         count_a++;
@@ -47,8 +48,10 @@ void quesLogic(){
     }
 
     while(input[i]!='\0'){
-        char to_check = pop();
-
+        count_b++;
+        i++;
     }
+
+    return(count_a==count_b);
     
 }
