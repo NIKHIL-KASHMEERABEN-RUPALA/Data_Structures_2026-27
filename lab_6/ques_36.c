@@ -10,7 +10,7 @@ int top = -1;
 
 
 void push(char element){
-    if(top==-1){
+    if(top>=size-1){
         printf("\n Stack overflow condition !");
         return;
     }
