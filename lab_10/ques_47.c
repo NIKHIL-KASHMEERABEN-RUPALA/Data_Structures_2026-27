@@ -10,7 +10,13 @@ void insert(){
         printf("\n Circular queue overflow condition ! ");
         return;
     }
-    else if(front==-1){
+
+    int element;
+    printf("\n Enter the element to insert :        ");
+    scanf("%d",&element);
+
+
+    if(front==-1){
         front = rear = 0;
     }
     else if(rear==size-1){
@@ -20,10 +26,7 @@ void insert(){
         rear++;
     }
 
-    int element;
-    printf("\n Enter the element to insert :        ");
-    scanf("%d",&element);
-
+    
     cqueue[rear] = element;
 
     printf("\n The element was inserted successfully ");
