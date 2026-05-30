@@ -1,43 +1,32 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
 
-int main(){
+int main()
+{
+    int arr[100], n;
+    int *ptr, largest;
 
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
 
-    int arr[100];
-    int n;
+    ptr = arr;
 
-    printf("\n Enter total elements :       \n");
-    scanf("%d",&n);
-
-    int *intptr ;
-    int largest = arr[0];
-    
-
-    intptr = (int *)malloc(sizeof(int));
-
-    if(intptr==NULL){
-        printf("\n Dynamic memory allocation has been failed \n ");
-        return 1;
+    printf("Enter elements:\n");
+    for(int i = 0; i < n; i++)
+    {
+        scanf("%d", ptr + i);
     }
 
-    printf("Enter the elements of array :           \n");
-    for(int i = 0 ; i < n ; i++){
-        
-        scanf("%d",intptr+i);
-        int current = *(intptr+i);
-        if(largest < current){
-            largest = current;
-        }
-        else{
-            continue;
+    largest = *ptr;
+
+    for(int i = 1; i < n; i++)
+    {
+        if(*(ptr + i) > largest)
+        {
+            largest = *(ptr + i);
         }
     }
 
-
-    printf("\n LArgest element is :     %d  ",largest);
-
-    
+    printf("Largest element = %d", largest);
 
     return 0;
 }
