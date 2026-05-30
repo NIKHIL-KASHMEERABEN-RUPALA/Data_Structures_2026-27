@@ -8,7 +8,7 @@ struct node{
 
 struct node* head = NULL;
 
-// Function to create a new node
+
 struct node* createNode(int data){
     struct node *newNode = (struct node*)malloc(sizeof(struct node));
     if(newNode == NULL){
@@ -20,7 +20,7 @@ struct node* createNode(int data){
     return newNode;
 }
 
-// Insert node at the beginning
+
 void insertFront(int value){
     struct node *newNode = createNode(value);
     if(newNode == NULL) return;
@@ -30,7 +30,7 @@ void insertFront(int value){
     printf("\n✓ Node %d inserted at the beginning successfully.\n", value);
 }
 
-// Insert node at the end
+
 void insertEnd(int value){
     struct node *newNode = createNode(value);
     if(newNode == NULL) return;
@@ -47,7 +47,7 @@ void insertEnd(int value){
     printf("\n✓ Node %d inserted at the end successfully.\n", value);
 }
 
-// Display all nodes
+
 void display(){
     if(head == NULL){
         printf("\n The singly linked list is empty.\n");
@@ -63,7 +63,7 @@ void display(){
     printf("NULL\n");
 }
 
-// Delete node from the beginning
+
 void deleteFront(){
     if(head == NULL){
         printf("\n The list is already empty!\n");
@@ -76,14 +76,14 @@ void deleteFront(){
     free(temp);
 }
 
-// Delete node from the end
+
 void deleteEnd(){
     if(head == NULL){
         printf("\n The list is already empty!\n");
         return;
     }
     
-    // If only one node exists
+  
     if(head->next == NULL){
         printf("\n✓ Deleted node %d from the end.\n", head->data);
         free(head);
@@ -101,7 +101,7 @@ void deleteEnd(){
     temp->next = NULL;
 }
 
-// Delete node at specific position (1-indexed)
+
 void deletePosition(int pos){
     if(head == NULL){
         printf("\n The list is already empty!\n");
@@ -113,7 +113,7 @@ void deletePosition(int pos){
         return;
     }
     
-    // Deleting the first node
+   
     if(pos == 1){
         struct node* temp = head;
         head = head->next;
@@ -139,7 +139,7 @@ void deletePosition(int pos){
     free(temp);
 }
 
-// Count total number of nodes
+
 void countNodes(){
     if(head == NULL){
         printf("\n Total number of nodes: 0 (List is empty)\n");
@@ -157,27 +157,27 @@ void countNodes(){
     printf("\n Total number of nodes: %d\n", count);
 }
 
-// Main menu
+
 int main(){
     int choice, value, position;
     
-    printf("\n╔════════════════════════════════╗\n");
-    printf("║   SINGLY LINKED LIST PROGRAM   ║\n");
-    printf("╚════════════════════════════════╝\n");
+   
+    printf("  SINGLY LINKED LIST PROGRAM  \n");
+   
     
     do {
-        printf("\n┌────────────────────────────┐\n");
+       
         printf("│        MAIN MENU           │\n");
-        printf("├────────────────────────────┤\n");
-        printf("│ 1. Insert at beginning     │\n");
-        printf("│ 2. Insert at end           │\n");
-        printf("│ 3. Delete from beginning   │\n");
-        printf("│ 4. Delete from end         │\n");
-        printf("│ 5. Delete at position      │\n");
-        printf("│ 6. Count total nodes       │\n");
-        printf("│ 7. Display list            │\n");
-        printf("│ 8. Exit                    │\n");
-        printf("└────────────────────────────┘\n");
+  
+        printf(" 1. Insert at beginning   \n");
+        printf(" 2. Insert at end         \n");
+        printf(" 3. Delete from beginning \n");
+        printf(" 4. Delete from end       \n");
+        printf(" 5. Delete at position    \n");
+        printf(" 6. Count total nodes     \n");
+        printf(" 7. Display list          \n");
+        printf(" 8. Exit                  \n");
+       
         printf("Enter your choice: ");
         scanf("%d", &choice);
         
@@ -217,14 +217,14 @@ int main(){
                 break;
                 
             case 8:
-                printf("\n Program terminated. Goodbye!\n");
+                printf("\n Program terminated ");
                 break;
                 
             default:
                 printf("\n Invalid choice! Please enter a number between 1-8.\n");
         }
         
-        // Display the list after each operation (except exit)
+    
         if(choice >= 1 && choice <= 7 && choice != 7 && head != NULL){
             display();
         }
