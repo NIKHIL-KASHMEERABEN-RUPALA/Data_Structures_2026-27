@@ -23,7 +23,7 @@ void bubbleSort(int arr[] , int size){
             }
         }
 
-        if(swapped==false){
+        if(!swapped){
             printf("\n The array is already sorted ");
             break;
         }
