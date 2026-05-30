@@ -1,30 +1,25 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
 
-int main(){
+int main()
+{
+    int arr[100], n, *ptr;
 
-    int arr[100];
-    int *intptr = arr;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
 
-    intptr = (int *)malloc(sizeof(int));
+    ptr = arr;
 
-    if(intptr == NULL){
-        printf("\n Dynamic mem. alloc. failed ! \n");
-        return 1;
+    printf("Enter array elements:\n");
+    for(int i = 0; i < n; i++)
+    {
+        scanf("%d", ptr + i);
     }
 
-    printf("\n Enter the array elements \n");
-    for(int i = 0 ; i<100 ; i++){
-        scanf("%d",intptr+2);
+    printf("\nArray elements are:\n");
+    for(int i = 0; i < n; i++)
+    {
+        printf("%d ", *(ptr + i));
     }
-
-    printf("\n The array elements are --- \n");
-    for(int j = 0 ; j < 100 ; j++){
-        printf("%d",intptr+j);
-    }
-
-    
-
 
     return 0;
 }
