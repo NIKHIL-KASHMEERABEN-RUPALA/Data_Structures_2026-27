@@ -1,34 +1,32 @@
-// WAP to Allocate and De-allocate Memory for int, char, and float Variable at Runtime
+#include <stdio.h>
+#include <stdlib.h>
 
-#include<stdio.h>
-#include<stdlib.h>
+int main()
+{
+    int *i;
+    char *c;
+    float *f;
 
-int main(){
+    i = (int *)malloc(sizeof(int));
+    c = (char *)malloc(sizeof(char));
+    f = (float *)malloc(sizeof(float));
 
-    int *intPtr;
-    char *charPtr;
-    float *floatPtr;
+    printf("Enter an integer: ");
+    scanf("%d", i);
 
-    intPtr = (int *)malloc(sizeof(int));
-    charPtr = (char *)malloc(sizeof(char));
-    floatPtr = (float *)malloc(sizeof(float));
+    printf("Enter a character: ");
+    scanf(" %c", c);
 
-    printf("\n Enter an integer :       ");
-    scanf("%d",intPtr);
+    printf("Enter a float: ");
+    scanf("%f", f);
 
-    printf("\n Enter a float number :   ");
-    scanf("%f",floatPtr);
+    printf("\nInteger = %d", *i);
+    printf("\nCharacter = %c", *c);
+    printf("\nFloat = %.2f", *f);
 
-    printf("\n Enter a character :      ");
-    scanf("%c",charPtr);
-
-
-    printf("\n Integer is :     %d      ",*intPtr);
-    printf("\n Float number is :     %f   ",*floatPtr);
-    printf("\n Character is :    %c   ",*charPtr);
-
-
-
+    free(i);
+    free(c);
+    free(f);
 
     return 0;
 }
