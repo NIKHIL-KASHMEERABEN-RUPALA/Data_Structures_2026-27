@@ -1,36 +1,27 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
 
-int main(){
+int main()
+{
+    int arr[100], n, sum = 0;
+    int *ptr;
 
-    int arr[100];
-    int *intptr;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
 
-    intptr = (int *)malloc(sizeof(int));
+    ptr = arr;
 
-    if(intptr == NULL){
-        printf("\n Dynamic memory allocation has been failed \n ");
+    printf("Enter elements:\n");
+    for(int i = 0; i < n; i++)
+    {
+        scanf("%d", ptr + i);
     }
 
-    int n;
-    printf("Enter total elements :      ");
-    scanf("%d",&n);
-
-    printf("\n Enter the element --------- \n");
-
-    for(int i = 0 ; i < n ; i++){
-        scanf("%d",intptr+i);
+    for(int i = 0; i < n; i++)
+    {
+        sum += *(ptr + i);
     }
 
-    // sum loop 
-    int sum = 0 ;
-
-    for(int j = 0 ; j<n ; j++){
-        sum += *(intptr+j);
-    }
-
-    printf("\n %d is the result of sum \n",sum);
-
+    printf("Sum = %d", sum);
 
     return 0;
 }
