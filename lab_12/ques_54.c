@@ -1,43 +1,40 @@
-#include<stdio.h>
+#include <stdio.h>
 
-void do_sorting(int *arr , int n){
-    for(int i = 0 ; i < n-1 ; i++){
-        for(int j = i+1 ; j<n ;j++){
-            if( *(arr+j) < *(arr+i)){
+int main()
+{
+    int arr[100], n, temp;
+    int *ptr;
 
-                int temp = *(arr+j);
-                *(arr+j) = *(arr+i);
-                *(arr+i) = temp;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
 
+    ptr = arr;
+
+    printf("Enter elements:\n");
+    for(int i = 0; i < n; i++)
+    {
+        scanf("%d", ptr + i);
+    }
+
+    for(int i = 0; i < n - 1; i++)
+    {
+        for(int j = 0; j < n - i - 1; j++)
+        {
+            if(*(ptr + j) > *(ptr + j + 1))
+            {
+                
+                temp = *(ptr + j);
+                *(ptr + j) = *(ptr + j + 1);
+                *(ptr + j + 1) = temp;
             }
         }
     }
-
-
-}
-
-
-int main(){
-
-    int arr[100];
-
-    int n;
-    printf("Enter the number of elemetns :      ");
-    scanf("%d",&n);
-
-    printf("Start entering the elements :       ");
-
-    for(int i = 0 ; i<n ; i++){
-        scanf("%d",&arr[i]);
+ 
+    printf("\nSorted array:\n");
+    for(int i = 0; i < n; i++)
+    {
+        printf("%d ", *(ptr + i));
     }
-
-    do_sorting(arr,n);
-
-
-    for(int k = 0 ; k<n ; k++){
-        printf(" %d ",*(arr+k));
-    }
-
 
     return 0;
 }
