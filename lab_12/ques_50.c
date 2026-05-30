@@ -1,28 +1,32 @@
+// WAP to Allocate and De-allocate Memory for int, char, and float Variable at Runtime
+
 #include<stdio.h>
 #include<stdlib.h>
 
 int main(){
 
-    int *intptr;
-    char *charptr;
-    float *floatptr;
+    int *intPtr;
+    char *charPtr;
+    float *floatPtr;
 
-    intptr = (int *)malloc(sizeof(int));
-    charptr = (char *)malloc(sizeof(char));
-    floatptr = (float *)malloc(sizeof(float));
+    intPtr = (int *)malloc(sizeof(int));
+    charPtr = (char *)malloc(sizeof(char));
+    floatPtr = (float *)malloc(sizeof(float));
 
-    if(intptr == NULL || charptr == NULL || floatptr == NULL){
-        printf("\n Dynamic memory allocaiton has failed \n ");
-        return 1;
-    }
+    printf("\n Enter an integer :       ");
+    scanf("%d",intPtr);
 
-    *intptr=69;
-    *charptr='a';
-    *floatptr=9.45;
+    printf("\n Enter a float number :   ");
+    scanf("%f",floatPtr);
 
-    printf("\n    int ptr = %d    \n",*intptr);
-    printf("\n    float ptr = %f    \n",*floatptr);
-    printf("\n    char ptr = %c    \n",*charptr);
+    printf("\n Enter a character :      ");
+    scanf("%c",charPtr);
+
+
+    printf("\n Integer is :     %d      ",*intPtr);
+    printf("\n Float number is :     %f   ",*floatPtr);
+    printf("\n Character is :    %c   ",*charPtr);
+
 
 
 
