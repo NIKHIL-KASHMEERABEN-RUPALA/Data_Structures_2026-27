@@ -77,8 +77,12 @@ void splitList(){
     if (fast->next->next == head)
         fast = fast->next;
 
-     struct Node *head1 = head;
+    struct Node *head1 = head;
     struct Node *head2 = slow->next;
+
+     slow->next = head1;
+     fast->next = head2;
+     
 }
 
 
