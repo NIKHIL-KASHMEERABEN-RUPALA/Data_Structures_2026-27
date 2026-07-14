@@ -92,10 +92,25 @@ void splitList(){
 }
 
 
+int main()
+{
+    int n, value;
 
-int main(){
+    printf("Enter number of nodes : ");
+    scanf("%d", &n);
 
+    printf("Enter elements :\n");
 
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%d", &value);
+        insertEnd(value);
+    }
+
+    printf("\nOriginal Circular Linked List : ");
+    display(last->next);
+
+    splitList();
 
     return 0;
 }
