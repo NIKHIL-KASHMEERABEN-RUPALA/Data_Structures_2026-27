@@ -82,7 +82,13 @@ void splitList(){
 
      slow->next = head1;
      fast->next = head2;
-     
+
+    printf("\nFirst Half : ");
+    display(head1);
+
+    printf("\n Second Half : ");
+    display(head2);
+
 }
 
 
