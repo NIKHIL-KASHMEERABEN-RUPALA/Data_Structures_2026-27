@@ -97,7 +97,22 @@ int main(){
 
     int choice, value, position;
 
+    while(1){
+        
+        printf("1. Insert at Front\n");
+        printf("3. Delete from Position\n");
+        printf("2.. Insert at End\n");
+        printf("4. Display\n");
+        printf("5. Exit\n");
 
+        printf("Enter your choice : ");
+        scanf("%d",&choice);
+
+
+        switch(choice){
+            
+        }
+    }
 
     return 0;
 }
