@@ -21,4 +21,13 @@ struct Song *createSong(char name_of_song[]){
 
 void addSong(char name[]){
 
+    struct Song *newSong = createSong(name);
+
+    if(head == NULL)
+    {
+        head = newSong;
+        current = head;
+        return;
+    }
+    
 }
