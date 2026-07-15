@@ -63,5 +63,19 @@ void deleteAtPosition(int pos){
         temp = temp->next;
     }
 
+    if(temp==NULL){
+        printf("\n Invalid position ! ");
+    }
+
+    temp->prev->next = temp->next;
+
+    if(temp!=NULL){
+        temp->next->prev = temp->prev;
+    }
+
+    free(temp);
+
+    printf("\n Node deleted successfully ! ");
+
 
 }
