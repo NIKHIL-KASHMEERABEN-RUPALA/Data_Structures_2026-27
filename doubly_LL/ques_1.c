@@ -16,7 +16,7 @@ struct Node * createNode(int val){
     newNode->next = NULL;
 }
 
-insertAtFront(int val){
+void insertAtFront(int val){
     struct Node*newNode = createNode(val);
     if(head==NULL){
         head = newNode;
@@ -26,3 +26,4 @@ insertAtFront(int val){
     head->prev=newNode;
     head = newNode;
 }
+
