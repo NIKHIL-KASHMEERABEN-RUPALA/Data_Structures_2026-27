@@ -76,6 +76,4 @@ void deleteAtPosition(int pos){
     free(temp);
 
     printf("\n Node deleted successfully ! ");
-
-
 }
