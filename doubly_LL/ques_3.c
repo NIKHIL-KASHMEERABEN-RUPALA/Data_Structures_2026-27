@@ -8,6 +8,9 @@ struct Song{
     struct Song*next;
 };
 
+struct Song *head = NULL;
+struct Song *current = NULL;
+
 struct Song *createSong(char name_of_song[]){
     struct Song *newSong = (struct Song*)malloc(sizeof(struct Song));
     strcpy(newSong , name_of_song);
@@ -16,3 +19,6 @@ struct Song *createSong(char name_of_song[]){
     return newSong;
 }
 
+void addSong(char name[]){
+
+}
