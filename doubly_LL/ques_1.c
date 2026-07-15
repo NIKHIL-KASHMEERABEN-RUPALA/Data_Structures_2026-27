@@ -7,9 +7,22 @@ struct Node{
     struct Node*prev;
 };
 
+struct Node*head = NULL;
+
 struct Node * createNode(int val){
     struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
     newNode->data = val;
     newNode->prev = NULL;
     newNode->next = NULL;
+}
+
+insertAtFront(int val){
+    struct Node*newNode = createNode(val);
+    if(head==NULL){
+        head = newNode;
+        return;
+    }
+    newNode->next = head;
+    head->prev=newNode;
+    head = newNode;
 }
