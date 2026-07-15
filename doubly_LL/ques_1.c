@@ -14,6 +14,7 @@ struct Node * createNode(int val){
     newNode->data = val;
     newNode->prev = NULL;
     newNode->next = NULL;
+    return newNode;
 }
 
 void insertAtFront(int val){
