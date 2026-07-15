@@ -60,3 +60,28 @@ void display()
 
     printf("NULL\n");
 }
+
+void deleteAlternateNodes(){
+    // checking base case 
+    // if one node or no node is present 
+    if(head==NULL || head->next==NULL){
+        return;
+    }
+
+    struct Node*temp = head->next;
+    while(temp!=NULL){
+        struct Node *nextNode = temp->next;
+        
+        temp->prev->next = nextNode;
+        if(temp->next!=NULL){
+            temp->next->prev = temp->prev;
+        }
+        free(temp);
+        if(nextNode!=NULL){
+            temp = nextNode->next;
+        }
+        else{
+            temp = NULL;
+        }
+    }
+}
