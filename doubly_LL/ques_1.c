@@ -48,4 +48,20 @@ void deleteAtPosition(int pos){
         printf("DOubly ll is empty ");
         return;
     }
+
+    struct Node *temp = head;
+
+    if(pos==1){
+        head = head->next;
+        if(head!=NULL){
+            head->prev = NULL;
+        }
+        free(temp);
+    }
+
+    for(int i = 1 ; i<pos && temp!=NULL ; i++){
+        temp = temp->next;
+    }
+
+
 }
