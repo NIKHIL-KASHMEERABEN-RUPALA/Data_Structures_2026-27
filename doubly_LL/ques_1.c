@@ -41,3 +41,11 @@ void insertAtEnd(int val){
     newNode->prev = temp;
     printf("Node has been inserted at the end ");
 }
+
+
+void deleteAtPosition(int pos){
+    if(head==NULL){
+        printf("DOubly ll is empty ");
+        return;
+    }
+}
