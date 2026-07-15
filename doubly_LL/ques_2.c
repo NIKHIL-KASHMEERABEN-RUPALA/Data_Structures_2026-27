@@ -41,3 +41,22 @@ void insertAtEnd(int val){
     temp->next = newNode;
     newNode->prev = temp;
 }
+
+void display()
+{
+    if (head == NULL)
+    {
+        printf("List is Empty.\n");
+        return;
+    }
+
+    struct Node *temp = head;
+
+    while (temp != NULL)
+    {
+        printf("%d <-> ", temp->data);
+        temp = temp->next;
+    }
+
+    printf("NULL\n");
+}
