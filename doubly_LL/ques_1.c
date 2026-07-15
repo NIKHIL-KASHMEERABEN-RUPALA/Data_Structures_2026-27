@@ -77,3 +77,16 @@ void deleteAtPosition(int pos){
 
     printf("\n Node deleted successfully ! ");
 }
+
+
+void display(){
+    if(head==NULL){
+        printf("\n Doubly LL is empty ! ");
+    }
+
+    struct Node *temp = head;
+    while(temp!=NULL){
+        printf("%d <-> ", temp->data);
+        temp = temp->next;
+    }
+}
