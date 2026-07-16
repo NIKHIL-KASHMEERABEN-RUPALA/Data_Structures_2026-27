@@ -39,5 +39,21 @@ void insertAtEnd(int val){
 }
 
 void deletePosition(int pos){
+    if(last==NULL){
+        printf("\n This is empty Circular Linked List ");
+    }
+    struct Node*current = last;
+    struct Node*head = last->next;
+    if(pos==1){
+        if(last==current){
+            free(current);
+            last = NULL;
+            return;
+        }
+        last->next = current->next;
+        free(current);
+        return;
+    }
+
     
 }
