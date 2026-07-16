@@ -24,3 +24,16 @@ void insertAtFront(int val){
     newNode->next = last->next;
     last->next = newNode;
 }
+
+void insertAtEnd(int val){
+    struct Node *newNode = createNode(val);
+    if(last==NULL){
+        last = newNode;
+        last->next = newNode;
+        return;
+    }
+
+    newNode->next = last->next;
+    last->next = newNode;
+    last = newNode;
+}
