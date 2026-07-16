@@ -37,3 +37,7 @@ void insertAtEnd(int val){
     last->next = newNode;
     last = newNode;
 }
+
+void deletePosition(int pos){
+    
+}
