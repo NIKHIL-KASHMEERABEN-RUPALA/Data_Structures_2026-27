@@ -13,3 +13,12 @@ struct Node *createNode(int val){
     newNode->next = NULL;
     return newNode;
 }
+
+void insertAtFront(int val){
+    struct Node *newNode = createNode(val);
+    if(last==NULL){
+        last = newNode;
+        last->next = newNode;
+        return;
+    }
+}
