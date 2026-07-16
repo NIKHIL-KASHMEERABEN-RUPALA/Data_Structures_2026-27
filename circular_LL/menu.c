@@ -21,4 +21,6 @@ void insertAtFront(int val){
         last->next = newNode;
         return;
     }
+    newNode->next = last->next;
+    last->next = newNode;
 }
