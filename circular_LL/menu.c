@@ -55,5 +55,12 @@ void deletePosition(int pos){
         return;
     }
 
-    
+    int count = 1;
+    struct Node*prev=last;
+    while(count<pos && head!=last){
+        prev=head;
+        
+
+    }
+
 }
