@@ -37,6 +37,6 @@ void peep(){
 
     int index = top - position + 1;
     if(index<0 || index > top){
-        printf("\n Invalid position")
+        printf("\n Invalid position");
     }
 }
