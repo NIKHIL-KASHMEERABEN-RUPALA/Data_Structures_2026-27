@@ -45,3 +45,11 @@ void display(){
     }
     printf("\n Entire list has been printed successfully ! ");
 }
+
+void peep(){
+    if(top==-1){
+        printf("Stack is already empty , so nothing to peep ! ");
+        return;
+    }
+    
+}
