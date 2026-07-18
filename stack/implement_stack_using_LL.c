@@ -32,3 +32,16 @@ void pop(){
 }
 
 
+void display(){
+    struct Node* temp ;
+    if(top==NULL){
+        printf("\n Stack is empty ! ");
+        return;
+    }
+    temp = top;
+    while(temp!=NULL){
+        printf(" %d ",temp->data);
+        temp = temp->next;
+    }
+    printf("\n Entire list has been printed successfully ! ");
+}
