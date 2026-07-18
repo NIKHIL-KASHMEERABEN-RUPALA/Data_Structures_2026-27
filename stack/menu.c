@@ -44,5 +44,18 @@ void peep(){
 
 
 void change(){
-    
+    int position;
+    printf("\n Enter the position to be changed from top :     ");
+    scanf("%d",&position);
+
+    int index = top - position + 1;
+    if(index<0 || index > top){
+        printf("\n Invalid position");
+    }
+
+    int new_element;
+
+    printf("\n Enter the value of new element :      ");
+    scanf("%d",&new_element);
+
 }
