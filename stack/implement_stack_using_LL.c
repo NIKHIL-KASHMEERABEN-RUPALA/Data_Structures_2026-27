@@ -63,5 +63,5 @@ void peep(){
     if(temp==NULL){
         printf("\n Invalid position ! ");
     }
-    
+    printf("%d is the element you wanted to peep ",temp->data);
 }
