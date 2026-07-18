@@ -39,4 +39,10 @@ void peep(){
     if(index<0 || index > top){
         printf("\n Invalid position");
     }
+    printf("\n THe element from the top at position %d is ----- %d ",stack[index]);
+}
+
+
+void change(){
+    
 }
