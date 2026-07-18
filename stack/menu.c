@@ -58,4 +58,8 @@ void change(){
     printf("\n Enter the value of new element :      ");
     scanf("%d",&new_element);
 
+    stack[index] = new_element;
+
+    printf("\n The value is updated successfully ! ");
+
 }
