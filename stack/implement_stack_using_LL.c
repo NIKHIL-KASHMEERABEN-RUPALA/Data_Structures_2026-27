@@ -20,3 +20,15 @@ void push(){
 }
 
 
+void pop(){
+    if(top==NULL){
+        printf("\n The stack is empty ! ");
+        return;
+    }
+    struct Node*temp = top;
+    printf("\n Popped value = %d ",top->data);
+    top = top->next;
+    free(temp);
+}
+
+
