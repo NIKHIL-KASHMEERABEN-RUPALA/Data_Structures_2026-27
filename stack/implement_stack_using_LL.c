@@ -51,5 +51,17 @@ void peep(){
         printf("Stack is already empty , so nothing to peep ! ");
         return;
     }
+    struct Node*temp = top;
+    printf("\n Enter the position to peep from top :        ");
+    int position;
+    scanf("%d",&position);
+    int i = 1;
+    while(i<position && temp!=NULL){
+        temp = temp->next;
+        i++;
+    }
+    if(temp==NULL){
+        printf("\n Invalid position ! ");
+    }
     
 }
