@@ -82,6 +82,10 @@ void change(){
     while(i<pos && temp!=NULL){
         temp = temp->next;
     }
+    if(temp==NULL){
+        printf("\n Invalid position has been entered ! ");
+        return;
+    }
     int new_info;
     printf("\n Enter new data part :     ");
     scanf("%d",&new_info);
