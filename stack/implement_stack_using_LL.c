@@ -91,3 +91,57 @@ void change(){
     scanf("%d",&new_info);
     temp->data = new_info;
 }
+
+
+int main()
+{
+    int choice;
+
+    do
+    {
+       
+        printf("\n STACK USING LINKED LIST");
+       
+        printf("\n1. PUSH");
+        printf("\n2. POP");
+        printf("\n3. DISPLAY");
+        printf("\n4. PEEP");
+        printf("\n5. CHANGE");
+        printf("\n6. EXIT");
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+            case 1:
+                push();
+                break;
+
+            case 2:
+                pop();
+                break;
+
+            case 3:
+                display();
+                break;
+
+            case 4:
+                peep();
+                break;
+
+            case 5:
+                change();
+                break;
+
+            case 6:
+                printf("\nProgram Ended.\n");
+                break;
+
+            default:
+                printf("\nInvalid Choice!\n");
+        }
+
+    } while (choice != 6);
+
+    return 0;
+}
