@@ -65,3 +65,7 @@ void peep(){
     }
     printf("%d is the element you wanted to peep ",temp->data);
 }
+
+
+
+void change 
