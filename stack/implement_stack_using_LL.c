@@ -68,4 +68,8 @@ void peep(){
 
 
 
-void change 
+void change(){
+    if(top==-1){
+        
+    }
+}
