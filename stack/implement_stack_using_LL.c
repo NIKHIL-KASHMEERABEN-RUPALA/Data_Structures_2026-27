@@ -70,6 +70,20 @@ void peep(){
 
 void change(){
     if(top==-1){
-        
+        printf("\n The stack is empty , no element are there ! ");
+        return;
     }
+    int pos;
+    printf("\n Enter the position from top of stack :       ");
+    scanf("%d",&pos);
+
+    struct Node *temp = top;
+    int i = 1;
+    while(i<pos && temp!=NULL){
+        temp = temp->next;
+    }
+    int new_info;
+    printf("\n Enter new data part :     ");
+    scanf("%d",&new_info);
+    temp->data = new_info;
 }
