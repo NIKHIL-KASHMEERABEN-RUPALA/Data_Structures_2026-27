@@ -23,4 +23,9 @@ char pop(){
     return stack[top--];
 }
 
-int main
+int main(){
+
+    
+
+    return 0;
+}
