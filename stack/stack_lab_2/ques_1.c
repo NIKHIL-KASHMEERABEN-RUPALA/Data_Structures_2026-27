@@ -23,6 +23,6 @@ char pop(){
 }
 
 
-bool logic(){
+bool logic(char str[]){
 
 }
