@@ -15,6 +15,7 @@ void push(char element){
 }
 
 
+
 void pop(){
     if (top==-1){
         printf("\n Stack underflow condition ! ");
