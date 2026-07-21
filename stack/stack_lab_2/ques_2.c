@@ -15,17 +15,29 @@ void push(char element){
 }
 
 
-char pop(){
+void pop(){
     if (top==-1){
         printf("\n Stack underflow condition ! ");
-        return '#';
+        return;
     }
-    return stack[top--];
+    top = top-1;
 }
 
 int main(){
 
-    
+    char str[max];
+    printf("\n Enter a string :    ");
+    scanf("%s",str);
+
+
+    for(int i = 0 ; str[i]!='\0';i++){
+        if(str[i]=='*'){
+            pop();
+        }
+        else{
+            push(str[i]);
+        }
+    }
 
     return 0;
 }
