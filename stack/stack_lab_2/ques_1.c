@@ -53,7 +53,7 @@ bool logic(char str[]){
 int main()
 {
     int T;
-    char str[MAX];
+    char str[max];
 
     printf("Enter number of test cases: ");
     scanf("%d", &T);
