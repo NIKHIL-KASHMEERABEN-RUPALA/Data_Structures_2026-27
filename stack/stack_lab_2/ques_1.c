@@ -30,5 +30,21 @@ bool logic(char str[]){
         if(ch=='(' || ch == '[' || ch == '{'){
             push(ch);
         }
+        else{
+            char temp = pop();
+            if(temp=='#'){
+                return false;
+            }
+            if( (temp=='(' && ch!=')') ||
+                (temp=='[' && ch!=']') ||
+                (temp=='{' && ch!='}') )
+            {
+                return false;
+            }
+        }
     }
+    if(top==-1){
+        return true;
+    }
+    return false;
 }
