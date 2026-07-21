@@ -22,7 +22,6 @@ char pop(){
     return stack[top--];
 }
 
-// Keeping your excellent logic intact!
 bool isBalanced(char str[]){
     for (int i = 0 ; str[i] != '\0' ; i++){
         char ch = str[i];
