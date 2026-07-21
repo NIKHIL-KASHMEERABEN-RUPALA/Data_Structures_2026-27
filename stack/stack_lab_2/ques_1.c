@@ -49,3 +49,21 @@ bool logic(char str[]){
     return false;
 }
 
+
+int main()
+{
+    int T;
+    char str[MAX];
+
+    printf("Enter number of test cases: ");
+    scanf("%d", &T);
+
+    while (T--)
+    {
+        scanf("%s", str);
+
+        printf("%d\n", isBalanced(str));
+    }
+
+    return 0;
+}
