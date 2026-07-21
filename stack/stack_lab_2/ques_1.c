@@ -66,6 +66,5 @@ int main()
         // Print 1 for true (balanced) and 0 for false (unbalanced)
         printf("%d\n", isBalanced(str));
     }
-
     return 0;
 }
