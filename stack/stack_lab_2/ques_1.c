@@ -58,7 +58,6 @@ int main()
 
     while (T--)
     {
-        // CRITICAL FIX: Reset the global stack pointer for every new test case
         top = -1; 
         
         scanf("%s", str);
