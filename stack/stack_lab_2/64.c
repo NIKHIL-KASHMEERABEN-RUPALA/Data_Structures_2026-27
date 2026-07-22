@@ -10,7 +10,18 @@ int isVowel(char ch){
 
 int main(){
 
+    int T , N;
 
+
+    printf("\n Enter total test cases :       ");
+    scanf("%d",&T);
+    
+    while(T--){
+
+        printf("\n Enter value of N :     ");
+        scanf("%d",&N);
+
+    }
 
 
 
