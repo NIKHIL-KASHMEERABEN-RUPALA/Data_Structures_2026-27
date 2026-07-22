@@ -14,3 +14,4 @@ int top = -1;
 void push(struct Interval element){
     stack[++top] = element;
 }
+
