@@ -14,4 +14,12 @@ class Solution:
                 left = right = 0
 
         for char in reversed(s):
-            
+            if char=='(':
+                left+=1
+            else:
+                right+=1
+            if left==right:
+                max_len = max(max_len,2*right)
+            elif right>left:
+                left = 0 
+                right = 0
