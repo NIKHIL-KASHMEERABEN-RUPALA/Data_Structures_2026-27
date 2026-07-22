@@ -15,3 +15,6 @@ void push(struct Interval element){
     stack[++top] = element;
 }
 
+void sortElements(int n){
+    
+}
