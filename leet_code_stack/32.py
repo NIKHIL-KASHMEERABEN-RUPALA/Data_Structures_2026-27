@@ -20,6 +20,7 @@ class Solution:
                 right+=1
             if left==right:
                 max_len = max(max_len,2*right)
-            elif right>left:
+            elif left>right:
                 left = 0 
                 right = 0
+    return max_len
