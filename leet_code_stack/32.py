@@ -23,4 +23,4 @@ class Solution:
             elif left>right:
                 left = 0 
                 right = 0
-    return max_len
+        return max_len
