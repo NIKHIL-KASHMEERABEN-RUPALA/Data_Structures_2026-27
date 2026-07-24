@@ -16,6 +16,7 @@ int main()
     printf("Enter number to insert: ");
     scanf("%d", &num);
 
+    
     for(pos = 0; pos < n; pos++)
     {
         if(arr[pos] > num)
