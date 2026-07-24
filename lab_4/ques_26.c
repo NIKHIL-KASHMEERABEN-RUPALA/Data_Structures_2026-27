@@ -14,6 +14,7 @@ int main()
     }
 
     printf("Enter number to insert: ");
+    
     scanf("%d", &num);
    
     for(pos = 0; pos < n; pos++)
@@ -21,7 +22,7 @@ int main()
         if(arr[pos] > num)
             break;
     }   
-    
+
     for(int i = n; i > pos; i--)
     {
         arr[i] = arr[i - 1];
