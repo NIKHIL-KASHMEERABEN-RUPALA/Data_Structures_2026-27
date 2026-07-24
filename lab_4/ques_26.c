@@ -8,12 +8,13 @@ int main()
     scanf("%d", &n);
 
     printf("Enter sorted array elements:\n");
+    
     for(int i = 0; i < n; i++)
     {
         scanf("%d", &arr[i]);
     }
 
-    
+
     printf("Enter number to insert: ");
 
     scanf("%d", &num);
