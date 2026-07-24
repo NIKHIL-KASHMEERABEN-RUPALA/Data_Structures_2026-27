@@ -13,8 +13,9 @@ int main()
         scanf("%d", &arr[i]);
     }
 
-    printf("Enter number to insert: ");
     
+    printf("Enter number to insert: ");
+
     scanf("%d", &num);
    
     for(pos = 0; pos < n; pos++)
