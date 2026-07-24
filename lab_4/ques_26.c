@@ -12,6 +12,7 @@ int main()
     {
         scanf("%d", &arr[i]);
     }
+    
 
     printf("Enter number to insert: ");
     scanf("%d", &num);
