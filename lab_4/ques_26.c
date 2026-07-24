@@ -30,6 +30,7 @@ int main()
     arr[pos] = num;
     n++;
 
+    
     printf("Array after insertion:\n");
  
     for(int i = 0; i < n; i++)
