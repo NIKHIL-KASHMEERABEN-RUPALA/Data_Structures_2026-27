@@ -4,6 +4,7 @@
 int main()
 
 {
+    
     int arr[100], n, num, pos;
 
     printf("Enter number of elements: ");
