@@ -6,6 +6,7 @@ int main()
 
     printf("Enter number of elements: ");
     scanf("%d", &n);
+    
 
     printf("Enter sorted array elements:\n");
     for(int i = 0; i < n; i++)
