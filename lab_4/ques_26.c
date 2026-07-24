@@ -21,8 +21,7 @@ int main()
         if(arr[pos] > num)
             break;
     }   
-
-    
+ 
     for(int i = n; i > pos; i--)
     {
         arr[i] = arr[i - 1];
