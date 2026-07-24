@@ -1,11 +1,12 @@
 #include <stdio.h>
 
 int main()
+
 {
     int arr[100], n, num, pos;
 
     printf("Enter number of elements: ");
-    
+
     scanf("%d", &n);
 
     printf("Enter sorted array elements:\n");
