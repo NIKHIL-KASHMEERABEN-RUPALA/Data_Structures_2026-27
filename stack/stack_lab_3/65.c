@@ -55,6 +55,13 @@ int main(){
 
     char infix[max], postfix[max];
 
+    printf("\n Enter the infix expression :    ");
+    scanf("%s",infix);
+
+
+    for(int i = 0 ; infix[i]!='\0' ; i++){
+
+    }
 
 
     return 0;
