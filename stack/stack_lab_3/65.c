@@ -15,6 +15,14 @@ void push(char element){
 }
 
 
+char pop(){
+    if(top==-1){
+        return '\0';
+    }
+    return stack[top--];
+}
+
+
 int main(){
 
 
