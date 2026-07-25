@@ -57,13 +57,14 @@ int main(){
 
     printf("\n Enter the infix expression :    ");
     scanf("%s",infix);
+    int j = 0;
 
 
     for(int i = 0 ; infix[i]!='\0' ; i++){
         char ch = infix[i];
 
         if(isalnum(ch)){
-            
+            postfix[j++] = ch;
         }
     }
 
