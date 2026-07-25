@@ -84,7 +84,15 @@ int main(){
             push(ch);
         }
     }
-    
+
+    while (top != -1)
+    {
+        postfix[j++] = pop();
+    }
+
+    postfix[j] = '\0';
+
+    printf("\nPostfix Expression : %s\n", postfix);
 
 
     return 0;
