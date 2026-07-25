@@ -57,29 +57,29 @@ int main(){
 
     printf("\n Enter the infix expression :    ");
     scanf("%s",infix);
-    int j = 0;
+    int index = 0;
 
 
     for(int i = 0 ; infix[i]!='\0' ; i++){
         char ch = infix[i];
 
         if(isalnum(ch)){
-            postfix[j++] = ch;
+            postfix[index++] = ch;
         }
         else if(ch=='('){
             push(ch);
         }
         else if(ch==')'){
             while(top!=-1 && peek()!='('){
-                postfix[j++] = pop();
+                postfix[index++] = pop();
             }
             if(top!=-1){
-                pop(); // removing the ( character 
+                pop(); 
             }
         }
         else{
             while(top!=-1 && precedence(peek())>=precedence(ch)){
-                postfix[j++] = pop();
+                postfix[index++] = pop();
             }
             push(ch);
         }
@@ -87,10 +87,10 @@ int main(){
 
     while (top != -1)
     {
-        postfix[j++] = pop();
+        postfix[index++] = pop();
     }
 
-    postfix[j] = '\0';
+    postfix[index] = '\0';
 
     printf("\nPostfix Expression : %s\n", postfix);
 
