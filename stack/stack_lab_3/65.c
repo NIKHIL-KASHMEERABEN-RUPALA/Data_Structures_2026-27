@@ -81,6 +81,7 @@ int main(){
             while(top!=-1 && precedence(peek())>=precedence(ch)){
                 postfix[j++] = pop();
             }
+            push(ch);
         }
     }
 
