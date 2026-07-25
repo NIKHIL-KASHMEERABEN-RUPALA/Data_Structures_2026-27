@@ -48,8 +48,13 @@ int precedence(char ch){
 }
 
 
+
+
+
 int main(){
 
+    int infix[max], postfix[max];
+    
 
 
     return 0;
