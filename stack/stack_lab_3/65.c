@@ -60,7 +60,11 @@ int main(){
 
 
     for(int i = 0 ; infix[i]!='\0' ; i++){
+        char ch = infix[i];
 
+        if(isalnum(ch)){
+            
+        }
     }
 
 
