@@ -3,7 +3,9 @@
 #include<ctype.h>
 #define max 100
 
-char stack;
+char stack[max];
+
+
 
 
 int main(){
