@@ -22,6 +22,10 @@ char pop(){
     return stack[top--];
 }
 
+char peek(){
+    
+}
+
 
 int main(){
 
