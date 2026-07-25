@@ -71,9 +71,13 @@ int main(){
         }
         else if(ch==')'){
             while(top!=-1 && peek()!='('){
-
+                postfix[j++] = pop();
+            }
+            if(top!=-1){
+                pop(); // removing the ( character 
             }
         }
+        
     }
 
 
