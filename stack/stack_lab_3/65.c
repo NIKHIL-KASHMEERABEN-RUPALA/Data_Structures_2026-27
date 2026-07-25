@@ -66,6 +66,14 @@ int main(){
         if(isalnum(ch)){
             postfix[j++] = ch;
         }
+        else if(ch=='('){
+            push(ch);
+        }
+        else if(ch==')'){
+            while(top!=-1 && peek()!='('){
+
+            }
+        }
     }
 
 
