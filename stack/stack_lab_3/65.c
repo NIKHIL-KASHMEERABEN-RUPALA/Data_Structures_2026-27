@@ -77,7 +77,11 @@ int main(){
                 pop(); // removing the ( character 
             }
         }
-        
+        else{
+            while(top!=-1 && precedence(peek())>=precedence(ch)){
+                postfix[j++] = pop();
+            }
+        }
     }
 
 
