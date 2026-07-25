@@ -29,6 +29,13 @@ char peek(){
     return stack[top];
 }
 
+void reverse(char str[]){
+    
+    for(int i = 0 , j = strlen(str)-1 ; i<j ; i++,j--){
+        char temp = str[i];
+    }
+}
+
 
 int main(){
 
