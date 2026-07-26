@@ -14,6 +14,7 @@ void push(char element){
     stack[++top] = element;
 }
 
+
 char pop(){
     if(top==-1){
         printf("\n Underflow ! ");
