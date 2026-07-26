@@ -22,6 +22,7 @@ char pop(){
     return stack[top--];
 }
 
+
 char peek(){
     if(top==-1){
         return '\0';
