@@ -19,6 +19,7 @@ char pop(){
     if(top==-1){
         printf("\n Underflow ! ");
         return '\0';
+        
     }
     return stack[top--];
 }
