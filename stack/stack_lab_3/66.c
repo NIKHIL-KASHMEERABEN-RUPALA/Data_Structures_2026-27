@@ -12,6 +12,7 @@ void push(char element){
         return;
     }
     stack[++top] = element;
+    
 }
 
 
