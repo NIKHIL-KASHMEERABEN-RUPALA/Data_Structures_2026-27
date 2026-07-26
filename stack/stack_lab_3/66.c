@@ -15,6 +15,7 @@ void push(char element){
 }
 
 
+
 char pop(){
     if(top==-1){
         printf("\n Underflow ! ");
