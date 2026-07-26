@@ -4,6 +4,7 @@
 #define max 100
 
 char stack[max];
+
 int top = -1;
 
 void push(char element){
