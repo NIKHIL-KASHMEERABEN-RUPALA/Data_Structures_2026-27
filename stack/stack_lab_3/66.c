@@ -11,6 +11,7 @@ void push(char element){
         printf("\n Overflow !");
         return;
     }
+    
     stack[++top] = element;
 }
 
