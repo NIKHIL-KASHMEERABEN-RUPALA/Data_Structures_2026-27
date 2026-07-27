@@ -158,7 +158,6 @@ int main()
     // Step 2
     swapBracket(infix);
 
-    // Step 3
     infixToPostfix(infix, postfix);
 
     strcpy(prefix, postfix);
