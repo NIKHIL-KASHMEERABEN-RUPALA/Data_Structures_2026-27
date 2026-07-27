@@ -144,13 +144,12 @@ void infixToPostfix(char infix[], char postfix[])
 
 //--------------------------------------
 // Main
-//--------------------------------------
 int main()
 {
     char infix[MAX], postfix[MAX], prefix[MAX];
 
     printf("Enter Infix Expression: ");
-    
+
     scanf("%s", infix);
 
     reverse(infix);
