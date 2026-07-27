@@ -155,12 +155,12 @@ int main()
     // Step 1
     reverse(infix);
 
-    // Step 2
     swapBracket(infix);
 
     infixToPostfix(infix, postfix);
 
     strcpy(prefix, postfix);
+    
     reverse(prefix);
 
     printf("\nPrefix Expression : %s\n", prefix);
