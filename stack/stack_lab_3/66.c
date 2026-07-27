@@ -142,7 +142,6 @@ void infixToPostfix(char infix[], char postfix[])
     postfix[j] = '\0';
 }
 
-//--------------------------------------
 // Main
 int main()
 {
