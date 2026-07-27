@@ -55,7 +55,7 @@ int precedence(char ch){
 
 int main(){
 
-    char infix[max], postfix[max];
+    char infix[max] , postfix[max];
 
     printf("\n Enter the infix expression :    ");
     scanf("%s",infix);
