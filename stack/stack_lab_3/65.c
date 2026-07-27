@@ -40,7 +40,7 @@ int F(char symbol){
     }
     
     else if(isalnum(symbol)){
-        return 8;
+        return 7;
     }
 
     else if(symbol=='^'){
