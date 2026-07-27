@@ -62,7 +62,6 @@ int F(char symbol){
 }
 
 
-// stack precedence 
 int G(char symbol){
     if (isalnum(symbol)){
         return 8;
