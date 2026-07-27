@@ -1,53 +1,170 @@
-#include<stdio.h>
-#include<ctype.h>
-#include<string.h>
-#define max 100
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
-char stack[max];
+#define MAX 100
+
+char stack[MAX];
 int top = -1;
 
-
-void push(char element){
-    if(top==max-1){
-        printf("\n Overflow !");
-        return;
-    }
-    stack[++top] = element;
+//--------------------------------------
+// Push
+//--------------------------------------
+void push(char ch)
+{
+    stack[++top] = ch;
 }
 
-
-
-char pop(){
-    if(top==-1){
-        printf("\n Underflow ! ");
+//--------------------------------------
+// Pop
+//--------------------------------------
+char pop()
+{
+    if (top == -1)
         return '\0';
-    }
+
     return stack[top--];
 }
 
-
-
-char peek(){
-    if(top==-1){
+//--------------------------------------
+// Peek
+//--------------------------------------
+char peek()
+{
+    if (top == -1)
         return '\0';
-    }
+
     return stack[top];
 }
 
+//--------------------------------------
+// Reverse a string
+//--------------------------------------
+void reverse(char str[])
+{
+    int i, j;
+    char temp;
 
-
-void reverse(char str[]){
-    
-    for(int i = 0 , j = strlen(str)-1 ; i<j ; i++,j--){
-        char temp = str[i];
+    for (i = 0, j = strlen(str) - 1; i < j; i++, j--)
+    {
+        temp = str[i];
+        str[i] = str[j];
+        str[j] = temp;
     }
 }
 
+//--------------------------------------
+// Swap '(' and ')'
+//--------------------------------------
+void swapBracket(char str[])
+{
+    int i;
 
-int main(){
+    for (i = 0; str[i] != '\0'; i++)
+    {
+        if (str[i] == '(')
+            str[i] = ')';
+        else if (str[i] == ')')
+            str[i] = '(';
+    }
+}
 
+//--------------------------------------
+// Operator precedence
+//--------------------------------------
+int precedence(char ch)
+{
+    switch (ch)
+    {
+        case '^':
+            return 3;
 
+        case '*':
+        case '/':
+            return 2;
 
+        case '+':
+        case '-':
+            return 1;
+
+        default:
+            return 0;
+    }
+}
+
+//--------------------------------------
+// Infix to Postfix
+//--------------------------------------
+void infixToPostfix(char infix[], char postfix[])
+{
+    int i, j = 0;
+    top = -1;
+
+    for (i = 0; infix[i] != '\0'; i++)
+    {
+        char ch = infix[i];
+
+        if (isalnum(ch))
+        {
+            postfix[j++] = ch;
+        }
+        else if (ch == '(')
+        {
+            push(ch);
+        }
+        else if (ch == ')')
+        {
+            while (top != -1 && peek() != '(')
+            {
+                postfix[j++] = pop();
+            }
+
+            if (top != -1)
+                pop();
+        }
+        else
+        {
+            while (top != -1 &&
+                   precedence(peek()) >= precedence(ch))
+            {
+                postfix[j++] = pop();
+            }
+
+            push(ch);
+        }
+    }
+
+    while (top != -1)
+    {
+        postfix[j++] = pop();
+    }
+
+    postfix[j] = '\0';
+}
+
+//--------------------------------------
+// Main
+//--------------------------------------
+int main()
+{
+    char infix[MAX], postfix[MAX], prefix[MAX];
+
+    printf("Enter Infix Expression: ");
+    scanf("%s", infix);
+
+    // Step 1
+    reverse(infix);
+
+    // Step 2
+    swapBracket(infix);
+
+    // Step 3
+    infixToPostfix(infix, postfix);
+
+    strcpy(prefix, postfix);
+    reverse(prefix);
+
+    printf("\nPrefix Expression : %s\n", prefix);
 
     return 0;
 }
