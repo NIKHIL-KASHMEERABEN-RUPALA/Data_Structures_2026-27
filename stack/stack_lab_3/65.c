@@ -108,6 +108,14 @@ int main(){
     char next;
     char temp;
 
+    int rank = 0;
+
+    printf("\n Enter infix expression :      ");
+    scanf("%s",infix);
+
+    push('(');
+    strcat(infix,')');
+
     
 
 }
