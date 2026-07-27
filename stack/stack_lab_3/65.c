@@ -23,7 +23,14 @@ char pop(){
     return stack[top--];
 }
 
-char peep
+char peep(){
+
+    if(top==-1){
+        printf("\n underflow ");
+        return '\0';
+    }
+    return stack[top];
+}
 
 
 char pop(){
