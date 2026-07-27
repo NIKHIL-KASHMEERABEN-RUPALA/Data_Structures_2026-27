@@ -7,6 +7,7 @@
 char stack[MAX];
 int top = -1;
 
+
 void push(char ch)
 {
     stack[++top] = ch;
