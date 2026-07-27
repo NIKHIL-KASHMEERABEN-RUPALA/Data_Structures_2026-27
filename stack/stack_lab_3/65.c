@@ -31,8 +31,7 @@ char peep(){
     }
     return S[top];
 }
-
-// input precedence function 
+ 
 
 int F(char symbol){
 
@@ -55,7 +54,7 @@ int F(char symbol){
     else if(symbol=='+' || symbol=='-'){
         return 1;
     }
-    
+
     else if(symbol==')'){
         return 0;
     }   
