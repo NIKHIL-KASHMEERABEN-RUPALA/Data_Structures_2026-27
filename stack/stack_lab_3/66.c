@@ -69,7 +69,7 @@ void swapBracket(char str[])
     }
 }
 
-// Operator precedence
+
 int precedence(char ch)
 {
     switch (ch)
