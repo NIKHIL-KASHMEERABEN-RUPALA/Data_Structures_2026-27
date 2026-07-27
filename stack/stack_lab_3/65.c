@@ -14,6 +14,7 @@ void push(char item){
     S[++top] = item;
 }
 
+
 char pop(){
     if(top==-1){
         printf("\n underflow ! ");
