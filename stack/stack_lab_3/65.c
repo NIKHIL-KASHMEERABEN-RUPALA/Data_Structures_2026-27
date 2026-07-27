@@ -3,16 +3,15 @@
 #include<string.h>
 #define max 100
 
-
-char stack[max];
+char S[max];
 int top = -1;
 
-void push(char element){
+void push(char item){
     if(top>=max-1){
-        printf("\n overflow ");
+        printf("\n Overflow ! ");
         return;
     }
-    stack[++top] = element;
+    S[++top] = item;
 }
 
 char pop(){
@@ -20,82 +19,14 @@ char pop(){
         printf("\n underflow ! ");
         return '\0';
     }
-    return stack[top--];
+    return S[top--];
 }
 
 char peep(){
-
     if(top==-1){
-        printf("\n underflow ");
+        printf("\n underflow ! ");
         return '\0';
     }
-    return stack[top];
+    return S[top];
 }
 
-
-
-
-int precedence(char ch){
-    if(ch=='^'){
-        return 3;
-    }
-    else if(ch=='*'|| ch=='/' || ch=='%'){
-        return 2;
-    }
-    else if(ch=='+' || ch=='-'){
-        return 1;
-    }
-    else{
-        return 0;
-    }
-}
-
-
-
-
-int main(){
-
-    char infix[max] , postfix[max];
-
-    printf("\n Enter the infix expression :    ");
-    scanf("%s",infix);
-    int index = 0;
-
-
-    for(int i = 0 ; infix[i]!='\0' ; i++){
-        char ch = infix[i];
-
-        if(isalnum(ch)){
-            postfix[index++] = ch;
-        }
-        else if(ch=='('){
-            push(ch);
-        }
-        else if(ch==')'){
-            while(top!=-1 && peek()!='('){
-                postfix[index++] = pop();
-            }
-            if(top!=-1){
-                pop(); 
-            }
-        }
-        else{
-            while(top!=-1 && precedence(peek())>=precedence(ch)){
-                postfix[index++] = pop();
-            }
-            push(ch);
-        }
-    }
-
-    while (top != -1)
-    {
-        postfix[index++] = pop();
-    }
-
-    postfix[index] = '\0';
-
-    printf("\nPostfix Expression : %s\n", postfix);
-
-
-    return 0;
-}
