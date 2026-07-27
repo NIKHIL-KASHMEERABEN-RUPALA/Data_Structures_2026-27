@@ -1,3 +1,4 @@
+#include<stdio.h>
 
 
 char stack[max];
