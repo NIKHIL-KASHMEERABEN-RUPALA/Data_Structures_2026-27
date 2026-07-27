@@ -52,7 +52,13 @@ int F(char symbol){
         return 3;
     }
     
+    else if(symbol=='+' || symbol=='-'){
+        return 1;
+    }
     
+    else if(symbol==')'){
+        return 0;
+    }   
 
 }
 
