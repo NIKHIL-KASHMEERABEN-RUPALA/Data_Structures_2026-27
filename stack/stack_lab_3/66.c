@@ -6,13 +6,6 @@
 char stack[max];
 int top = -1;
 
-void push(char element){
-    if(top==max-1){
-        printf("\n Overflow !");
-        return;
-    }
-    stack[++top] = element;
-}
 
 
 char pop(){
