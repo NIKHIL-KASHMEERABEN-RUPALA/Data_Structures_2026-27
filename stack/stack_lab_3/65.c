@@ -61,3 +61,15 @@ int F(char symbol){
 
 }
 
+
+// stack precedence 
+int G(char symbol){
+    if (isalnum(symbol)){
+        return 8;
+    }
+    else if(symbol=='^'){
+        return 5;
+    }
+
+}
+
