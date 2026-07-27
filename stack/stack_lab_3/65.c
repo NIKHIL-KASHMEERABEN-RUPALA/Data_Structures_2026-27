@@ -7,14 +7,23 @@
 char stack[max];
 int top = -1;
 
-
 void push(char element){
     if(top>=max-1){
-        printf("\n Overflow of stack ! ");
+        printf("\n overflow ");
         return;
     }
     stack[++top] = element;
 }
+
+char pop(){
+    if(top==-1){
+        printf("\n underflow ! ");
+        return '\0';
+    }
+    return stack[top--];
+}
+
+char peep
 
 
 char pop(){
