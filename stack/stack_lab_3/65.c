@@ -100,3 +100,8 @@ int R(char symbol){
     return 0;
 }
 
+
+int main(){
+    
+}
+
