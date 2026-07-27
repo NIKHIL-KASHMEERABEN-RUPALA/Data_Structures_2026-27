@@ -37,7 +37,6 @@ char peek()
     return stack[top];
 }
 
-//--------------------------------------
 void reverse(char str[])
 {
     int i, j;
