@@ -38,7 +38,6 @@ char peek()
 }
 
 //--------------------------------------
-// Reverse a string
 void reverse(char str[])
 {
     int i, j;
