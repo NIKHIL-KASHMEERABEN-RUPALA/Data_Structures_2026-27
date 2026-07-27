@@ -70,6 +70,18 @@ int G(char symbol){
     else if(symbol=='^'){
         return 5;
     }
+    else if(symbol=='*' || symbol=='/' || symbol=='%'){
+        return 4;
+    }
+    else if(symbol == '+' || symbol =='-'){
+        return 2;
+    }
 
+    else if(symbol=='('){
+        return 0;
+    }
+    else if(symbol==')'){
+        return -1;
+    }
 }
 
