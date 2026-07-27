@@ -92,7 +92,7 @@ int precedence(char ch)
     }
 }
 
-//--------------------------------------
+
 void infixToPostfix(char infix[], char postfix[])
 {
     int i, j = 0;
