@@ -32,3 +32,27 @@ char peep(){
     return S[top];
 }
 
+// input precedence function 
+
+int F(char symbol){
+
+    if(symbol == '('){
+        return 9;
+    }
+    
+    else if(isalnum(symbol)){
+        return 8;
+    }
+
+    else if(symbol=='^'){
+        return 6;
+    }
+
+    else if(symbol=='*' || symbol =='/' || symbol=='%'){
+        return 3;
+    }
+    
+    
+
+}
+
