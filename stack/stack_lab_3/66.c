@@ -15,7 +15,7 @@ void push(char ch)
     stack[++top] = ch;
 }
 
-//--------------------------------------
+
 char pop()
 {
     if (top == -1)
