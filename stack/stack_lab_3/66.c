@@ -53,7 +53,6 @@ void reverse(char str[])
     }
 }
 
-//--------------------------------------
 void swapBracket(char str[])
 {
     int i;
