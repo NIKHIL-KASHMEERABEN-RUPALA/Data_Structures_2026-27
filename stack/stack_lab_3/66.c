@@ -26,8 +26,6 @@ char pop()
     return stack[top--];
 }
 
-//--------------------------------------
-// Peek
 char peek()
 {
     if (top == -1)
