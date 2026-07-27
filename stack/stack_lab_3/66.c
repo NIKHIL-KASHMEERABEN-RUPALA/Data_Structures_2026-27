@@ -54,8 +54,6 @@ void reverse(char str[])
 }
 
 //--------------------------------------
-// Swap '(' and ')'
-//--------------------------------------
 void swapBracket(char str[])
 {
     int i;
