@@ -150,9 +150,9 @@ int main()
     char infix[MAX], postfix[MAX], prefix[MAX];
 
     printf("Enter Infix Expression: ");
+    
     scanf("%s", infix);
 
-    // Step 1
     reverse(infix);
 
     swapBracket(infix);
@@ -160,7 +160,7 @@ int main()
     infixToPostfix(infix, postfix);
 
     strcpy(prefix, postfix);
-    
+
     reverse(prefix);
 
     printf("\nPrefix Expression : %s\n", prefix);
