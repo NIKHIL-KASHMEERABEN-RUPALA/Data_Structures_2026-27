@@ -90,11 +90,13 @@ int R(char symbol){
         return 1;
 
     }
-    
+
     else if(symbol == '+' || symbol == '-' ||
         symbol == '*' || symbol == '/' ||
         symbol == '^'){
             return -1;
         }
+
+    return 0;
 }
 
