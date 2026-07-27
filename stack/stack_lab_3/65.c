@@ -22,6 +22,7 @@ char pop(){
     return S[top--];
 }
 
+
 char peep(){
     if(top==-1){
         printf("\n underflow ! ");
