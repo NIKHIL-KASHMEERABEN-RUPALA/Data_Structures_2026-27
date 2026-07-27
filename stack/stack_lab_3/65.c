@@ -107,6 +107,7 @@ int main(){
     char postfix[max];
     char next;
     char temp;
+    int i=0 , j =0;
 
     int rank = 0;
 
@@ -114,9 +115,14 @@ int main(){
     scanf("%s",infix);
 
     push('(');
+    
     strcat(infix,')');
 
-    
+    next = infix[i++];
+
+    while(next!='\0'){
+
+    }
 
 }
 
