@@ -75,9 +75,11 @@ int G(char symbol){
         return 5;
     }
     else if(symbol=='*' || symbol=='/' || symbol=='%'){
+        
         return 4;
     }
     else if(symbol == '+' || symbol =='-'){
+
         return 2;
     }
 
