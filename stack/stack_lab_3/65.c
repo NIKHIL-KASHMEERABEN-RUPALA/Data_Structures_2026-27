@@ -130,8 +130,9 @@ int main(){
     next = infix[i++];
 
     while(next!='\0'){
-        
+
         if (F(next)==-1){
+            
             printf("\n invalid symbol ! ");
             return 0;
         }
