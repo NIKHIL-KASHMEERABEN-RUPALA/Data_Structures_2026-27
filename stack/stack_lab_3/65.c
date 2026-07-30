@@ -89,6 +89,7 @@ int G(char symbol){
 
 
 int R(char symbol){
+    
     if(isalnum(symbol)){
         return 1;
 
@@ -144,7 +145,7 @@ int main(){
             temp = pop();
             
         }
-        
+
     }
 
 }
