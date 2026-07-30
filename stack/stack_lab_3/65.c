@@ -106,8 +106,9 @@ int R(char symbol){
     else if(symbol == '+' || symbol == '-' ||
         symbol == '*' || symbol == '/' ||
         symbol == '^'){
-            
+
             return -1;
+            
         }
 
     return 0;
