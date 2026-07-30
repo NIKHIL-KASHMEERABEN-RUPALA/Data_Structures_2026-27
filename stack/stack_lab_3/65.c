@@ -98,7 +98,7 @@ int G(char symbol){
 int R(char symbol){
 
     if(isalnum(symbol)){
-        
+
         return 1;
 
     }
