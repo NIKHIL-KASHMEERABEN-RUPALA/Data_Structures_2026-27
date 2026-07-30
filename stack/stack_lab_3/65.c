@@ -113,6 +113,7 @@ int main(){
     int i=0 , j =0;
 
     int rank = 0;
+    
 
     printf("\n Enter infix expression :      ");
     scanf("%s",infix);
