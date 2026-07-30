@@ -108,10 +108,11 @@ int R(char symbol){
         symbol == '^'){
 
             return -1;
-            
+
         }
 
     return 0;
+
 }
 
 
