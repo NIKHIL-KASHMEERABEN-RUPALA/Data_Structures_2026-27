@@ -107,8 +107,9 @@ int R(char symbol){
 int main(){
 
     char infix[max];
-    char postfix[max];
     
+    char postfix[max];
+
     char next;
 
     char temp;
