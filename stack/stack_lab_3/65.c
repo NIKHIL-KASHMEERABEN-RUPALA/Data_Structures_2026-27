@@ -72,7 +72,7 @@ int G(char symbol){
         return 8;
     }
     else if(symbol=='^'){
-        
+
         return 5;
     }
     else if(symbol=='*' || symbol=='/' || symbol=='%'){
@@ -85,6 +85,7 @@ int G(char symbol){
     }
 
     else if(symbol=='('){
+        
         return 0;
     }
     else{
