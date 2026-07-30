@@ -52,7 +52,9 @@ int F(char symbol){
     }
     
     else if(symbol=='+' || symbol=='-'){
+
         return 1;
+        
     }
 
     else if(symbol==')'){
@@ -64,7 +66,7 @@ int F(char symbol){
     else{
 
         return -1;
-        
+
     } 
 
 }
