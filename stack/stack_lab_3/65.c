@@ -108,8 +108,9 @@ int main(){
 
     char infix[max];
     char postfix[max];
-    char next;
     
+    char next;
+
     char temp;
 
     int i=0 , j =0;
