@@ -140,10 +140,11 @@ int main(){
         }
 
         while(top!=-1 && G(peep())>=F(next)){
-            
+
             temp = pop();
             
         }
+        
     }
 
 }
