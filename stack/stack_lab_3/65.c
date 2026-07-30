@@ -66,6 +66,7 @@ int F(char symbol){
 
 
 int G(char symbol){
+    
     if (isalnum(symbol)){
         return 8;
     }
@@ -89,7 +90,7 @@ int G(char symbol){
 
 
 int R(char symbol){
-    
+
     if(isalnum(symbol)){
         return 1;
 
