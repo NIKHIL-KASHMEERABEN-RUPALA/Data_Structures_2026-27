@@ -134,8 +134,9 @@ int main(){
         if (F(next)==-1){
 
             printf("\n invalid symbol ! ");
-            
+
             return 0;
+            
         }
 
         while(top!=-1 && G(peep())>=F(next)){
