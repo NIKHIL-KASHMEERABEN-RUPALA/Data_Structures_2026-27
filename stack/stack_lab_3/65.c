@@ -107,7 +107,7 @@ int R(char symbol){
 int main(){
 
     char infix[max];
-    
+
     char postfix[max];
 
     char next;
@@ -120,6 +120,7 @@ int main(){
 
 
     printf("\n Enter infix expression :      ");
+    
     scanf("%s",infix);
 
     push('(');
