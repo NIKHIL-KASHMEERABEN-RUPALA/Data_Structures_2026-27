@@ -136,10 +136,11 @@ int main(){
             printf("\n invalid symbol ! ");
 
             return 0;
-            
+
         }
 
         while(top!=-1 && G(peep())>=F(next)){
+            
             temp = pop();
             
         }
