@@ -66,8 +66,9 @@ int F(char symbol){
 
 
 int G(char symbol){
-    
+
     if (isalnum(symbol)){
+        
         return 8;
     }
     else if(symbol=='^'){
