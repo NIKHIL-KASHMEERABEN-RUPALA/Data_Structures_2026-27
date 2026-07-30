@@ -57,7 +57,10 @@ int F(char symbol){
 
     else if(symbol==')'){
         return 0;
-    }   
+    }  
+    else{
+        return -1;
+    } 
 
 }
 
@@ -79,7 +82,7 @@ int G(char symbol){
     else if(symbol=='('){
         return 0;
     }
-    else if(symbol==')'){
+    else{
         return -1;
     }
 }
@@ -115,13 +118,21 @@ int main(){
     scanf("%s",infix);
 
     push('(');
-    
+
     strcat(infix,')');
 
     next = infix[i++];
 
     while(next!='\0'){
+        if (F(next)==-1){
+            printf("\n invalid symbol ! ");
+            return 0;
+        }
 
+        while(top!=-1 && G(peep())>=F(next)){
+            temp = pop();
+            
+        }
     }
 
 }
