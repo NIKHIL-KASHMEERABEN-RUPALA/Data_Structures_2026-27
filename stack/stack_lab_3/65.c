@@ -85,10 +85,11 @@ int G(char symbol){
     }
 
     else if(symbol=='('){
-        
+
         return 0;
     }
     else{
+        
         return -1;
     }
 }
