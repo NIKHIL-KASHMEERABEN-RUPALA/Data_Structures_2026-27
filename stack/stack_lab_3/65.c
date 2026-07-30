@@ -62,8 +62,9 @@ int F(char symbol){
     } 
 
     else{
-        
+
         return -1;
+        
     } 
 
 }
