@@ -15,7 +15,7 @@ void enqueue(int x){
     struct Node*newNode = (struct Node*)malloc(sizeof(struct Node));
 
     if(newNode==NULL){
-        printf("\n overflow");
+        printf("\n overflow ! memory not available");
         return;
     }
 }
