@@ -36,9 +36,19 @@ void dequeue(){
         return;
     }
     struct Node*temp = front;
+    printf("\n Deleted %d successfully ",temp->info);
     front = front->next;
     if(front==NULL){
         rear = NULL;
     }
     free(temp);
+}
+
+
+void display(){
+    if(front==NULL){
+        printf("\n Queue is already empty ! ");
+        return;
+    }
+
 }
