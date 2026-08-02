@@ -60,6 +60,18 @@ void display(){
 
 }
 
+
+void peek()
+{
+    if (front == NULL)
+    {
+        printf("Queue is Empty.\n");
+        return;
+    }
+
+    printf("Front Element = %d\n", front->info);
+}
+
 int main()
 {
     int choice, value;
