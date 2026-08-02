@@ -18,4 +18,13 @@ void enqueue(int x){
         printf("\n overflow ! memory not available");
         return;
     }
+    newNode->info = x;
+    newNode->next = NULL;
+    if(front==NULL){
+        front = rear = newNode;
+    }
+    else{
+        rear->next = newNode;
+        rear = newNode;
+    }
 }
