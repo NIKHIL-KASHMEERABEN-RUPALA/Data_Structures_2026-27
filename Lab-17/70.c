@@ -25,10 +25,11 @@ int dequeue(){
     }
 
     int to_remove = queue[front];
-    
+
     if(front==rear){
         front = rear = -1;
     }
+    
     else{
         front = front+1;
     }
