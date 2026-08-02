@@ -30,3 +30,19 @@ int Cdequeue(){
     }
     return y;
 }
+
+void display(){
+    if(front==-1){
+        printf("\n Cqueue is empty ! ");
+        return;
+    }
+
+    int i = front;
+    do{
+        printf(" %d ",queue[i]);
+        if(i==rear){
+            break;
+        }
+        i = (i+1)%5;
+    }while(i!=rear);
+}
