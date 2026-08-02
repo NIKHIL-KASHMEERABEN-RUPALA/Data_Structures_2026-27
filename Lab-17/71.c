@@ -40,4 +40,5 @@ void dequeue(){
     if(front==NULL){
         rear = NULL;
     }
+    free(temp);
 }
