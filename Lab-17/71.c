@@ -28,3 +28,16 @@ void enqueue(int x){
         rear = newNode;
     }
 }
+
+
+void dequeue(){
+    if(front==NULL){
+        printf("\n Underflow ! ");
+        return;
+    }
+    struct Node*temp = front;
+    front = front->next;
+    if(front==NULL){
+        rear = NULL;
+    }
+}
