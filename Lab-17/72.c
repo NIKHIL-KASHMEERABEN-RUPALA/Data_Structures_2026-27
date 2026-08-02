@@ -15,3 +15,10 @@ void Cenqueue(int x){
         front = 0;
     }
 }
+
+int Cdequeue(){
+    if(front==-1){
+        printf("\n Cqueue underflow ! ");
+        return;
+    }
+}
