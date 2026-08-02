@@ -42,4 +42,8 @@ void display(){
         return;
     }
 
+    for(int i = front ; i<=rear ; i++){
+        printf("\n %d",queue[i]);
+    }
+
 }
