@@ -6,5 +6,7 @@ int front = -1;
 int rear = -1;
 
 void enqueue(int x){
-    if()
+    if(rear>=5-1){
+        
+    }
 }
