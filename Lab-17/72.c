@@ -9,4 +9,9 @@ void Cenqueue(int x){
         printf("\n Overflow !");
         return;
     }
+    rear = (rear+1)%5;
+    queue[rear] = x;
+    if(front==-1){
+        front = 0;
+    }
 }
