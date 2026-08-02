@@ -8,3 +8,14 @@ struct Node{
 
 struct Node*front = NULL;
 struct Node*rear = NULL;
+
+
+void enqueue(int x){
+
+    struct Node*newNode = (struct Node*)malloc(sizeof(struct Node));
+
+    if(newNode==NULL){
+        printf("\n overflow");
+        return;
+    }
+}
