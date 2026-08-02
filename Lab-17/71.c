@@ -66,7 +66,7 @@ int main()
 
     while (1)
     {
-        printf("\n===== QUEUE USING LINKED LIST =====\n");
+        printf("\n QUEUE USING LINKED LIST \n");
         printf("1. Enqueue\n");
         printf("2. Dequeue\n");
         printf("3. Peek\n");
