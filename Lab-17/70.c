@@ -7,6 +7,11 @@ int rear = -1;
 
 void enqueue(int x){
     if(rear>=5-1){
-        
+        printf("\n Queue Overflow ! ");
+        return;
+    }
+    queue[++rear] = x;
+    if(front==-1){
+        front=front+1;
     }
 }
