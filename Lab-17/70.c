@@ -37,8 +37,9 @@ int dequeue(){
 
 
 void display(){
-    if(front==-1){
+    if(front==-1 || front>rear){
         printf("\n Queue is empty ! ");
         return;
     }
+
 }
