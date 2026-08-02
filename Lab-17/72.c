@@ -21,4 +21,12 @@ int Cdequeue(){
         printf("\n Cqueue underflow ! ");
         return;
     }
+    int y = queue[front];
+    if(front==rear){
+        front = rear=-1;
+    }
+    else{
+        front = (front+1)%5;
+    }
+    return y;
 }
