@@ -50,5 +50,12 @@ void display(){
         printf("\n Queue is already empty ! ");
         return;
     }
+    struct Node*temp = front;
+    printf("\n Queue is :       \n");
+    while(temp!=NULL){
+        printf("\n %d ",temp->info);
+        temp=temp->next;
+    }
+
 
 }
