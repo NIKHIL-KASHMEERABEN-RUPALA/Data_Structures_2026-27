@@ -12,6 +12,6 @@ void enqueue(int x){
     }
     queue[++rear] = x;
     if(front==-1){
-        front=front+1;
+        front=0;
     }
 }
