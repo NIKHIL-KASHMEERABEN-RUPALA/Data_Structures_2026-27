@@ -25,5 +25,4 @@
  *    - Array allocation static memory par based chhe, tyaare execution ma fixed 
  *      O(MAX) continuous space system memory block allocate thay chhe.
  * 
- * ============================================================================
- */
+  */
