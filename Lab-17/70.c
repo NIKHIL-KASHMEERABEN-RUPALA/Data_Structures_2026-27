@@ -21,7 +21,7 @@ int dequeue(){
     if(front==-1){
         printf("\n Queue underflow !");
 
-        return;
+        return -1;
     }
 
     int to_remove = queue[front];
