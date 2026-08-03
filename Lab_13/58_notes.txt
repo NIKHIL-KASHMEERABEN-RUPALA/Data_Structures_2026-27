@@ -19,5 +19,4 @@
  *    - Linked List stack ma darek Node ma extra explicit pointer address variable 
  *      (*next) rakhvu pade chhe, tethii extra overhead pointer space memory rokse.
  * 
- * ============================================================================
  */
