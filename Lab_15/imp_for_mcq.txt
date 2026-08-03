@@ -1,0 +1,36 @@
+/ ============================================================================
+  EXAM MATE IMPORTANT MCQ CONCEPTS (POSTFIX ANE PREFIX MIX)
+
+  
+  1. STACK NO UPAYOG (APPLICATION OF STACK)
+     - Infix mathi Postfix ke Prefix banavva mate Stack data structure vapray chhe.
+     - Expression evaluation ane conversion banne ma Stack no use thay chhe.
+  
+  2. BRACKETS NI VALUE (PARENTHESES RULE)
+     - Postfix ke Prefix na final answer ma KYAREY PAN '(' ke ')' aavta nathi.
+     - Brackets khali evaluation no order change karva mate j vapray chhe.
+  
+  3. RANK NU SCHEME (RANKING CRITERIA FOR MCQs)
+     - Rank khali check karva mate chhe ke expression valid chhe ke nahi.
+     - Operands (a, b, c, 1, 2) no rank hammeša +1 hoy chhe.
+     - Binary Operators (+, -, , /) no rank hammeša -1 hoy chhe.
+     - Jo koi expression no total final rank exactly 1 na thay, toh te INVALID chhe.
+  
+  4. F ANE G FUNCTION NO TAFAVAT (INPUT VS STACK PRECEDENCE)
+     - F(symbol) etle ke bahar thi aavta character ni priority.
+     - G(symbol) etle ke stack ni andar bethela character ni priority.
+     - Postfix ma '(' ni input priority high (9) hoy chhe jethi te stack ma jaldhi jatu rahe,
+       pan stack ni andar aavya pachi teni priority low (0) thai jay chhe jethi te bija operators ne push thava de.
+     - Prefix ma aakha rules reverse thai jay chhe karan ke aakhri ma string ne reverse karvani hoy chhe.
+  
+  5. PRECEDENCE HIERARCHY (COMPILER PRIORITY ORDER)
+     - Highest priority: Exponentiation '^' (Power)
+     - Medium priority: Multiplication '' ane Division '/'
+     - Lowest priority: Addition '+' ane Subtraction '-'
+  
+  6. ASSOCIATIVITY NO TRAP (LEFT-TO-RIGHT VS RIGHT-TO-LEFT)
+     - +, -, , / badha Left-to-Right associative chhe.
+     - '^' (Power) hammeša Right-to-Left associative chhe, je MCQs ma varamvar puchay chhe!
+  
+  ============================================================================
+ /
