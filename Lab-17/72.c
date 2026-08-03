@@ -39,13 +39,15 @@ void display() {
 
     printf("\nQueue elements: ");
     int i = front;
-    do {
-        printf("%d ", queue[i]);
-        if (i == rear) {
+    
+    while(1){
+        printf(" %d ",queue[i]);
+        if(i==rear){
             break;
         }
-        i = (i + 1) % 5;
-    } while (i != rear);
+        i = (i+1)%5;
+    }
+
     printf("\n");
 }
 
