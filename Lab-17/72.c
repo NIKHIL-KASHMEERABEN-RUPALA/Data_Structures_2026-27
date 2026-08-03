@@ -47,7 +47,6 @@ void display() {
         }
         i = (i+1)%5;
     }
-
     printf("\n");
 }
 
