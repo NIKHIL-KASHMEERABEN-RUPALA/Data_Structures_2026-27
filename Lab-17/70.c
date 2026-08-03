@@ -20,7 +20,6 @@ void enqueue(int x){
 int dequeue(){
     if(front==-1){
         printf("\n Queue underflow !");
-
         return -1;
     }
 
