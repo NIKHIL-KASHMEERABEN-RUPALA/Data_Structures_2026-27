@@ -6,7 +6,7 @@
 
 #define MAX 100
 
-// Evaluation stack ane top variable ni ghoshana
+// Evaluation stack ane top variable nu declaration
 int stack[MAX];
 int top = -1;
 
