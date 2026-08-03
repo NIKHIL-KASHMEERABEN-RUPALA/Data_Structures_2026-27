@@ -1,0 +1,21 @@
+ * EXAM MATE IMPORTANT MCQ CONCEPTS: MERGE INTERVALS
+ * 
+ * 1. THE MANDATORY PRE-REQUISITE (SORTING DEPENDENCY)
+ *    - MCQ ma direct puchay ke "Merge Intervals no pre-requisite step shu chhe?"
+ *    - Answer: Intervals ne absolute 'START TIME' na basic parameter pramaney 
+ *      ascending kram ma sort karvu mandatory chhe[cite: 1].
+ * 
+ * 2. SUB-INTERVAL CONTAINMENT TRAP
+ *    - Jo ek interval biji mohta interval ni andraj samae jatu hoy (e.g., [1, 10] ane [2, 5]), 
+ *      toh stack.end update nahi thay! Te higher boundary max(10, 5) automatic 10 j rakhshe[cite: 1].
+ * 
+ * 3. STACK DEPTH AT THE END (MUTUALLY EXCLUSIVE GROUPS)
+ *    - Final state ma stack pointer ni value (top + 1) e total number of 
+ *      disjoint elements return kare chhe[cite: 1]. 
+ * 
+ * 4. OPTIMAL SPACE RECONSTRUCTION
+ *    - Aa array implementation ma extra explicit space array stack block vaprayo chhe[cite: 1].
+ *    - Pan in-place memory optimization lagavie toh extra stack vagar original input 
+ *      array pointer mapping modifier mathi pan linear allocation handle thai shake.
+ * 
+ */
