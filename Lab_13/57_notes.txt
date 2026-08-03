@@ -1,0 +1,29 @@
+/*
+ * EXAM MATE IMPORTANT MCQ CONCEPTS: STACK OPERATIONS
+ * 
+ * 
+ * 1. CORE DATA STRUCTURE PROPERTY
+ *    - Stack e ek Linear Data Structure chhe je LIFO (Last In First Out) order 
+ *      follow kare chhe. 
+ * 
+ * 2. OVERFLOW VS UNDERFLOW CONDITIONS
+ *    - PUSH operation karta pehla compulsory 'Overflow condition' check thai. 
+ *      Array mate: (top == MAX - 1).
+ *    - POP, PEEP, ane CHANGE operation karta pehla 'Underflow condition' check thay. 
+ *      Condition: (top == -1).
+ * 
+ * 3. ARITHMETIC ELEMENT MAPPING INDEX FORMULA
+ *    - MCQ ma direct formula puchay chhe: Agar Top mathi 'i'th position no element 
+ *      access karvo hoy, toh array index shu thashe?
+ *      Answer: index = top - i + 1.
+ * 
+ * 4. POINTER INITIAL STATE
+ *    - Array choice representation ma khali Stack no default starting index 
+ *      hammeša (-1) set karva ma aave chhe.
+ * 
+ * 5. AUXILIARY SPACE COMPLEXITY
+ *    - Array allocation static memory par based chhe, tyaare execution ma fixed 
+ *      O(MAX) continuous space system memory block allocate thay chhe.
+ * 
+ * ============================================================================
+ */
