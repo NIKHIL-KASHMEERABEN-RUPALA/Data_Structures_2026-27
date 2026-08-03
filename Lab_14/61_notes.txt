@@ -1,0 +1,19 @@
+ * EXAM MATE IMPORTANT MCQ CONCEPTS: BALANCED PARENTHESES
+ * 
+ * 1. MAXIMUM STACK DEPTH (WORST-CASE SPACE OVERHEAD)
+ *    - MCQ ma puchay ke "((((((((" chhe toh stack ni maximum size ketli thashe?
+ *    - Answer: String length $N$ jetli j thashe, yani ke space overhead $O(N)$ thai jase[cite: 1].
+ * 
+ * 2. EARLY TERMINATION CRITERIA
+ *    - Jo string ni beginning character j closing bracket jase (jem ke `}`), 
+ *      toh algorithm instantly execution stop kari ne execution error status status code `0` return karse[cite: 1].
+ * 
+ * 3. ODD LENGTH STRING SHORTCUT TRAP
+ *    - MCQ Trick: Jo input expression string ni overall length ODD (jem ke 3, 5, 7 length) hoy, 
+ *      toh te kyarey balanced thai j na sake! Tene scan karya vagar j direct rejection list ma muki sakay.
+ * 
+ * 4. COMPILER COMPONENT USAGE
+ *    - Real-world application MCQ: Java, C++, ke C language na programming compilers 
+ *      na source code check evaluation structure ma bracket validation mate aa deterministic logic mandatory vapray chhe.
+ * 
+ */
