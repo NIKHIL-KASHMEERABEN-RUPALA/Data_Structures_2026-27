@@ -1,0 +1,20 @@
+ * EXAM MATE IMPORTANT MCQ CONCEPTS: REMOVING STARS FROM A STRING
+ * 
+ * 1. SIMULATION BEHAVIOR (BACKSPACE SIMULATION)
+ *    - MCQ Application: Aa problem text editors ma rahela 'Backspace' button ni 
+ *      jem j kaam kare chhe, jya '*' e deletion command chhe.
+ * 
+ * 2. WORST-CASE STACK STORAGE
+ *    - Jo string ma ek pan star '*' na hoy (e.g., "leetcode"), toh stack ni 
+ *      maximum height string ni length $N$ jetli j thashe -> Space $O(N)$[cite: 1].
+ * 
+ * 3. ALL-STAR STRING RESULT
+ *    - MCQ Trick Trick: Jo string ma equal character ane stars alternate hoy (e.g., "a*b*c*"), 
+ *      toh execution na ant ma final stack fully empty (-1) thashe ane output "" (null) aavshe.
+ * 
+ * 4. PRINTING ORDER MATRIX
+ *    - Evaluation codes ma apde answer jova mate stack mathi reverse pop karie chhe.
+ *    - Pan aa problem ma true string order jadvava mate bottom thi up (index 0 thi top) 
+ *      print thavu joie. MCQ trace ma aa sequence khub j dhyaan rakhvo!
+ * 
+ */
