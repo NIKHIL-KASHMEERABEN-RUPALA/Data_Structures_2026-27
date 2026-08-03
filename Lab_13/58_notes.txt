@@ -1,0 +1,23 @@
+ * EXAM MATE IMPORTANT MCQ CONCEPTS: LINKED STACK IMPLEMENTATION
+ * 
+ * 1. DYNAMIC MEMORY BENEFITS
+ *    - Linked list vala stack ma predefined MAX size ni jarur nathi hotis.
+ *    - Memory dynamically grow ane shrink thai sake chhe execution time par.
+ * 
+ * 2. STACK OVERFLOW DILEMMA
+ *    - Array stack ma static size pool limit thaye overflow thay chhe.
+ *    - Linked stack ma 'Stack Overflow' tyaare j thashe jyaare system ni total 
+ *      HEAP memory poori thai jay ane malloc NULL return kare.
+ * 
+ * 3. ARRAYS VS LINKED LIST STACK COMPLEXITY TRAP
+ *    - Array implementations ma PEEP ane CHANGE ni complexity O(1) hoy chhe.
+ *    - Pan Linked List implementation ma PEEP ane CHANGE mate sequential node 
+ *      traversal jaruri chhe, tethii temni complexity O(N) thai jay chhe!
+ * 
+ * 4. POINTER STORAGE COST (SPACE COMPLEXITY)
+ *    - Array stack khali integers store kare chhe.
+ *    - Linked List stack ma darek Node ma extra explicit pointer address variable 
+ *      (*next) rakhvu pade chhe, tethii extra overhead pointer space memory rokse.
+ * 
+ * ============================================================================
+ */
