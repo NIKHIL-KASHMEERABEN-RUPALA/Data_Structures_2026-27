@@ -99,7 +99,6 @@ int G(char symbol)
 }
 
 
-
 // Rank Function (R) - Expression sachu chhe ke nahi te check karva mate
 int R(char symbol)
 {
