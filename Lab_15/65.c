@@ -4,7 +4,6 @@
 
 #define MAX 100
 
-
 // Stack nu Declaration
 char S[MAX];
 int TOP = -1;
