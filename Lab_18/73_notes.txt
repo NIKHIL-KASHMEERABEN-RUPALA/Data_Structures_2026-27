@@ -1,0 +1,93 @@
+ Deque (Double Ended Queue - Circular Array Implementation) - Short Notes (Gujarati in English)
+
+
+ 1. Double Ended Queue Shu Chhe?
+
+Double Ended queue e special type ni Queue chhe.
+
+Aa ma Front ane Rear banne side thi Insert ane Delete kari shakai.
+
+Normal Queue karta vadhu flexible chhe.
+
+
+ 2. Circular Array Shu Chhe?
+
+Aa program ma Circular Array use thay chhe.
+
+Array no last index pachi fari thi first index par aavi jai.
+
+Aa mate `% MAX` (Modulo) operator vapray chhe.
+
+
+ Time Complexity (Most Important for Exam ⭐)
+
+| Operation          | Time Complexity | Reason                           |
+| ------------------ | --------------- | -------------------------------- |
+| Insert Front       | O(1)        | Direct front update thay chhe.   |
+| Insert Rear        | O(1)        | Direct rear update thay chhe.    |
+| Delete Front       | O(1)        | Front pointer move thay chhe.    |
+| Delete Rear        | O(1)        | Rear pointer move thay chhe.     |
+| Display            | O(n)        | Badha elements print karva pade. |
+| Search (jo kariye) | O(n)        | Ek-ek element check karvo pade.  |
+
+
+ Space Complexity
+
+
+O(MAX)
+
+
+
+Elements fixed size na array ma store thay chhe.
+
+
+ Difference: Queue vs Deque
+
+| Normal Queue     | Deque                           |
+| ---------------- | ------------------------------- |
+| Insert Rear thi  | Insert Front ane Rear banne thi |
+| Delete Front thi | Delete Front ane Rear banne thi |
+| FIFO follow kare | Double Ended Operations         |
+| Ochi flexibility | Vadhu flexibility               |
+
+
+ Difference: Linear Queue vs Circular Deque
+
+| Linear Queue               | Circular Deque   |
+| -------------------------- | ---------------- |
+| End pachi space waste thay | Space reuse thay |
+| Wrap-around nathi          | Wrap-around thay |
+| `% MAX` nathi              | `% MAX` vapray   |
+| Less efficient             | More efficient   |
+
+
+ Exam Ma Khas Yaad Rakhva Jevu ⭐⭐⭐
+
+1. Deque = Double Ended Queue.
+2. Front ane Rear banne side thi Insert/Delete kari shakai.
+3. Circular Array implementation chhe.
+4. `% MAX` wrap-around mate vapray chhe.
+5. Overflow → `(front==0 && rear==MAX-1) || (front==rear+1)`
+6. Underflow → `front==-1` athva `rear==-1`
+7. Empty Deque → `front = rear = -1`
+8. Insert Front Time Complexity = O(1)
+9. Insert Rear Time Complexity = O(1)
+10. Delete Front Time Complexity = O(1)
+11. Delete Rear Time Complexity = O(1)
+12. Display Time Complexity = O(n)
+13. Space Complexity = O(MAX)
+
+
+ 30-Second Revision
+
+ Data Structure: Deque (Double Ended Queue)
+ Implementation: Circular Array
+ Insert Front: `front--` / Wrap-around → O(1)
+ Insert Rear: `(rear+1)%MAX` → O(1)
+ Delete Front: `(front+1)%MAX` → O(1)
+ Delete Rear: `rear--` / Wrap-around → O(1)
+ Display: Print all elements → O(n)
+ Overflow: `(front==0 && rear==MAX-1) || (front==rear+1)`
+ Underflow: `front==-1` athva `rear==-1`
+ Empty Condition: `front = rear = -1`
+ Space Complexity: O(MAX)
