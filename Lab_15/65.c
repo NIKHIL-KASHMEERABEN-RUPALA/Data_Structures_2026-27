@@ -120,7 +120,6 @@ int R(char symbol)
 int main()
 {
     char INFIX[MAX];
-    
     char POLISH[MAX];
     char NEXT;
     char TEMP;
