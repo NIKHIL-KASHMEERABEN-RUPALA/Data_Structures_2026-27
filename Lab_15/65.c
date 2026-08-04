@@ -23,6 +23,7 @@ void PUSH(char item)
 
 
 char POP()
+
 {
     // Jo stack khali hoy toh null aapse
     if (TOP == -1)
