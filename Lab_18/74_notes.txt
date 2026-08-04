@@ -1,11 +1,57 @@
-Priority Queue - Important Concepts 
+# Priority Queue (Array Implementation) - Short Notes (Gujarati in English)
 
-1. Priority Queue shu chhe?
-Priority Queue e ek special queue chhe.
-FIFO follow nathi karti.
-Highest priority valo element pela delete thay.
+---
 
-Yaad Rakho:
-"Highest Priority -> First Delete"
+# 1. Priority Queue Shu Chhe?
+
+Priority Queue e special type ni Queue chhe.
+
+Normal Queue ma FIFO (First In First Out) hoy.
+
+Priority Queue ma Highest Priority valo element pela remove thay.
 
 
+# Time Complexity (Most Important for Exam ⭐)
+
+| Operation          | Time Complexity | Reason                                               |
+| ------------------ | --------------- | ---------------------------------------------------- |
+| Enqueue            | O(n)        | Correct position shodhva ane right shift karva pade. |
+| Dequeue            | O(n)        | Delete pachi badha elements left shift thay.         |
+| Display            | O(n)        | Badha elements print karva pade.                     |
+| Search (jo kariye) | O(n)        | Ek-ek element check karvo pade.                      |
+
+
+# Difference: Normal Queue vs Priority Queue
+
+| Normal Queue                    | Priority Queue                    |
+| ------------------------------- | --------------------------------- |
+| FIFO follow kare                | Priority follow kare              |
+| First inserted pela delete thay | Highest priority pela delete thay |
+| Sorting nathi                   | Elements sorted hoy               |
+| Front thi delete                | Highest priority delete           |
+
+
+# Exam Ma Khas Yaad Rakhva Jevu ⭐⭐⭐
+
+1. Priority Queue FIFO follow nathi karti.
+2. Highest priority element `pq[0]` par hoy chhe.
+3. Insertion vakhat Right Shift thay chhe.
+4. Deletion pachi Left Shift thay chhe.
+5. Overflow → `size == MAX`
+6. Underflow → `size == 0`
+7. Queue Descending Order ma store thay chhe.
+8. Enqueue Time Complexity = `O(n)`
+9. Dequeue Time Complexity = `O(n)`
+10. Display Time Complexity = `O(n)`
+11. Space Complexity = `O(MAX)` (athva `O(n)` jo maximum size ne `n` tariqe mano).
+
+
+ Data Structure: Priority Queue (Array)
+ Order: Descending (Highest → Lowest)
+ Insert: `enqueue()` → Right Shift → O(n)
+ Delete: `dequeue()` → Left Shift → O(n)
+ Display: Print all elements → O(n)
+ Overflow: `size == MAX`
+ Underflow: `size == 0`
+ Highest Priority Element: `pq[0]`
+ Space Complexity: O(MAX) / O(n)
