@@ -1,0 +1,11 @@
+Priority Queue - Important Concepts 
+
+1. Priority Queue shu chhe?
+Priority Queue e ek special queue chhe.
+FIFO follow nathi karti.
+Highest priority valo element pela delete thay.
+
+Yaad Rakho:
+"Highest Priority -> First Delete"
+
+
