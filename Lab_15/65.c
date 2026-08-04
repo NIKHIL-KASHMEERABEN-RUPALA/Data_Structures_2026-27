@@ -30,6 +30,7 @@ char POP()
     return S[TOP--];
 }
 
+
 char PEEP()
 {
     // Stack ni sabthi upar ni value jova mate (kadhavya vagar)
