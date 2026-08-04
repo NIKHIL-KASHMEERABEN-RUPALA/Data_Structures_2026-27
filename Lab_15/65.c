@@ -21,6 +21,7 @@ void PUSH(char item)
     S[++TOP] = item;
 }
 
+
 char POP()
 {
     // Jo stack khali hoy toh null aapse
