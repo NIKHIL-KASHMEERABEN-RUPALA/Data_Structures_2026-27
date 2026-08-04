@@ -4,7 +4,7 @@
 
 #define MAX 100
 
-// Stack ni ghoshana (Declaration)
+// Stack nu Declaration
 char S[MAX];
 int TOP = -1;
 
