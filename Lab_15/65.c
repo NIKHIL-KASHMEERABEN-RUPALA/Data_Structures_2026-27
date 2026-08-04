@@ -8,6 +8,7 @@
 char S[MAX];
 int TOP = -1;
 
+
 // Stack na jaruri functions
 void PUSH(char item)
 {
