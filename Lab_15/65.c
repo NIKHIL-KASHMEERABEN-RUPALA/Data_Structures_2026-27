@@ -70,6 +70,7 @@ int F(char symbol)
     return -1;
 }
 
+
 // Stack Precedence Function (G) - Stack ni andar rahela character ni priority
 int G(char symbol)
 {
