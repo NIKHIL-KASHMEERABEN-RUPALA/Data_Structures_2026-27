@@ -26,7 +26,6 @@ void enqueue(int val, int prio)
         i--;
     }
 
-    // Perfect sorted position (i + 1) par new val ane prio store karo
     priority[i + 1] = prio;
     data[i + 1] = val;
     size++;
