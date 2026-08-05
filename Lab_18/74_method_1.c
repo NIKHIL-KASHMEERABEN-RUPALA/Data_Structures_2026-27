@@ -3,9 +3,9 @@
 #define MAX 10
 
 // Global parallel arrays ane size tracker declaration
-int data[MAX];      // Actual values store karva mate
-int priority[MAX];  // Priority scores store karva mate
-int size = 0;       // Current total elements count karva mate
+int data[MAX];      
+int priority[MAX];  
+int size = 0;      
 
 // Priority basis par element enqueue (insert) karva mate nu function
 void enqueue(int val, int prio)
