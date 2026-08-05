@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<!-- python3 -m http.server 5500 -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Max Priority Queue – Single Array Animation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0b0f19;
+    --surface: #141b2d;
+    --surface-2: #1c2538;
+    --border: #2a3548;
+    --primary: #6366f1;
+    --primary-glow: #818cf8;
+    --success: #10b981;
+    --danger: #ef4444;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --max: #f472b6;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
+    background-image: 
+      radial-gradient(ellipse at 15% 20%, rgba(99, 102, 241, 0.13) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 80%, rgba(244, 114, 182, 0.1) 0%, transparent 50%);
+  }
+
+  .container {
+    max-width: 980px;
+    width: 100%;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .made-by {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(244, 114, 182, 0.2));
+    border: 1px solid rgba(129, 140, 248, 0.3);
+    color: #c4b5fd;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+    letter-spacing: 0.4px;
+  }
+
+  h1 {
+    font-size: 1.85rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #818cf8, #f472b6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .badge {
+    display: inline-block;
+    background: rgba(99, 102, 241, 0.15);
+    color: var(--primary-glow);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-top: 10px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ===== Visualization ===== */
+  .viz-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 20px 18px;
+    margin-bottom: 22px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  }
+
+  .array-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 18px 0 24px;
+    flex-wrap: wrap;
+  }
+
+  .slot {
+    width: 72px;
+    height: 72px;
+    background: var(--surface-2);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+  }
+
+  .slot.filled {
+    border-color: var(--primary);
+  }
+
+  .slot.max {
+    border-color: var(--max);
+    box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.3);
+    background: linear-gradient(135deg, rgba(244, 114, 182, 0.15), rgba(99, 102, 241, 0.08));
+  }
+
+  .slot .index {
+    position: absolute;
+    top: 4px;
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .slot .value {
+    font-size: 1.35rem;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .slot.filled .value {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .slot .max-label {
+    position: absolute;
+    bottom: -20px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--max);
+    opacity: 0;
+    letter-spacing: 0.4px;
+  }
+
+  .slot.max .max-label {
+    opacity: 1;
+  }
+
+  /* Animations */
+  .slot.inserting {
+    animation: slideIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .slot.deleting {
+    animation: popOut 0.4s cubic-bezier(0.55, 0.05, 0.65, 0.9) forwards;
+  }
+
+  @keyframes slideIn {
+    0% { transform: translateY(-28px) scale(0.7); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  @keyframes popOut {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.5); opacity: 0; }
+  }
+
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 18px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .dot.max { background: var(--max); box-shadow: 0 0 8px var(--max); }
+
+  /* Status Bar */
+  .status-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .status-box {
+    background: var(--surface-2);
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .status-box .label {
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    margin-bottom: 4px;
+    letter-spacing: 0.3px;
+  }
+
+  .status-box .value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .status-box.max-box .value {
+    color: var(--max);
+  }
+
+  /* ===== Controls ===== */
+  .controls {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 22px;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  input[type="number"] {
+    flex: 1;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: var(--text);
+    font-size: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  input[type="number"]:focus {
+    border-color: var(--primary);
+  }
+
+  .btn-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+  }
+
+  button {
+    border: none;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  button:active { transform: scale(0.97); }
+
+  .btn-enqueue {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+  }
+
+  .btn-dequeue {
+    background: linear-gradient(135deg, #f43f5e, #e11d48);
+    color: white;
+  }
+
+  .btn-display {
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-reset {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px dashed var(--border);
+  }
+
+  button:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  }
+
+  /* ===== Log ===== */
+  .log-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .log-header {
+    background: var(--surface-2);
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .log-body {
+    height: 170px;
+    overflow-y: auto;
+    padding: 14px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+
+  .log-entry {
+    margin-bottom: 4px;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .log-entry.success { color: var(--success); }
+  .log-entry.error   { color: var(--danger); }
+  .log-entry.info    { color: var(--primary-glow); }
+  .log-entry.normal  { color: var(--text-muted); }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .log-body::-webkit-scrollbar { width: 6px; }
+  .log-body::-webkit-scrollbar-track { background: transparent; }
+  .log-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  footer {
+    margin-top: 26px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="made-by">Made by Nikhil Rupala</div>
+      <h1>Max Priority Queue</h1>
+      <p class="subtitle">Single Array Implementation • MAX = 10</p>
+      <div class="badge">Descending Order • Highest value at Index 0</div>
+    </header>
+
+    <!-- Visualization -->
+    <div class="viz-card">
+      <div class="array-container" id="arrayContainer">
+        <!-- slots generated by JS -->
+      </div>
+
+      <div class="legend">
+        <div class="legend-item">
+          <div class="dot max"></div>
+          <span>Highest Priority (Max Value) – will be dequeued first</span>
+        </div>
+      </div>
+
+      <!-- Live Status -->
+      <div class="status-bar">
+        <div class="status-box max-box">
+          <div class="label">CURRENT MAX (Front)</div>
+          <div class="value" id="maxVal">—</div>
+        </div>
+        <div class="status-box">
+          <div class="label">SIZE</div>
+          <div class="value" id="sizeVal">0 / 10</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <div class="input-row">
+        <input type="number" id="valueInput" placeholder="Enter value..." autofocus>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-enqueue" onclick="enqueue()">
+          ＋ Enqueue
+        </button>
+        <button class="btn-dequeue" onclick="dequeue()">
+          − Dequeue
+        </button>
+        <button class="btn-display" onclick="display()">
+          Display
+        </button>
+        <button class="btn-reset" onclick="resetPQ()">
+          Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- Log -->
+    <div class="log-card">
+      <div class="log-header">
+        <span>Operation Log</span>
+        <span style="font-size:0.75rem;opacity:0.7">Matches C printf messages</span>
+      </div>
+      <div class="log-body" id="logBody">
+        <div class="log-entry normal">Ready. Max Priority Queue is empty.</div>
+      </div>
+    </div>
+
+    <footer>
+      Max Priority Queue • Sorted Descending • Largest element always at front
+    </footer>
+  </div>
+
+<script>
+  const MAX = 10;
+  let pq = new Array(MAX).fill(null);
+  let size = 0;
+
+  // ---------- Helpers ----------
+  function log(msg, type = 'normal') {
+    const body = document.getElementById('logBody');
+    const entry = document.createElement('div');
+    entry.className = `log-entry ${type}`;
+    entry.textContent = msg;
+    body.appendChild(entry);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function updateStatus() {
+    document.getElementById('sizeVal').textContent = size + ' / 10';
+    document.getElementById('maxVal').textContent = size > 0 ? pq[0] : '—';
+  }
+
+  function render(animType = null, animIndex = -1) {
+    const container = document.getElementById('arrayContainer');
+    container.innerHTML = '';
+
+    for (let i = 0; i < MAX; i++) {
+      const slot = document.createElement('div');
+      slot.className = 'slot';
+
+      if (i < size) {
+        slot.classList.add('filled');
+        if (i === 0) slot.classList.add('max');
+      }
+
+      if (animType === 'insert' && i === animIndex) {
+        slot.classList.add('inserting');
+      }
+      if (animType === 'delete' && i === 0) {
+        slot.classList.add('deleting');
+      }
+
+      slot.innerHTML = `
+        <div class="index">[${i}]</div>
+        <div class="value">${i < size ? pq[i] : ''}</div>
+        <div class="max-label">MAX</div>
+      `;
+      container.appendChild(slot);
+    }
+    updateStatus();
+  }
+
+  // ---------- Core Operations (exact C logic) ----------
+  function enqueue() {
+    const input = document.getElementById('valueInput');
+    const value = parseInt(input.value);
+
+    if (isNaN(value)) {
+      log('Please enter a valid number', 'error');
+      return;
+    }
+
+    if (size === MAX) {
+      log(`Priority Queue Overflow! Cannot insert ${value}`, 'error');
+      return;
+    }
+
+    // Same shifting logic as C code
+    let i = size - 1;
+    while (i >= 0 && pq[i] < value) {
+      pq[i + 1] = pq[i];
+      i--;
+    }
+
+    pq[i + 1] = value;
+    size++;
+
+    log(`${value} inserted successfully into Max Priority Queue.`, 'success');
+    input.value = '';
+    input.focus();
+
+    render('insert', i + 1);
+  }
+
+  function dequeue() {
+    if (size === 0) {
+      log('Priority Queue Underflow!', 'error');
+      return;
+    }
+
+    const deleted = pq[0];
+
+    // Animate deletion
+    render('delete', 0);
+
+    setTimeout(() => {
+      // Left shift (same as C)
+      for (let i = 0; i < size - 1; i++) {
+        pq[i] = pq[i + 1];
+      }
+      size--;
+
+      log(`Deleted Max Priority Element: ${deleted}`, 'info');
+      render();
+    }, 380);
+  }
+
+  function display() {
+    if (size === 0) {
+      log('Max Priority Queue is Empty.', 'error');
+      return;
+    }
+
+    let result = [];
+    for (let i = 0; i < size; i++) {
+      result.push(pq[i]);
+    }
+
+    log('--- Max Priority Queue (Descending Order) ---', 'info');
+    log(result.join(' '), 'info');
+    log('--------------------------------------------', 'info');
+  }
+
+  function resetPQ() {
+    pq = new Array(MAX).fill(null);
+    size = 0;
+    document.getElementById('logBody').innerHTML = '';
+    log('Max Priority Queue reset. Ready.', 'normal');
+    render();
+  }
+
+  // Keyboard support
+  document.getElementById('valueInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') enqueue();
+  });
+
+  // Initial render
+  render();
+</script>
+</body>
+</html>

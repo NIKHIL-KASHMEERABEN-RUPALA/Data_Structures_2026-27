@@ -66,7 +66,7 @@ void display()
     printf("------------------------\n");
     for (int i = 0; i < size; i++)
     {
-        printf("  %d   |  %-4d |    %d\n", i, data[i], priority[i]);
+        printf("  %d   |  %d |    %d\n", i, data[i], priority[i]);
     }
     printf("------------------------\n");
 }
