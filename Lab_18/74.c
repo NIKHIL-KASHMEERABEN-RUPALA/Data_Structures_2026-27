@@ -2,58 +2,62 @@
 
 #define MAX 10
 
-// Global array ane size variable nu declaration
-int pq[MAX];
-int size = 0;
+// Global parallel arrays ane size tracker declaration
+int data[MAX];      // Actual values store karva mate
+int priority[MAX];  // Priority scores store karva mate
+int size = 0;       // Current total elements count karva mate
 
-// Priority Queue ma element insert karva mate enqueue function (Sorted Insertion)
-void enqueue(int value)
+// Priority basis par element enqueue (insert) karva mate nu function
+void enqueue(int val, int prio)
 {
-    // Base Guard / Error Check: Jo queue aakhi bharai gai hoy toh overflow thashe
+    // Base Guard / Overflow Check: Jo queue full hoy toh error display karo
     if (size == MAX)
     {
-        printf("Priority Queue Overflow!\n");
+        printf("Priority Queue Overflow! Cannot insert (%d, Priority: %d)\n", val, prio);
         return;
     }
 
-    // MCQ Logic: Element ne saachi priority position par mukhva mate pashal thi shift કરો
+    // High priority value ne aagad rakhva mate nana priority vala elements ne right shift karo
     int i = size - 1;
-    while (i >= 0 && pq[i] < value)
+    while (i >= 0 && priority[i] < prio)
     {
-        pq[i + 1] = pq[i]; // Nana elements ne right side shift karo
+        priority[i + 1] = priority[i]; // Priority array ne right shift karo
+        data[i + 1] = data[i];         // Matching data ne pan right shift karo
         i--;
     }
 
-    // Saachi place male tya value store karo
-    pq[i + 1] = value;
+    // Perfect sorted position (i + 1) par new val ane prio store karo
+    priority[i + 1] = prio;
+    data[i + 1] = val;
     size++;
 
-    printf("%d inserted successfully.\n", value);
+    printf("Inserted: Value = %d | Priority = %d\n", val, prio);
 }
 
-// Highest priority element delete karva mate dequeue function
+// Highest priority element delete karva mate nu dequeue function
 void dequeue()
 {
-    // Base Guard / Error Check: Jo size 0 hoy toh queue khali chhe (Underflow)
+    // Base Guard / Underflow Check: Jo queue khali hoy toh code return karo
     if (size == 0)
     {
         printf("Priority Queue Underflow!\n");
         return;
     }
 
-    // Array descending order ma chhe etle index 0 par hammesha highest priority element hase
-    printf("Deleted element: %d\n", pq[0]);
+    // Array descending order ma hovathi index 0 par hammesha highest priority element hase
+    printf("Deleted: Value = %d (Priority = %d)\n", data[0], priority[0]);
 
-    // Index 0 no element nikalya pachi baki na badha elements ne left side shift karo
+    // Index 0 no element remove thaya pachi baaki na badha elements ne left side shift karo
     for (int i = 0; i < size - 1; i++)
     {
-        pq[i] = pq[i + 1];
+        data[i] = data[i + 1];
+        priority[i] = priority[i + 1];
     }
 
     size--;
 }
 
-// Priority Queue na badha elements show karva display function
+// Queue na badha parallel elements ne format ma display karva mate nu function
 void display()
 {
     if (size == 0)
@@ -62,24 +66,26 @@ void display()
         return;
     }
 
-    printf("Priority Queue: ");
+    printf("\n--- Parallel Arrays Priority Queue ---\n");
+    printf("Index | Value | Priority\n");
+    printf("------------------------\n");
     for (int i = 0; i < size; i++)
     {
-        printf("%d ", pq[i]);
+        printf("  %d   |  %-4d |    %d\n", i, data[i], priority[i]);
     }
-    printf("\n");
+    printf("------------------------\n");
 }
 
 int main()
 {
-    int choice, value;
+    int choice, val, prio;
 
-    // User driven menu block
+    // Interactive user menu loop
     while (1)
     {
-        printf("\n----- Priority Queue Menu -----\n");
-        printf("1. Enqueue\n");
-        printf("2. Dequeue\n");
+        printf("\n----- Parallel Arrays Priority Queue Menu -----\n");
+        printf("1. Enqueue (Value + Priority)\n");
+        printf("2. Dequeue (Highest Priority)\n");
         printf("3. Display\n");
         printf("4. Exit\n");
         printf("Enter your choice: ");
@@ -88,9 +94,11 @@ int main()
         switch (choice)
         {
         case 1:
-            printf("Enter value: ");
-            scanf("%d", &value);
-            enqueue(value);
+            printf("Enter Value: ");
+            scanf("%d", &val);
+            printf("Enter Priority: ");
+            scanf("%d", &prio);
+            enqueue(val, prio);
             break;
 
         case 2:
