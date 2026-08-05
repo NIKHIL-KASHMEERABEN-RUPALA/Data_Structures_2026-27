@@ -15,6 +15,7 @@ void insertFront(int x)
         printf("Deque Overflow\n");
         return;
     }
+    
 
     // Pehlo element insert thaye tyaare banne pointers 0 par set karo
     if (front == -1 && rear == -1)
