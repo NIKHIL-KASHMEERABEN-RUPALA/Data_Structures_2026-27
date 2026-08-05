@@ -245,25 +245,42 @@
   .dot.front { background: var(--front); box-shadow: 0 0 8px var(--front); }
   .dot.rear  { background: var(--rear);  box-shadow: 0 0 8px var(--rear); }
 
-  /* Status bar */
+  /* ===== Improved Status Bar ===== */
   .status-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .status-box {
     background: var(--surface-2);
     border-radius: 10px;
-    padding: 12px 18px;
-    margin-top: 12px;
+    padding: 12px 14px;
+    text-align: center;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.85rem;
   }
 
-  .status-bar span {
+  .status-box .label {
     color: var(--text-muted);
+    font-size: 0.72rem;
+    margin-bottom: 4px;
+    letter-spacing: 0.3px;
   }
 
-  .status-bar strong {
+  .status-box .value {
+    font-size: 1.05rem;
+    font-weight: 600;
     color: var(--text);
+  }
+
+  .status-box.front-box .value {
+    color: var(--front);
+  }
+
+  .status-box.rear-box .value {
+    color: var(--rear);
   }
 
   /* ===== Controls ===== */
@@ -452,14 +469,27 @@
         </div>
       </div>
 
+      <!-- Live Status -->
       <div class="status-bar">
-        <div>
-          <span>front:</span> <strong id="frontVal">-1</strong>
-          &nbsp;&nbsp;
-          <span>rear:</span> <strong id="rearVal">-1</strong>
+        <div class="status-box front-box">
+          <div class="label">FRONT</div>
+          <div class="value" id="frontVal">-1</div>
+          <div style="font-size:0.7rem; color:var(--text-muted); margin-top:3px;">
+            Value: <span id="frontData">—</span>
+          </div>
         </div>
-        <div>
-          <span>Size:</span> <strong id="sizeVal">0</strong> / 5
+
+        <div class="status-box">
+          <div class="label">SIZE</div>
+          <div class="value" id="sizeVal">0 / 5</div>
+        </div>
+
+        <div class="status-box rear-box">
+          <div class="label">REAR</div>
+          <div class="value" id="rearVal">-1</div>
+          <div style="font-size:0.7rem; color:var(--text-muted); margin-top:3px;">
+            Value: <span id="rearData">—</span>
+          </div>
         </div>
       </div>
     </div>
@@ -525,15 +555,24 @@
   }
 
   function updateStatus() {
+    // Pointer indices
     document.getElementById('frontVal').textContent = front;
     document.getElementById('rearVal').textContent = rear;
 
+    // Actual values at front & rear
+    document.getElementById('frontData').textContent = 
+      (front !== -1 && deque[front] !== null) ? deque[front] : '—';
+    
+    document.getElementById('rearData').textContent = 
+      (rear !== -1 && deque[rear] !== null) ? deque[rear] : '—';
+
+    // Size
     let size = 0;
     if (front !== -1) {
       if (front <= rear) size = rear - front + 1;
       else size = MAX - front + rear + 1;
     }
-    document.getElementById('sizeVal').textContent = size;
+    document.getElementById('sizeVal').textContent = size + ' / 5';
   }
 
   function render(animType = null, animIndex = -1) {
