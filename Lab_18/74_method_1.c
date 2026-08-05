@@ -7,17 +7,15 @@ int data[MAX];
 int priority[MAX];  
 int size = 0;      
 
-// Priority basis par element enqueue (insert) karva mate nu function
 void enqueue(int val, int prio)
 {
-    // Base Guard / Overflow Check: Jo queue full hoy toh error display karo
+    // Base case / edge case 
     if (size == MAX)
     {
         printf("Priority Queue Overflow! Cannot insert (%d, Priority: %d)\n", val, prio);
         return;
     }
 
-    // High priority value ne aagad rakhva mate nana priority vala elements ne right shift karo
     int i = size - 1;
     while (i >= 0 && priority[i] < prio)
     {
@@ -33,11 +31,9 @@ void enqueue(int val, int prio)
     printf("Inserted: Value = %d | Priority = %d\n", val, prio);
 }
 
-// Highest priority element delete karva mate nu dequeue function
 void dequeue()
 {
-    // Base Guard / Underflow Check: Jo queue khali hoy toh code return karo
-    if (size == 0)
+    // Base case / edge case 
     {
         printf("Priority Queue Underflow!\n");
         return;
