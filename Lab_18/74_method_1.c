@@ -33,7 +33,7 @@ void enqueue(int val, int prio)
 
 void dequeue()
 {
-    // Base case / edge case 
+    if(size==0)// Base case / edge case 
     {
         printf("Priority Queue Underflow!\n");
         return;
