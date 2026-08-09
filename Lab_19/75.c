@@ -299,10 +299,10 @@ int main()
                 printf("Enter key to delete: ");
                 scanf("%d", &key);
 
-                /*
-                    Delete karta pehla key exist kare chhe ke nai ae search karo,
-                    jethi user ne proper confirmation message aapi shakaye.
-                */
+                
+                    // Delete karta pehla key exist kare chhe ke nai ae search karo,
+                    // jethi user ne proper confirmation message aapi shakaye.
+                
                 result = search(root, key);
 
                 if (result == NULL)
