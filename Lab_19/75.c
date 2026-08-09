@@ -244,31 +244,20 @@ void RPOSTORDER(struct Node *T)
     if (T == NULL)
         return;
 
-    /* Left subtree traverse karo */
+    // Left subtree traverse karo 
     if (T->left != NULL)
         RPOSTORDER(T->left);
 
-    /* Right subtree traverse karo */
+    //  Right subtree traverse karo 
     if (T->right != NULL)
         RPOSTORDER(T->right);
 
-    /* Root node ni key print karo */
+    //  Root node ni key print karo 
     printf("%d ", T->key);
 }
 
 
-/*
-    Main Execution Function.
 
-    Interactive Console Menu for:
-        1. Insert Node
-        2. Delete Node
-        3. Search Node
-        4. Preorder Traversal
-        5. Postorder Traversal
-        6. Inorder Traversal
-        7. Exit Program
-*/
 int main()
 {
     struct Node *root = NULL; // Initial state ma tree ne empty set karo
