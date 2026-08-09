@@ -96,7 +96,7 @@ struct Node *minValueNode(struct Node *node)
 
     current = node;
 
-    /* Extreme left node sudhi traverse karte raho */
+    // Extreme left node sudhi traverse karte raho 
     while (current != NULL && current->left != NULL)
         current = current->left;
 
