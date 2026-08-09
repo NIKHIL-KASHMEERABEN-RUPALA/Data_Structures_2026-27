@@ -89,7 +89,7 @@ struct Node *search(struct Node *root, int key)
 
     // BST rule pramane, minimum value hamesha extreme left node par j malse.
 
-    
+
 struct Node *minValueNode(struct Node *node)
 {
     struct Node *current;
@@ -104,22 +104,19 @@ struct Node *minValueNode(struct Node *node)
 }
 
 
-/*
-    BST mathi specific node Delete karva mate nu Function.
+    // Total 3 Cases handled :
 
-    Total 3 Cases handle karel chhe:
+    // Case 1: Node leaf node hoy (Zero children).
+    //         -> Direct memory free kari ne delete dyo.
 
-    Case 1: Node leaf node hoy (Zero children).
-            -> Direct memory free kari ne delete dyo.
+    // Case 2: Node ne just 1 Child hoy.
+    //         -> Node ne ena child sathe replace kari dyo.
 
-    Case 2: Node ne phakt 1 Child hoy.
-            -> Node ne ena child sathe replace kari dyo.
+    // Case 3: Node ne 2 Children hoy.
+    //         -> Inorder successor (Right subtree ni minimum key) shodho.
+    //         -> Successor ni key copy karo.
+    //         -> Successor node ne delete karo.
 
-    Case 3: Node ne 2 Children hoy.
-            -> Inorder successor (Right subtree ni minimum key) shodho.
-            -> Successor ni key copy karo.
-            -> Successor node ne delete karo.
-*/
 struct Node *deleteNode(struct Node *root, int key)
 {
     struct Node *temp;
