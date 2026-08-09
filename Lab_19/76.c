@@ -74,7 +74,7 @@ int main()
     printf("Enter number of nodes for first tree: ");
     scanf("%d", &n1);
 
-    // Loop dwara First tree ma keys recursive insert karo
+    // Loop na through First tree ma keys recursive insert karo
     printf("Enter nodes of first tree: ");
     for (i = 0; i < n1; i++)
     {
@@ -86,7 +86,7 @@ int main()
     printf("Enter number of nodes for second tree: ");
     scanf("%d", &n2);
 
-    // Loop dwara Second tree ma keys recursive insert karo
+    // Loop na through Second tree ma keys recursive insert karo
     printf("Enter nodes of second tree: ");
     for (i = 0; i < n2; i++)
     {
