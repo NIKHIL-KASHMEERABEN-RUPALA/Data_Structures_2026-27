@@ -238,7 +238,7 @@ void RINORDER(struct Node *T)
 
 void RPOSTORDER(struct Node *T)
 {
-    /* Empty tree check */
+    // Empty tree check 
     if (T == NULL)
         return;
 
