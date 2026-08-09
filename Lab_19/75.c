@@ -187,7 +187,7 @@ struct Node *deleteNode(struct Node *root, int key)
 
 void RPREORDER(struct Node *T)
 {
-    /* Empty tree condition check */
+    // Empty tree condition check
     if (T == NULL)
         return;
 
