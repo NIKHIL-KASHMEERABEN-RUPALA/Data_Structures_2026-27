@@ -220,7 +220,7 @@ void RINORDER(struct Node *T)
     if (T == NULL)
         return;
 
-    /* Left subtree traverse karo */
+    // Left subtree traverse karo 
     if (T->left != NULL)
         RINORDER(T->left);
 
