@@ -171,7 +171,7 @@ struct Node *deleteNode(struct Node *root, int key)
         // Inorder successor ni key current node ma copy karo
         root->key = temp->key;
 
-        /* Duplicate Inorder Successor node ne recursive delete karo */
+        // Duplicate Inorder Successor node ne recursive delete karo
         root->right = deleteNode(root->right, temp->key);
     }
 
