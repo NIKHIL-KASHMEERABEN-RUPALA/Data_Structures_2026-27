@@ -71,15 +71,15 @@ struct Node *insert(struct Node *node, int key)
 
 struct Node *search(struct Node *root, int key)
 {
-    /* Base case: Tree empty hoy OR key match thai jaay */
+    
     if (root == NULL || root->key == key)
         return root;
 
-    /* Search key moti (greater) hoy toh Right subtree ma search karo */
+   
     if (root->key < key)
         return search(root->right, key);
 
-    /* Search key nani (smaller) hoy toh Left subtree ma search karo */
+    
     return search(root->left, key);
 }
 
