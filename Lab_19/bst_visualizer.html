@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>BST Lab — Binary Search Trees, Traced Live</title>
+<style>
+  :root{
+    --bg-0:#060910;
+    --bg-1:#0A0F1A;
+    --bg-2:#0E1524;
+    --panel: rgba(255,255,255,0.045);
+    --panel-strong: rgba(255,255,255,0.07);
+    --panel-border: rgba(255,255,255,0.09);
+    --text-0:#EAF0FA;
+    --text-1:#9FAEC7;
+    --text-2:#5E6C86;
+    --cyan:#2FD8E8;
+    --cyan-dim: rgba(47,216,232,0.16);
+    --teal:#34D9B4;
+    --green:#3ADE95;
+    --green-dim: rgba(58,222,149,0.16);
+    --amber:#F6BB4B;
+    --amber-dim: rgba(246,187,75,0.16);
+    --red:#F1667A;
+    --red-dim: rgba(241,102,122,0.16);
+    --violet:#B08CF6;
+    --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "Cascadia Code", "SF Mono", "JetBrains Mono", Consolas, "Liberation Mono", Menlo, monospace;
+    --dur: 0.55s;
+  }
+  @media (prefers-reduced-motion: reduce){ :root{ --dur: 0.001s; } }
+
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 12% -10%, rgba(47,216,232,0.10), transparent 60%),
+      radial-gradient(900px 500px at 105% 10%, rgba(176,140,246,0.08), transparent 55%),
+      linear-gradient(180deg, var(--bg-0), var(--bg-1) 40%, var(--bg-1));
+    color: var(--text-0);
+    font-family: var(--font-ui);
+    overflow:hidden;
+  }
+  ::selection{ background: var(--cyan-dim); color: var(--text-0); }
+  ::-webkit-scrollbar{ width:9px; height:9px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+  ::-webkit-scrollbar-thumb{ background: rgba(255,255,255,0.12); border-radius:8px; }
+  ::-webkit-scrollbar-thumb:hover{ background: rgba(255,255,255,0.2); }
+
+  .app{
+    height:100vh;
+    display:grid;
+    grid-template-rows: auto 1fr;
+    gap:12px;
+    padding:14px 16px 16px;
+    animation: appIn .6s ease both;
+  }
+  @keyframes appIn{ from{ opacity:0; transform: translateY(6px);} to{ opacity:1; transform:none; } }
+
+  /* ---------- Header ---------- */
+  header.top{
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding: 10px 16px;
+    background: var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:14px;
+    backdrop-filter: blur(14px);
+  }
+  .brand{ display:flex; flex-direction:column; gap:2px; }
+  .brand .eyebrow{
+    font-family: var(--font-mono); font-size:10.5px; letter-spacing:.18em; text-transform:uppercase;
+    color: var(--cyan); opacity:.85;
+  }
+  .brand h1{
+    margin:0; font-size:19px; font-weight:700; letter-spacing:-0.01em;
+    background: linear-gradient(90deg, #F3F7FF 10%, var(--cyan) 60%, var(--teal) 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .top-actions{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+
+  .chip-toggle{
+    display:flex; align-items:center; gap:7px;
+    font-family: var(--font-mono); font-size:12px; color: var(--text-1);
+    padding:7px 11px; border-radius:999px; border:1px solid var(--panel-border); background: rgba(255,255,255,0.03);
+    cursor:pointer; user-select:none;
+  }
+  .chip-toggle input{ accent-color: var(--cyan); }
+  .chip-toggle:hover{ border-color: rgba(255,255,255,0.2); }
+
+  .speed-wrap{ display:flex; align-items:center; gap:7px; font-family:var(--font-mono); font-size:11.5px; color:var(--text-1); }
+  .speed-wrap input[type=range]{ width:88px; accent-color: var(--teal); }
+
+  .icon-btn{
+    width:34px; height:34px; border-radius:10px; border:1px solid var(--panel-border);
+    background: rgba(255,255,255,0.03); color: var(--text-1); font-size:15px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; transition: all .15s ease;
+  }
+  .icon-btn:hover{ color: var(--text-0); border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.06); }
+
+  /* ---------- Main layout ---------- */
+  .main{
+    display:grid;
+    grid-template-columns: 1fr 380px;
+    gap:12px;
+    min-height:0;
+  }
+  @media (max-width: 940px){
+    .main{ grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+  }
+
+  .panel{
+    background: var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:16px;
+    backdrop-filter: blur(14px);
+    display:flex; flex-direction:column;
+    min-height:0;
+  }
+
+  /* ---------- Tree panel ---------- */
+  .tree-panel{ padding:12px; gap:10px; }
+  .toolbar{
+    display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+    padding:8px; border-radius:12px; background: rgba(255,255,255,0.025); border:1px solid var(--panel-border);
+  }
+  .field{ display:flex; align-items:center; gap:6px; }
+  .field input[type=text], .field input[type=number]{
+    width:108px; background: var(--bg-2); border:1px solid var(--panel-border); color: var(--text-0);
+    padding:7px 9px; border-radius:9px; font-family: var(--font-mono); font-size:13px; outline:none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .field input:focus{ border-color: var(--cyan); box-shadow: 0 0 0 3px var(--cyan-dim); }
+  .field input.wide{ width:170px; }
+
+  button.btn{
+    font-family: var(--font-ui); font-size:12.5px; font-weight:600; letter-spacing:.01em;
+    padding:8px 13px; border-radius:9px; border:1px solid var(--panel-border); cursor:pointer;
+    background: rgba(255,255,255,0.04); color: var(--text-0);
+    transition: transform .12s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
+    white-space:nowrap;
+  }
+  button.btn:hover:not(:disabled){ transform: translateY(-1px); border-color: rgba(255,255,255,0.28); background: rgba(255,255,255,0.07); }
+  button.btn:active:not(:disabled){ transform: translateY(0); }
+  button.btn:disabled{ opacity:.4; cursor:not-allowed; }
+  button.btn.primary{ background: linear-gradient(135deg, rgba(47,216,232,0.22), rgba(52,217,180,0.14)); border-color: rgba(47,216,232,0.45); color:#DFFCFF; }
+  button.btn.primary:hover:not(:disabled){ box-shadow: 0 0 0 3px var(--cyan-dim); }
+  button.btn.danger{ background: linear-gradient(135deg, rgba(241,102,122,0.18), rgba(241,102,122,0.08)); border-color: rgba(241,102,122,0.4); color:#FFE1E5; }
+  button.btn.ghost{ background: transparent; }
+  button.btn.small{ padding:6px 10px; font-size:11.5px; }
+
+  .toolbar .spacer{ flex:1; }
+
+  .canvas-wrap{
+    position:relative; flex:1; min-height:0; border-radius:12px; overflow:auto;
+    background:
+      radial-gradient(600px 300px at 50% 0%, rgba(47,216,232,0.06), transparent 60%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 34px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 34px),
+      var(--bg-2);
+    border:1px solid var(--panel-border);
+  }
+  svg#treeSvg{ display:block; }
+
+  .empty-state{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:8px; color: var(--text-2); text-align:center; pointer-events:none;
+  }
+  .empty-state .glyph{
+    width:52px; height:52px; border-radius:14px; border:1.5px dashed rgba(255,255,255,0.18);
+    display:flex; align-items:center; justify-content:center; font-size:22px; color: var(--text-2);
+    animation: pulseGlyph 2.6s ease-in-out infinite;
+  }
+  @keyframes pulseGlyph{ 0%,100%{ opacity:.55; transform:scale(1); } 50%{ opacity:1; transform:scale(1.06); } }
+  .empty-state b{ color: var(--text-1); font-weight:600; font-size:13.5px; }
+  .empty-state span{ font-size:11.5px; }
+
+  /* svg node/edge styling */
+  .edge{ stroke: rgba(255,255,255,0.16); stroke-width:2; fill:none; transition: stroke .25s ease, stroke-width .25s ease, filter .25s ease; }
+  .edge.active{ stroke: var(--cyan); stroke-width:3; filter: drop-shadow(0 0 6px rgba(47,216,232,0.85)); }
+  .edge.danger{ stroke: var(--red); stroke-width:3; filter: drop-shadow(0 0 6px rgba(241,102,122,0.85)); }
+
+  .node{ cursor:pointer; }
+  .node-inner{ transition: transform .3s cubic-bezier(.34,1.56,.64,1); transform-origin:center; }
+  .node.leaving .node-inner{ transform: scale(0); opacity:0; }
+  .node circle.disc{
+    fill: #121B2E; stroke: rgba(255,255,255,0.22); stroke-width:1.6;
+    transition: stroke .25s ease, fill .25s ease, filter .25s ease, stroke-width .25s ease;
+  }
+  .node text.val{
+    font-family: var(--font-mono); font-weight:700; font-size:14px; fill: var(--text-0);
+    text-anchor:middle; dominant-baseline:central; pointer-events:none;
+  }
+  .node.root circle.disc{ stroke: var(--violet); stroke-width:2; }
+  .node.comparing circle.disc{ stroke: var(--cyan); fill:#132530; filter: drop-shadow(0 0 10px rgba(47,216,232,0.7)); stroke-width:2.4; }
+  .node.found circle.disc{ stroke: var(--green); fill:#0F2A21; filter: drop-shadow(0 0 12px rgba(58,222,149,0.85)); stroke-width:2.6; }
+  .node.warning circle.disc{ stroke: var(--amber); fill:#2A2110; filter: drop-shadow(0 0 10px rgba(246,187,75,0.7)); }
+  .node.about-to-delete circle.disc{ stroke: var(--red); fill:#2A1218; filter: drop-shadow(0 0 12px rgba(241,102,122,0.85)); animation: shake .35s ease; }
+  .node.copied circle.disc{ stroke: var(--teal); filter: drop-shadow(0 0 12px rgba(52,217,180,0.8)); }
+  .node.visited circle.disc{ stroke: rgba(176,140,246,0.8); }
+  @keyframes shake{ 0%,100%{ transform:translateX(0);} 25%{ transform:translateX(-2px);} 75%{ transform:translateX(2px);} }
+
+  .bubble{
+    font-family: var(--font-mono); font-size:10.5px; fill: var(--bg-0);
+  }
+  .bubble-bg{ fill: var(--cyan); opacity:.95; }
+  .bubble.warn-bg{ fill: var(--amber); }
+
+  .seq-badge circle{ fill: var(--violet); }
+  .seq-badge text{ font-family: var(--font-mono); font-size:9.5px; font-weight:800; fill:#0B0716; text-anchor:middle; dominant-baseline:central; }
+
+  .tooltip{
+    position:absolute; z-index:5; pointer-events:none;
+    background: rgba(10,15,26,0.96); border:1px solid rgba(255,255,255,0.14); border-radius:10px;
+    padding:8px 10px; font-family: var(--font-mono); font-size:11px; color: var(--text-1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); opacity:0; transform: translateY(4px); transition: opacity .12s ease, transform .12s ease;
+    min-width:132px;
+  }
+  .tooltip.show{ opacity:1; transform:none; }
+  .tooltip b{ color: var(--text-0); }
+  .tooltip .row{ display:flex; justify-content:space-between; gap:14px; padding:1px 0; }
+  .tooltip .row span:last-child{ color: var(--cyan); }
+
+  .status-bar{
+    display:flex; align-items:center; gap:9px;
+    padding:9px 12px; border-radius:10px; background: rgba(255,255,255,0.03); border:1px solid var(--panel-border);
+    font-family: var(--font-mono); font-size:12px; color: var(--text-1); min-height:16px;
+  }
+  .status-bar .dot{ width:7px; height:7px; border-radius:50%; background: var(--cyan); flex:none; box-shadow: 0 0 8px var(--cyan); }
+  .status-bar.warn .dot{ background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+  .status-bar.ok .dot{ background: var(--green); box-shadow: 0 0 8px var(--green); }
+  .status-bar span.msg{ color: var(--text-0); }
+
+  /* ---------- Side panel ---------- */
+  .side-panel{ overflow:hidden; }
+  .tabs{ display:flex; gap:4px; padding:10px 10px 0; }
+  .tab-btn{
+    flex:1; font-family: var(--font-ui); font-size:11.5px; font-weight:600; letter-spacing:.01em;
+    padding:8px 6px; text-align:center; border-radius:9px 9px 0 0; cursor:pointer; color: var(--text-2);
+    border:1px solid transparent; border-bottom:none; background:transparent; transition: all .15s ease;
+  }
+  .tab-btn:hover{ color: var(--text-1); }
+  .tab-btn.active{ color: var(--text-0); background: var(--panel-strong); border-color: var(--panel-border); }
+  .tab-content{ flex:1; min-height:0; padding:2px 14px 14px; overflow:hidden; display:flex; flex-direction:column; }
+  .tab-pane{ display:none; flex-direction:column; gap:12px; min-height:0; flex:1; padding-top:12px; }
+  .tab-pane.active{ display:flex; }
+
+  .field-block{ display:flex; flex-direction:column; gap:6px; }
+  .field-block label{ font-size:11px; color: var(--text-2); font-family: var(--font-mono); letter-spacing:.03em; }
+  .field-row{ display:flex; gap:8px; }
+  .field-row input{ flex:1; background: var(--bg-2); border:1px solid var(--panel-border); color: var(--text-0);
+    padding:8px 10px; border-radius:9px; font-family: var(--font-mono); font-size:13px; outline:none; min-width:0; }
+  .field-row input:focus{ border-color: var(--cyan); box-shadow: 0 0 0 3px var(--cyan-dim); }
+  .btn-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  hr.sep{ border:none; border-top:1px solid var(--panel-border); margin:2px 0; }
+
+  .legend-mini{ display:flex; flex-wrap:wrap; gap:6px; font-family: var(--font-mono); font-size:10.5px; color: var(--text-2); }
+  .legend-mini .sw{ display:inline-flex; align-items:center; gap:5px; padding:3px 7px; border-radius:999px; background: rgba(255,255,255,0.03); border:1px solid var(--panel-border); }
+  .legend-mini .sw i{ width:8px; height:8px; border-radius:50%; display:inline-block; }
+
+  /* code panel */
+  .code-tabs{ display:flex; flex-wrap:wrap; gap:5px; }
+  .code-tab{
+    font-family: var(--font-mono); font-size:10.5px; padding:4px 8px; border-radius:6px; cursor:pointer;
+    color: var(--text-2); border:1px solid var(--panel-border); background: rgba(255,255,255,0.02);
+  }
+  .code-tab:hover{ color: var(--text-1); }
+  .code-tab.active{ color: var(--bg-0); background: var(--cyan); border-color: var(--cyan); font-weight:700; }
+  .code-view{
+    flex:1; min-height:0; overflow:auto; background: var(--bg-2); border:1px solid var(--panel-border); border-radius:10px;
+    padding:10px 0;
+  }
+  .code-line{
+    font-family: var(--font-mono); font-size:12px; line-height:20px; white-space:pre; padding:0 12px 0 14px;
+    border-left:3px solid transparent; color: var(--text-1); transition: background .2s ease, border-color .2s ease;
+  }
+  .code-line.hl{ background: rgba(47,216,232,0.09); border-left-color: var(--cyan); color: var(--text-0); }
+  .code-line.hl-warn{ background: rgba(241,102,122,0.10); border-left-color: var(--red); color: var(--text-0); }
+  .tok-kw{ color: var(--violet); } .tok-fn{ color: var(--cyan); } .tok-num{ color: var(--amber); }
+  .tok-str{ color: var(--green); } .tok-com{ color: var(--text-2); font-style:italic; }
+
+  /* explanation log */
+  .log{ flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; gap:6px; padding-right:2px; }
+  .log-entry{
+    font-family: var(--font-mono); font-size:11.5px; line-height:1.5; padding:7px 9px; border-radius:8px;
+    background: rgba(255,255,255,0.03); border-left:3px solid var(--panel-border); color: var(--text-1);
+    animation: logIn .25s ease both;
+  }
+  @keyframes logIn{ from{ opacity:0; transform: translateX(-4px);} to{ opacity:1; transform:none;} }
+  .log-entry b{ color: var(--text-0); }
+  .log-entry.head{ color: var(--cyan); border-left-color: var(--cyan); font-weight:700; background: var(--cyan-dim); }
+  .log-entry.ok{ border-left-color: var(--green); }
+  .log-entry.warn{ border-left-color: var(--amber); }
+  .log-entry.danger{ border-left-color: var(--red); }
+
+  /* traversal panel */
+  .trav-block{ display:flex; flex-direction:column; gap:5px; }
+  .trav-title{ display:flex; align-items:center; justify-content:space-between; }
+  .trav-title span{ font-family: var(--font-mono); font-size:11px; color: var(--text-2); letter-spacing:.03em; }
+  .trav-chips{ display:flex; flex-wrap:wrap; gap:5px; min-height:28px; align-items:center; padding:6px; border-radius:8px; background: rgba(255,255,255,0.025); border:1px solid var(--panel-border); }
+  .trav-chip{
+    font-family: var(--font-mono); font-size:12px; font-weight:700; padding:3px 8px; border-radius:6px;
+    background: rgba(176,140,246,0.16); color:#E6DBFF; border:1px solid rgba(176,140,246,0.35);
+    animation: chipIn .25s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  @keyframes chipIn{ from{ opacity:0; transform: scale(.5);} to{ opacity:1; transform:none;} }
+  .trav-chips .placeholder{ color: var(--text-2); font-family: var(--font-mono); font-size:11px; }
+
+  /* modal */
+  .modal{ position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .modal.hidden{ display:none; }
+  .modal-backdrop{ position:absolute; inset:0; background: rgba(3,5,10,0.7); backdrop-filter: blur(3px); }
+  .modal-card{
+    position:relative; max-width:560px; width:100%; max-height:82vh; overflow:auto;
+    background: linear-gradient(180deg, #10182A, #0B111E); border:1px solid var(--panel-border); border-radius:16px;
+    padding:22px 24px; box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+    animation: modalIn .28s cubic-bezier(.2,.9,.3,1) both;
+  }
+  @keyframes modalIn{ from{ opacity:0; transform: translateY(10px) scale(.98);} to{ opacity:1; transform:none;} }
+  .modal-card h2{ margin:0 0 4px; font-size:17px; }
+  .modal-card h2 .accent{ color: var(--cyan); }
+  .modal-card p{ font-size:13px; line-height:1.6; color: var(--text-1); }
+  .modal-card .legend-full{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:14px 0; }
+  .modal-card .legend-full .row{ display:flex; align-items:center; gap:8px; font-size:12px; color: var(--text-1); }
+  .modal-card .legend-full i{ width:11px; height:11px; border-radius:50%; flex:none; }
+  .modal-close{ position:absolute; top:14px; right:14px; }
+
+  @media (max-width: 640px){
+    .field input.wide{ width:120px; }
+    .brand h1{ font-size:16px; }
+    .top-actions{ display:none; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="brand">
+      <span class="eyebrow">Data Structures Lab</span>
+      <h1>BST Lab — Binary Search Trees, Traced Live</h1>
+    </div>
+    <div class="top-actions">
+      <label class="chip-toggle"><input type="checkbox" id="stepModeToggle"> Step&nbsp;Mode</label>
+      <div class="speed-wrap">
+        <span>Speed</span>
+        <input type="range" id="speedSlider" min="120" max="1200" value="550" step="10">
+      </div>
+      <button class="icon-btn" id="legendBtn" title="How BST works">?</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <!-- TREE PANEL -->
+    <section class="panel tree-panel">
+      <div class="toolbar">
+        <div class="field">
+          <input type="text" id="insertInput" placeholder="insert value">
+          <button class="btn primary small" id="insertBtn">Insert</button>
+        </div>
+        <div class="field">
+          <input type="text" id="searchInput" placeholder="search value">
+          <button class="btn small" id="searchBtn">Search</button>
+        </div>
+        <div class="field">
+          <input type="text" id="deleteInput" placeholder="delete value">
+          <button class="btn danger small" id="deleteBtn">Delete</button>
+        </div>
+        <div class="spacer"></div>
+        <button class="btn small" id="randomBtn">🎲 Random Tree</button>
+        <button class="btn ghost small" id="clearBtn">Clear</button>
+        <button class="btn small" id="nextStepBtn" disabled>Next Step ▸</button>
+      </div>
+
+      <div class="canvas-wrap" id="canvasWrap">
+        <svg id="treeSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="empty-state" id="emptyState">
+          <div class="glyph">＋</div>
+          <b>Start by inserting a node…</b>
+          <span>Try 50, then 30 and 70 to see it branch.</span>
+        </div>
+        <div class="tooltip" id="nodeTooltip"></div>
+      </div>
+
+      <div class="status-bar" id="statusBar"><span class="dot"></span><span class="msg">Ready. Insert a value to begin.</span></div>
+    </section>
+
+    <!-- SIDE PANEL -->
+    <aside class="panel side-panel">
+      <div class="tabs">
+        <div class="tab-btn active" data-tab="controls">Controls</div>
+        <div class="tab-btn" data-tab="code">Code</div>
+        <div class="tab-btn" data-tab="explain">Steps</div>
+        <div class="tab-btn" data-tab="traversal">Traversal</div>
+      </div>
+      <div class="tab-content">
+
+        <div class="tab-pane active" id="pane-controls">
+          <div class="field-block">
+            <label>INSERT MULTIPLE (comma separated)</label>
+            <div class="field-row">
+              <input type="text" id="bulkInput" placeholder="e.g. 50, 30, 70, 20, 40">
+              <button class="btn small" id="bulkBtn">Add All</button>
+            </div>
+          </div>
+          <hr class="sep">
+          <div class="field-block">
+            <label>TRAVERSALS</label>
+            <div class="btn-grid">
+              <button class="btn small" id="preorderBtn">Preorder</button>
+              <button class="btn small" id="inorderBtn">Inorder</button>
+              <button class="btn small" id="postorderBtn">Postorder</button>
+              <button class="btn ghost small" id="resetHighlightBtn">Reset View</button>
+            </div>
+          </div>
+          <hr class="sep">
+          <div class="field-block">
+            <label>LEGEND</label>
+            <div class="legend-mini">
+              <span class="sw"><i style="background:var(--cyan)"></i>comparing</span>
+              <span class="sw"><i style="background:var(--green)"></i>found / inserted</span>
+              <span class="sw"><i style="background:var(--amber)"></i>warning</span>
+              <span class="sw"><i style="background:var(--red)"></i>deleting</span>
+              <span class="sw"><i style="background:var(--violet)"></i>root / visited</span>
+            </div>
+          </div>
+          <div class="field-block" style="margin-top:auto;">
+            <label>STATS</label>
+            <div class="legend-mini" id="statsRow">
+              <span class="sw">nodes: 0</span>
+              <span class="sw">height: 0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="pane-code">
+          <div class="code-tabs" id="codeTabs"></div>
+          <div class="code-view" id="codeView"></div>
+        </div>
+
+        <div class="tab-pane" id="pane-explain">
+          <div class="log" id="logView"></div>
+        </div>
+
+        <div class="tab-pane" id="pane-traversal">
+          <div class="trav-block">
+            <div class="trav-title"><span>PREORDER (root · left · right)</span></div>
+            <div class="trav-chips" id="chipsPre"><span class="placeholder">not run yet</span></div>
+          </div>
+          <div class="trav-block">
+            <div class="trav-title"><span>INORDER (left · root · right)</span></div>
+            <div class="trav-chips" id="chipsIn"><span class="placeholder">not run yet</span></div>
+          </div>
+          <div class="trav-block">
+            <div class="trav-title"><span>POSTORDER (left · right · root)</span></div>
+            <div class="trav-chips" id="chipsPost"><span class="placeholder">not run yet</span></div>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+  </div>
+</div>
+
+<div class="modal hidden" id="legendModal">
+  <div class="modal-backdrop" id="legendBackdrop"></div>
+  <div class="modal-card">
+    <button class="icon-btn modal-close" id="legendClose">✕</button>
+    <h2>How a <span class="accent">Binary Search Tree</span> works</h2>
+    <p>Every node keeps values smaller than itself in its <b>left</b> subtree and values larger than itself in its <b>right</b> subtree. That single rule is what makes insert, search and delete all run in roughly O(log n) time on a balanced tree.</p>
+    <p><b>Design note:</b> in this visualizer, each node's horizontal position equals its rank in the tree's <i>inorder</i> traversal — so reading the canvas left‑to‑right always shows values in sorted order. Watch how an Inorder traversal simply sweeps left to right!</p>
+    <div class="legend-full">
+      <div class="row"><i style="background:var(--cyan)"></i>Node currently being compared</div>
+      <div class="row"><i style="background:var(--green)"></i>Match found / newly inserted</div>
+      <div class="row"><i style="background:var(--amber)"></i>Warning (duplicate / not found)</div>
+      <div class="row"><i style="background:var(--red)"></i>Node about to be deleted</div>
+      <div class="row"><i style="background:var(--violet)"></i>Root node / visited in traversal</div>
+      <div class="row"><i style="background:var(--teal)"></i>Value just copied from successor</div>
+    </div>
+    <p>Toggle <b>Step Mode</b> to walk through every comparison one click at a time, or leave it off to watch the algorithm run automatically at your chosen speed.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* =========================================================
+   C SOURCE — displayed verbatim in the Code tab
+   ========================================================= */
+const CODE = {
+  newNode: [
+    ['nn1','struct node* newNode(int data) {'],
+    ['nn2','    struct node* node = (struct node*)malloc(sizeof(struct node));'],
+    ['nn3','    node->data = data;'],
+    ['nn4','    node->left = node->right = NULL;'],
+    ['nn5','    return node;'],
+    ['nn6','}'],
+  ],
+  insert: [
+    ['in1','struct node* insert(struct node* node, int data) {'],
+    ['in2','    if (node == NULL)'],
+    ['in3','        return newNode(data);'],
+    ['in4','    if (data < node->data)'],
+    ['in5','        node->left = insert(node->left, data);'],
+    ['in6','    else if (data > node->data)'],
+    ['in7','        node->right = insert(node->right, data);'],
+    ['in8','    return node;'],
+    ['in9','}'],
+  ],
+  search: [
+    ['se1','struct node* search(struct node* root, int key) {'],
+    ['se2','    if (root == NULL || root->data == key)'],
+    ['se3','        return root;'],
+    ['se4','    if (key < root->data)'],
+    ['se5','        return search(root->left, key);'],
+    ['se6','    return search(root->right, key);'],
+    ['se7','}'],
+  ],
+  minValueNode: [
+    ['mv1','struct node* minValueNode(struct node* node) {'],
+    ['mv2','    struct node* current = node;'],
+    ['mv3','    while (current && current->left != NULL)'],
+    ['mv4','        current = current->left;'],
+    ['mv5','    return current;'],
+    ['mv6','}'],
+  ],
+  deleteNode: [
+    ['dn1','struct node* deleteNode(struct node* root, int key) {'],
+    ['dn2','    if (root == NULL) return root;'],
+    ['dn3','    if (key < root->data)'],
+    ['dn4','        root->left = deleteNode(root->left, key);'],
+    ['dn5','    else if (key > root->data)'],
+    ['dn6','        root->right = deleteNode(root->right, key);'],
+    ['dn7','    else {'],
+    ['dn8','        if (root->left == NULL) {'],
+    ['dn9','            struct node* temp = root->right;'],
+    ['dn10','            free(root);'],
+    ['dn11','            return temp;'],
+    ['dn12','        } else if (root->right == NULL) {'],
+    ['dn13','            struct node* temp = root->left;'],
+    ['dn14','            free(root);'],
+    ['dn15','            return temp;'],
+    ['dn16','        }'],
+    ['dn17','        struct node* temp = minValueNode(root->right);'],
+    ['dn18','        root->data = temp->data;'],
+    ['dn19','        root->right = deleteNode(root->right, temp->data);'],
+    ['dn20','    }'],
+    ['dn21','    return root;'],
+    ['dn22','}'],
+  ],
+  RPREORDER: [
+    ['pr1','void RPREORDER(struct node* root) {'],
+    ['pr2','    if (root != NULL) {'],
+    ['pr3','        printf("%d ", root->data);'],
+    ['pr4','        RPREORDER(root->left);'],
+    ['pr5','        RPREORDER(root->right);'],
+    ['pr6','    }'],
+    ['pr7','}'],
+  ],
+  RINORDER: [
+    ['io1','void RINORDER(struct node* root) {'],
+    ['io2','    if (root != NULL) {'],
+    ['io3','        RINORDER(root->left);'],
+    ['io4','        printf("%d ", root->data);'],
+    ['io5','        RINORDER(root->right);'],
+    ['io6','    }'],
+    ['io7','}'],
+  ],
+  RPOSTORDER: [
+    ['po1','void RPOSTORDER(struct node* root) {'],
+    ['po2','    if (root != NULL) {'],
+    ['po3','        RPOSTORDER(root->left);'],
+    ['po4','        RPOSTORDER(root->right);'],
+    ['po5','        printf("%d ", root->data);'],
+    ['po6','    }'],
+    ['po7','}'],
+  ],
+};
+const FN_LABELS = { newNode:'newNode', insert:'insert', search:'search', minValueNode:'minValueNode',
+  deleteNode:'deleteNode', RPREORDER:'RPREORDER', RINORDER:'RINORDER', RPOSTORDER:'RPOSTORDER' };
+
+const TOKEN_RE = /(\/\/.*$)|("(?:[^"\\]|\\.)*")|\b(struct|int|void|if|else|while|return|NULL)\b|\b(newNode|insert|search|minValueNode|deleteNode|RPREORDER|RINORDER|RPOSTORDER|malloc|sizeof|printf|free)\b|\b(\d+)\b/g;
+function highlightC(line){
+  const esc = line.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return esc.replace(TOKEN_RE, (m, com, str, kw, fn, num) => {
+    if (com) return '<span class="tok-com">'+com+'</span>';
+    if (str) return '<span class="tok-str">'+str+'</span>';
+    if (kw)  return '<span class="tok-kw">'+kw+'</span>';
+    if (fn)  return '<span class="tok-fn">'+fn+'</span>';
+    if (num) return '<span class="tok-num">'+num+'</span>';
+    return m;
+  });
+}
+
+/* =========================================================
+   TREE MODEL
+   ========================================================= */
+let nodeIdCounter = 1;
+function makeNode(value){ return { id:'n'+(nodeIdCounter++), value, left:null, right:null }; }
+const tree = { root:null };
+
+function collectNodesEdges(){
+  const nodes = [], edges = [];
+  (function walk(node, parent){
+    if (!node) return;
+    nodes.push(node);
+    if (parent) edges.push({ id: parent.id+'__'+node.id, from:parent.id, to:node.id });
+    walk(node.left, node);
+    walk(node.right, node);
+  })(tree.root, null);
+  return { nodes, edges };
+}
+
+const NODE_R = 22, SPACING_X = 60, SPACING_Y = 84, MARGIN_X = 44, MARGIN_Y = 40;
+function computeLayout(){
+  const positions = {};
+  let counter = 0, maxDepth = 0;
+  (function walk(node, depth){
+    if (!node) return;
+    walk(node.left, depth+1);
+    positions[node.id] = { x: MARGIN_X + counter*SPACING_X, y: MARGIN_Y + depth*SPACING_Y };
+    counter++;
+    maxDepth = Math.max(maxDepth, depth);
+    walk(node.right, depth+1);
+  })(tree.root, 0);
+  const count = counter;
+  const width = Math.max(360, MARGIN_X*2 + Math.max(0,count-1)*SPACING_X + 20);
+  const height = MARGIN_Y*2 + maxDepth*SPACING_Y + 20;
+  return { positions, width, height, count, maxDepth };
+}
+
+function treeHeight(node){ return node ? 1 + Math.max(treeHeight(node.left), treeHeight(node.right)) : 0; }
+
+/* =========================================================
+   ALGORITHM GENERATORS  (mirror the C code line-for-line)
+   ========================================================= */
+function step(s){ return s; }
+
+function* insertGen(value){
+  yield step({fn:'insert', line:'in1', type:'call', msg:'insert(root, '+value+') is called.'});
+  if (!tree.root){
+    yield step({fn:'insert', line:'in2', type:'null-check', msg:'The current node is NULL.'});
+    yield step({fn:'newNode', line:'nn1', type:'create', msg:'newNode('+value+') allocates a fresh node.'});
+    tree.root = makeNode(value);
+    yield step({fn:'insert', line:'in3', type:'inserted', nodeId:tree.root.id, structural:true, msg: value+' becomes the root of the tree.'});
+    return {ok:true};
+  }
+  let cur = tree.root;
+  while (true){
+    if (value === cur.value){
+      yield step({fn:'insert', line:'in4', type:'duplicate', nodeId:cur.id, warning:true, msg: value+' already exists at this node — duplicate keys are skipped.'});
+      return {ok:false};
+    }
+    if (value < cur.value){
+      yield step({fn:'insert', line:'in4', type:'compare', nodeId:cur.id, msg: value+' < '+cur.value+' → go left.'});
+      if (!cur.left){
+        yield step({fn:'insert', line:'in5', type:'null-check', nodeId:cur.id, msg:'Left child of '+cur.value+' is NULL.'});
+        yield step({fn:'newNode', line:'nn1', type:'create', msg:'newNode('+value+') allocates a fresh node.'});
+        const n = makeNode(value); cur.left = n;
+        yield step({fn:'insert', line:'in5', type:'inserted', nodeId:n.id, parentId:cur.id, structural:true, msg: value+' attached as the left child of '+cur.value+'.'});
+        return {ok:true};
+      }
+      yield step({fn:'insert', line:'in5', type:'go-left', edgeFrom:cur.id, edgeTo:cur.left.id, msg:'Recurse into the left subtree ('+cur.left.value+').'});
+      cur = cur.left;
+    } else {
+      yield step({fn:'insert', line:'in6', type:'compare', nodeId:cur.id, msg: value+' > '+cur.value+' → go right.'});
+      if (!cur.right){
+        yield step({fn:'insert', line:'in7', type:'null-check', nodeId:cur.id, msg:'Right child of '+cur.value+' is NULL.'});
+        yield step({fn:'newNode', line:'nn1', type:'create', msg:'newNode('+value+') allocates a fresh node.'});
+        const n = makeNode(value); cur.right = n;
+        yield step({fn:'insert', line:'in7', type:'inserted', nodeId:n.id, parentId:cur.id, structural:true, msg: value+' attached as the right child of '+cur.value+'.'});
+        return {ok:true};
+      }
+      yield step({fn:'insert', line:'in7', type:'go-right', edgeFrom:cur.id, edgeTo:cur.right.id, msg:'Recurse into the right subtree ('+cur.right.value+').'});
+      cur = cur.right;
+    }
+  }
+}
+
+function* searchGen(key){
+  yield step({fn:'search', line:'se1', type:'call', msg:'search(root, '+key+') is called.'});
+  let cur = tree.root;
+  if (!cur){
+    yield step({fn:'search', line:'se2', type:'not-found', warning:true, msg:'Tree is empty — '+key+' cannot be found.'});
+    return {found:false};
+  }
+  while (true){
+    yield step({fn:'search', line:'se2', type:'visit', nodeId:cur.id, msg:'root->data == '+key+' ? checking '+cur.value+'.'});
+    if (cur.value === key){
+      yield step({fn:'search', line:'se3', type:'found', nodeId:cur.id, msg:'Found '+key+'!'});
+      return {found:true, id:cur.id};
+    }
+    if (key < cur.value){
+      yield step({fn:'search', line:'se4', type:'compare', nodeId:cur.id, msg: key+' < '+cur.value+' → search left.'});
+      if (!cur.left){
+        yield step({fn:'search', line:'se5', type:'not-found', nodeId:cur.id, warning:true, msg:'No left child — '+key+' is not in the tree.'});
+        return {found:false};
+      }
+      yield step({fn:'search', line:'se5', type:'go-left', edgeFrom:cur.id, edgeTo:cur.left.id, msg:'Recurse left into '+cur.left.value+'.'});
+      cur = cur.left;
+    } else {
+      yield step({fn:'search', line:'se4', type:'compare', nodeId:cur.id, msg: key+' > '+cur.value+' → search right.'});
+      if (!cur.right){
+        yield step({fn:'search', line:'se6', type:'not-found', nodeId:cur.id, warning:true, msg:'No right child — '+key+' is not in the tree.'});
+        return {found:false};
+      }
+      yield step({fn:'search', line:'se6', type:'go-right', edgeFrom:cur.id, edgeTo:cur.right.id, msg:'Recurse right into '+cur.right.value+'.'});
+      cur = cur.right;
+    }
+  }
+}
+
+let deleteFoundFlag = true;
+function* deleteNodeRec(node, key){
+  if (!node){
+    deleteFoundFlag = false;
+    yield step({fn:'deleteNode', line:'dn2', type:'not-found', warning:true, msg:'Reached NULL — '+key+' is not in the tree.'});
+    return null;
+  }
+  if (key < node.value){
+    yield step({fn:'deleteNode', line:'dn3', type:'go-left', nodeId:node.id, edgeFrom:node.id, edgeTo: node.left?node.left.id:null, msg: key+' < '+node.value+' → recurse left.'});
+    node.left = yield* deleteNodeRec(node.left, key);
+    return node;
+  }
+  if (key > node.value){
+    yield step({fn:'deleteNode', line:'dn5', type:'go-right', nodeId:node.id, edgeFrom:node.id, edgeTo: node.right?node.right.id:null, msg: key+' > '+node.value+' → recurse right.'});
+    node.right = yield* deleteNodeRec(node.right, key);
+    return node;
+  }
+  yield step({fn:'deleteNode', line:'dn7', type:'target-found', nodeId:node.id, msg:'Found '+node.value+' — this is the node to delete.'});
+  if (!node.left){
+    const childVal = node.right ? node.right.value : null;
+    yield step({fn:'deleteNode', line:'dn9', type:'delete-noleft', nodeId:node.id, structural:true,
+      msg: node.right ? (node.value+' has only a right child — '+childVal+' rises to take its place.') : (node.value+' is a leaf node — remove it.')});
+    return node.right;
+  }
+  if (!node.right){
+    yield step({fn:'deleteNode', line:'dn13', type:'delete-noright', nodeId:node.id, structural:true,
+      msg: node.value+' has only a left child — '+node.left.value+' rises to take its place.'});
+    return node.left;
+  }
+  yield step({fn:'deleteNode', line:'dn17', type:'two-children', nodeId:node.id, msg: node.value+' has two children — find its inorder successor (minimum of right subtree).'});
+  yield step({fn:'minValueNode', line:'mv2', type:'min-start', nodeId:node.right.id, msg:'Start at right child '+node.right.value+'.'});
+  let cur = node.right;
+  while (cur.left){
+    yield step({fn:'minValueNode', line:'mv3', type:'min-check', nodeId:cur.id, msg: cur.value+' has a left child — keep going left.'});
+    cur = cur.left;
+    yield step({fn:'minValueNode', line:'mv4', type:'min-step', nodeId:cur.id, msg:'Move to '+cur.value+'.'});
+  }
+  yield step({fn:'minValueNode', line:'mv5', type:'min-found', nodeId:cur.id, msg: cur.value+' has no left child — it is the inorder successor.'});
+  yield step({fn:'deleteNode', line:'dn18', type:'copy-value', nodeId:node.id, fromId:cur.id, structural:true, newValue:cur.value,
+    msg:'Copy successor value '+cur.value+' into node '+node.value+'.'});
+  node.value = cur.value;
+  yield step({fn:'deleteNode', line:'dn19', type:'recurse-delete-successor', nodeId:node.id, msg:'Now recursively delete the duplicate '+cur.value+' from the right subtree.'});
+  node.right = yield* deleteNodeRec(node.right, cur.value);
+  return node;
+}
+function* deleteGen(key){
+  yield step({fn:'deleteNode', line:'dn1', type:'call', msg:'deleteNode(root, '+key+') is called.'});
+  if (!tree.root){
+    yield step({fn:'deleteNode', line:'dn2', type:'not-found', warning:true, msg:'Tree is empty — nothing to delete.'});
+    return {ok:false};
+  }
+  deleteFoundFlag = true;
+  tree.root = yield* deleteNodeRec(tree.root, key);
+  if (deleteFoundFlag){
+    yield step({fn:'deleteNode', line:'dn21', type:'done', msg: key+' was removed. Delete complete.'});
+  } else {
+    yield step({fn:'deleteNode', line:'dn21', type:'done', warning:true, msg: 'No changes made — '+key+' was not in the tree.'});
+  }
+  return {ok: deleteFoundFlag};
+}
+
+function* preorderGen(node){
+  yield step({fn:'RPREORDER', line:'pr2', type:'check', nodeId: node?node.id:null, msg: node ? (node.value+' is not NULL.') : 'Reached NULL — return.'});
+  if (!node) return;
+  yield step({fn:'RPREORDER', line:'pr3', type:'visit', nodeId:node.id, msg:'printf: visit '+node.value+'.'});
+  yield* preorderGen(node.left);
+  yield* preorderGen(node.right);
+}
+function* inorderGen(node){
+  yield step({fn:'RINORDER', line:'io2', type:'check', nodeId: node?node.id:null, msg: node ? (node.value+' is not NULL.') : 'Reached NULL — return.'});
+  if (!node) return;
+  yield* inorderGen(node.left);
+  yield step({fn:'RINORDER', line:'io4', type:'visit', nodeId:node.id, msg:'printf: visit '+node.value+'.'});
+  yield* inorderGen(node.right);
+}
+function* postorderGen(node){
+  yield step({fn:'RPOSTORDER', line:'po2', type:'check', nodeId: node?node.id:null, msg: node ? (node.value+' is not NULL.') : 'Reached NULL — return.'});
+  if (!node) return;
+  yield* postorderGen(node.left);
+  yield* postorderGen(node.right);
+  yield step({fn:'RPOSTORDER', line:'po5', type:'visit', nodeId:node.id, msg:'printf: visit '+node.value+'.'});
+}
+
+/* =========================================================
+   DOM REFS
+   ========================================================= */
+const svg = document.getElementById('treeSvg');
+const canvasWrap = document.getElementById('canvasWrap');
+const emptyState = document.getElementById('emptyState');
+const tooltip = document.getElementById('nodeTooltip');
+const statusBar = document.getElementById('statusBar');
+const statusMsg = statusBar.querySelector('.msg');
+const logView = document.getElementById('logView');
+const codeTabs = document.getElementById('codeTabs');
+const codeView = document.getElementById('codeView');
+const nextStepBtn = document.getElementById('nextStepBtn');
+const statsRow = document.getElementById('statsRow');
+
+const NS = 'http://www.w3.org/2000/svg';
+function svgEl(tag, attrs){
+  const el = document.createElementNS(NS, tag);
+  if (attrs) for (const k in attrs) el.setAttribute(k, attrs[k]);
+  return el;
+}
+let edgesLayer = svgEl('g', {class:'edges-layer'});
+let nodesLayer = svgEl('g', {class:'nodes-layer'});
+let effectsLayer = svgEl('g', {class:'effects-layer'});
+svg.appendChild(edgesLayer); svg.appendChild(nodesLayer); svg.appendChild(effectsLayer);
+
+/* =========================================================
+   CODE PANEL
+   ========================================================= */
+let activeFn = 'insert';
+function buildCodeTabs(){
+  codeTabs.innerHTML = '';
+  Object.keys(CODE).forEach(fn => {
+    const t = document.createElement('div');
+    t.className = 'code-tab' + (fn===activeFn ? ' active' : '');
+    t.textContent = FN_LABELS[fn];
+    t.dataset.fn = fn;
+    t.onclick = () => { setActiveFn(fn, null); };
+    codeTabs.appendChild(t);
+  });
+}
+function setActiveFn(fn, lineKey){
+  activeFn = fn;
+  codeTabs.querySelectorAll('.code-tab').forEach(t => t.classList.toggle('active', t.dataset.fn===fn));
+  codeView.innerHTML = '';
+  CODE[fn].forEach(([key, text]) => {
+    const div = document.createElement('div');
+    div.className = 'code-line';
+    div.dataset.line = key;
+    div.innerHTML = highlightC(text);
+    codeView.appendChild(div);
+  });
+  if (lineKey) highlightLine(fn, lineKey);
+}
+function highlightLine(fn, lineKey, warn){
+  if (activeFn !== fn) setActiveFn(fn, null);
+  codeView.querySelectorAll('.code-line').forEach(el => el.classList.remove('hl','hl-warn'));
+  const target = codeView.querySelector('[data-line="'+lineKey+'"]');
+  if (target){
+    target.classList.add(warn ? 'hl-warn' : 'hl');
+    if (typeof target.scrollIntoView === 'function') target.scrollIntoView({block:'nearest', behavior:'smooth'});
+  }
+}
+
+/* =========================================================
+   EXPLANATION LOG
+   ========================================================= */
+function logHeader(text){
+  const d = document.createElement('div');
+  d.className = 'log-entry head';
+  d.textContent = '▶ ' + text;
+  logView.appendChild(d);
+  logView.scrollTop = logView.scrollHeight;
+}
+function logEntry(text, kind){
+  const d = document.createElement('div');
+  d.className = 'log-entry' + (kind ? ' '+kind : '');
+  d.innerHTML = text;
+  logView.appendChild(d);
+  logView.scrollTop = logView.scrollHeight;
+  while (logView.children.length > 160) logView.removeChild(logView.firstChild);
+}
+function setStatus(text, kind){
+  statusMsg.textContent = text;
+  statusBar.classList.remove('warn','ok');
+  if (kind) statusBar.classList.add(kind);
+}
+
+/* =========================================================
+   RENDERING + ANIMATION
+   ========================================================= */
+let currentPositions = {};
+let renderGen = 0;
+const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function createNodeEl(n){
+  const g = svgEl('g', {class:'node', 'data-id': n.id});
+  const inner = svgEl('g', {class:'node-inner'});
+  const circle = svgEl('circle', {class:'disc', r: NODE_R});
+  const text = svgEl('text', {class:'val'});
+  text.textContent = n.value;
+  inner.appendChild(circle); inner.appendChild(text);
+  g.appendChild(inner);
+  g.addEventListener('mouseenter', (e) => showTooltip(n.id, e));
+  g.addEventListener('mousemove', (e) => positionTooltip(e));
+  g.addEventListener('mouseleave', hideTooltip);
+  return g;
+}
+
+function renderTree(){
+  const { nodes, edges } = collectNodesEdges();
+  const { positions, width, height, count, maxDepth } = computeLayout();
+
+  emptyState.style.display = nodes.length ? 'none' : 'flex';
+  svg.setAttribute('width', width);
+  svg.setAttribute('height', height);
+  svg.setAttribute('viewBox', '0 0 '+width+' '+height);
+  canvasWrap.style.setProperty('--w', width+'px');
+
+  statsRow.innerHTML = '<span class="sw">nodes: '+count+'</span><span class="sw">height: '+treeHeight(tree.root)+'</span>';
+
+  const wantIds = new Set(nodes.map(n => n.id));
+
+  // remove stale nodes
+  [...nodesLayer.children].forEach(el => {
+    const id = el.getAttribute('data-id');
+    if (!wantIds.has(id)){
+      el.classList.add('leaving');
+      setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, prefersReduced ? 0 : 320);
+    }
+  });
+  // remove stale edges
+  const wantEdgeIds = new Set(edges.map(e => e.id));
+  [...edgesLayer.children].forEach(el => {
+    const id = el.getAttribute('data-eid');
+    if (!wantEdgeIds.has(id) && el.parentNode) el.parentNode.removeChild(el);
+  });
+
+  // ensure node elements exist
+  nodes.forEach(n => {
+    let el = nodesLayer.querySelector('[data-id="'+n.id+'"]');
+    if (!el){
+      el = createNodeEl(n);
+      nodesLayer.appendChild(el);
+      if (!currentPositions[n.id]){
+        const p = positions[n.id];
+        currentPositions[n.id] = { x: p.x, y: p.y };
+      }
+    } else {
+      el.querySelector('text.val').textContent = n.value;
+    }
+    el.classList.toggle('root', tree.root && n.id === tree.root.id);
+  });
+  // ensure edge elements exist
+  edges.forEach(e => {
+    let el = edgesLayer.querySelector('[data-eid="'+e.id+'"]');
+    if (!el){
+      el = svgEl('line', {class:'edge', 'data-eid': e.id, 'data-from': e.from, 'data-to': e.to});
+      edgesLayer.appendChild(el);
+    }
+  });
+
+  animateTo(positions);
+}
+
+function easeInOutCubic(t){ return t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
+
+function animateTo(targetPositions){
+  const myGen = ++renderGen;
+  const startPositions = {};
+  for (const id in targetPositions) startPositions[id] = currentPositions[id] || targetPositions[id];
+  const duration = prefersReduced ? 1 : 520;
+  const startTime = performance.now();
+
+  function frame(now){
+    if (myGen !== renderGen) return; // superseded by a newer render
+    const t = Math.min(1, (now-startTime)/duration);
+    const e = easeInOutCubic(t);
+
+    nodesLayer.querySelectorAll('.node').forEach(el => {
+      const id = el.getAttribute('data-id');
+      const tg = targetPositions[id];
+      if (!tg) return;
+      const s = startPositions[id] || tg;
+      const x = s.x + (tg.x-s.x)*e, y = s.y + (tg.y-s.y)*e;
+      el.setAttribute('transform', 'translate('+x+','+y+')');
+      currentPositions[id] = { x, y };
+    });
+    edgesLayer.querySelectorAll('.edge').forEach(el => {
+      const fromId = el.getAttribute('data-from'), toId = el.getAttribute('data-to');
+      const tf = targetPositions[fromId], tt = targetPositions[toId];
+      if (!tf || !tt) return;
+      const sf = startPositions[fromId] || tf, st = startPositions[toId] || tt;
+      const x1 = sf.x + (tf.x-sf.x)*e, y1 = sf.y + (tf.y-sf.y)*e;
+      const x2 = st.x + (tt.x-st.x)*e, y2 = st.y + (tt.y-st.y)*e;
+      el.setAttribute('x1', x1); el.setAttribute('y1', y1);
+      el.setAttribute('x2', x2); el.setAttribute('y2', y2);
+    });
+
+    if (t < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+function nodeEl(id){ return id ? nodesLayer.querySelector('[data-id="'+id+'"]') : null; }
+function edgeEl(fromId, toId){ return edgesLayer.querySelector('[data-eid="'+fromId+'__'+toId+'"]'); }
+
+function clearTransientVisuals(){
+  nodesLayer.querySelectorAll('.node').forEach(el => el.classList.remove('comparing','found','warning','about-to-delete','copied','visited'));
+  edgesLayer.querySelectorAll('.edge').forEach(el => el.classList.remove('active','danger'));
+  effectsLayer.querySelectorAll('.bubble-group').forEach(el => el.remove());
+}
+
+function spawnRipple(id, kind){
+  const p = currentPositions[id];
+  if (!p) return;
+  const c = svgEl('circle', {cx:p.x, cy:p.y, r: NODE_R, class:'ripple-ring', fill:'none',
+    stroke: kind==='warn' ? 'var(--amber)' : (kind==='danger' ? 'var(--red)' : 'var(--green)'), 'stroke-width':2, opacity:0.9});
+  c.style.transformOrigin = p.x+'px '+p.y+'px';
+  c.style.animation = (prefersReduced?'none':'rippleAnim .7s ease-out forwards');
+  effectsLayer.appendChild(c);
+  if (!document.getElementById('rippleKeyframes')){
+    const style = document.createElement('style');
+    style.id = 'rippleKeyframes';
+    style.textContent = '@keyframes rippleAnim{ from{ transform:scale(0.5); opacity:0.9;} to{ transform:scale(2.4); opacity:0;} }';
+    document.head.appendChild(style);
+  }
+  setTimeout(() => { if (c.parentNode) c.parentNode.removeChild(c); }, 750);
+}
+
+function spawnBubble(id, text, warn){
+  const p = currentPositions[id];
+  if (!p) return;
+  const g = svgEl('g', {class:'bubble-group'});
+  const padX = 6, h = 16;
+  const w = Math.max(30, text.length*5.6 + padX*2);
+  const bx = p.x - w/2, by = p.y - NODE_R - h - 10;
+  const rect = svgEl('rect', {x:bx, y:by, width:w, height:h, rx:8, class:'bubble-bg'+(warn?' warn-bg':'')});
+  const t = svgEl('text', {x:p.x, y:by+h/2+0.5, class:'bubble', 'text-anchor':'middle', 'dominant-baseline':'central'});
+  t.textContent = text;
+  g.appendChild(rect); g.appendChild(t);
+  g.style.opacity = '0';
+  g.style.transition = 'opacity .18s ease, transform .18s ease';
+  g.style.transform = 'translateY(4px)';
+  effectsLayer.appendChild(g);
+  requestAnimationFrame(() => { g.style.opacity = '1'; g.style.transform = 'translateY(0)'; });
+  setTimeout(() => { if (g.parentNode){ g.style.opacity='0'; setTimeout(()=>g.remove(), 200); } }, 1300);
+}
+
+let seqCounter = 0;
+function spawnSeqBadge(id, n){
+  const p = currentPositions[id];
+  if (!p) return;
+  const g = svgEl('g', {class:'seq-badge bubble-group', transform:'translate('+(p.x+NODE_R-4)+','+(p.y-NODE_R+4)+')'});
+  const c = svgEl('circle', {r:8});
+  const t = svgEl('text', {y:0.5});
+  t.textContent = n;
+  g.appendChild(c); g.appendChild(t);
+  g.style.opacity='0'; g.style.transition='opacity .2s ease, transform .25s cubic-bezier(.34,1.56,.64,1)'; g.style.transform += ' scale(.4)';
+  effectsLayer.appendChild(g);
+  requestAnimationFrame(() => { g.style.opacity='1'; g.style.transform = g.getAttribute('transform') + ' scale(1)'; });
+}
+
+/* =========================================================
+   TOOLTIP
+   ========================================================= */
+function findParentOf(id){
+  let parent = null;
+  (function walk(node, p){
+    if (!node) return;
+    if (node.id === id) parent = p;
+    walk(node.left, node); walk(node.right, node);
+  })(tree.root, null);
+  return parent;
+}
+function showTooltip(id, evt){
+  const n = findNodeById(id);
+  if (!n) return;
+  const parent = findParentOf(id);
+  tooltip.innerHTML =
+    '<div class="row"><span>key</span><span><b>'+n.value+'</b></span></div>'+
+    '<div class="row"><span>parent</span><span>'+(parent?parent.value:'—')+'</span></div>'+
+    '<div class="row"><span>left</span><span>'+(n.left?n.left.value:'null')+'</span></div>'+
+    '<div class="row"><span>right</span><span>'+(n.right?n.right.value:'null')+'</span></div>';
+  tooltip.classList.add('show');
+  positionTooltip(evt);
+}
+function positionTooltip(evt){
+  const rect = canvasWrap.getBoundingClientRect();
+  const x = evt.clientX - rect.left + canvasWrap.scrollLeft + 14;
+  const y = evt.clientY - rect.top + canvasWrap.scrollTop + 14;
+  tooltip.style.left = x+'px'; tooltip.style.top = y+'px';
+}
+function hideTooltip(){ tooltip.classList.remove('show'); }
+function findNodeById(id){
+  let found = null;
+  (function walk(node){ if (!node || found) return; if (node.id===id) found=node; walk(node.left); walk(node.right); })(tree.root);
+  return found;
+}
+
+/* =========================================================
+   STEP PLAYER
+   ========================================================= */
+const state = { stepMode:false, speedMs:550, busy:false };
+let resolveNext = null;
+
+function applyStep(s){
+  clearTransientVisuals();
+  if (s.fn && s.line) highlightLine(s.fn, s.line, !!s.warning);
+
+  if (s.edgeFrom){
+    const el = edgeEl(s.edgeFrom, s.edgeTo);
+    if (el) el.classList.add(s.type==='go-left'||s.type==='go-right' ? 'active' : (s.warning?'danger':'active'));
+  }
+  if (s.nodeId){
+    const el = nodeEl(s.nodeId);
+    if (el){
+      if (s.type==='found') el.classList.add('found');
+      else if (s.type==='duplicate' || s.type==='not-found') el.classList.add('warning');
+      else if (s.type==='delete-noleft' || s.type==='delete-noright' || s.type==='target-found') el.classList.add('about-to-delete');
+      else if (s.type==='copy-value') el.classList.add('copied');
+      else if (s.type==='visit') el.classList.add('visited');
+      else el.classList.add('comparing');
+    }
+  }
+  if (s.parentId){
+    const el = edgeEl(s.parentId, s.nodeId);
+    if (el) el.classList.add('active');
+  }
+
+  const msg = s.msg || '';
+  if (msg){
+    setStatus(msg, s.warning ? 'warn' : (s.type==='found'||s.type==='inserted'||s.type==='done' ? 'ok' : null));
+    logEntry(msg, s.warning ? 'warn' : (s.type==='found'||s.type==='inserted' ? 'ok' : null));
+  }
+
+  if (s.nodeId && (s.type==='compare' || s.type==='go-left' || s.type==='go-right')){
+    const short = s.msg.split('→')[0].trim();
+    if (short) spawnBubble(s.nodeId, short.length>26 ? short.slice(0,24)+'…' : short, false);
+  }
+  if (s.type==='visit'){
+    seqCounter++;
+    spawnSeqBadge(s.nodeId, seqCounter);
+  }
+
+  if (s.structural){
+    renderTree();
+    if (s.type==='inserted') setTimeout(() => spawnRipple(s.nodeId, 'ok'), 40);
+  }
+  if (s.type==='found') spawnRipple(s.nodeId, 'ok');
+  if (s.type==='duplicate' || s.type==='not-found') { if (s.nodeId) spawnRipple(s.nodeId, 'warn'); }
+}
+
+function waitTurn(){
+  if (state.stepMode){
+    nextStepBtn.disabled = false;
+    return new Promise(res => { resolveNext = res; });
+  }
+  nextStepBtn.disabled = true;
+  return new Promise(res => setTimeout(res, state.speedMs));
+}
+nextStepBtn.addEventListener('click', () => {
+  if (resolveNext){ const r = resolveNext; resolveNext = null; nextStepBtn.disabled = true; r(); }
+});
+
+async function runOp(genObj, onStep){
+  state.busy = true;
+  setControlsDisabled(true);
+  try {
+    let it = genObj.next();
+    while (!it.done){
+      applyStep(it.value);
+      if (onStep) onStep(it.value);
+      await waitTurn();
+      it = genObj.next();
+    }
+    return it.value;
+  } finally {
+    state.busy = false;
+    setControlsDisabled(false);
+    nextStepBtn.disabled = true;
+    setTimeout(() => { if (!state.busy) clearTransientVisuals(); }, prefersReduced ? 0 : 900);
+    renderTree();
+  }
+}
+
+const controlSelectors = ['#insertBtn','#searchBtn','#deleteBtn','#randomBtn','#clearBtn','#bulkBtn',
+  '#preorderBtn','#inorderBtn','#postorderBtn','#insertInput','#searchInput','#deleteInput','#bulkInput'];
+function setControlsDisabled(disabled){
+  controlSelectors.forEach(sel => { const el = document.querySelector(sel); if (el) el.disabled = disabled; });
+}
+
+/* =========================================================
+   OPERATION HANDLERS
+   ========================================================= */
+function parseIntSafe(str){
+  const v = parseInt(String(str).trim(), 10);
+  return Number.isFinite(v) ? v : null;
+}
+
+async function doInsert(value){
+  logHeader('Insert '+value);
+  const res = await runOp(insertGen(value));
+  return res;
+}
+async function doSearch(value){
+  logHeader('Search '+value);
+  await runOp(searchGen(value));
+}
+async function doDelete(value){
+  logHeader('Delete '+value);
+  await runOp(deleteGen(value));
+}
+async function doTraversal(kind){
+  if (!tree.root){ setStatus('Tree is empty — nothing to traverse.', 'warn'); logHeader('Traversal'); logEntry('Tree is empty — nothing to traverse.', 'warn'); return; }
+  const names = { pre:'Preorder', in:'Inorder', post:'Postorder' };
+  const gens = { pre:preorderGen, in:inorderGen, post:postorderGen };
+  const chipsEl = { pre:document.getElementById('chipsPre'), in:document.getElementById('chipsIn'), post:document.getElementById('chipsPost') }[kind];
+  chipsEl.innerHTML = '';
+  seqCounter = 0;
+  logHeader(names[kind]+' traversal');
+  switchTab('traversal');
+  await runOp(gens[kind](tree.root), (s) => {
+    if (s.type === 'visit'){
+      const chip = document.createElement('div');
+      chip.className = 'trav-chip';
+      chip.textContent = findNodeById(s.nodeId) ? findNodeById(s.nodeId).value : '?';
+      chipsEl.appendChild(chip);
+    }
+  });
+}
+
+document.getElementById('insertBtn').addEventListener('click', () => {
+  const input = document.getElementById('insertInput');
+  const v = parseIntSafe(input.value);
+  if (v===null){ setStatus('Enter a valid integer to insert.', 'warn'); return; }
+  input.value = '';
+  doInsert(v);
+});
+document.getElementById('insertInput').addEventListener('keydown', (e) => { if (e.key==='Enter') document.getElementById('insertBtn').click(); });
+
+document.getElementById('searchBtn').addEventListener('click', () => {
+  const input = document.getElementById('searchInput');
+  const v = parseIntSafe(input.value);
+  if (v===null){ setStatus('Enter a valid integer to search.', 'warn'); return; }
+  doSearch(v);
+});
+document.getElementById('searchInput').addEventListener('keydown', (e) => { if (e.key==='Enter') document.getElementById('searchBtn').click(); });
+
+document.getElementById('deleteBtn').addEventListener('click', () => {
+  const input = document.getElementById('deleteInput');
+  const v = parseIntSafe(input.value);
+  if (v===null){ setStatus('Enter a valid integer to delete.', 'warn'); return; }
+  input.value = '';
+  doDelete(v);
+});
+document.getElementById('deleteInput').addEventListener('keydown', (e) => { if (e.key==='Enter') document.getElementById('deleteBtn').click(); });
+
+document.getElementById('bulkBtn').addEventListener('click', async () => {
+  const input = document.getElementById('bulkInput');
+  const parts = input.value.split(/[,\s]+/).map(s=>s.trim()).filter(Boolean);
+  const values = [];
+  parts.forEach(p => { const v = parseIntSafe(p); if (v!==null && !values.includes(v)) values.push(v); });
+  if (!values.length){ setStatus('Enter comma-separated integers to insert.', 'warn'); return; }
+  input.value = '';
+  for (const v of values){ await doInsert(v); }
+});
+document.getElementById('bulkInput').addEventListener('keydown', (e) => { if (e.key==='Enter') document.getElementById('bulkBtn').click(); });
+
+document.getElementById('randomBtn').addEventListener('click', async () => {
+  tree.root = null; renderTree(); clearLog();
+  const n = 9;
+  const set = new Set();
+  while (set.size < n) set.add(1 + Math.floor(Math.random()*99));
+  const sorted = [...set].sort((a,b)=>a-b);
+  const order = [];
+  (function pick(lo,hi){ if (lo>hi) return; const mid = Math.floor((lo+hi)/2); order.push(sorted[mid]); pick(lo,mid-1); pick(mid+1,hi); })(0, sorted.length-1);
+  logHeader('Random balanced tree');
+  for (const v of order){ await doInsert(v); }
+});
+
+document.getElementById('clearBtn').addEventListener('click', () => {
+  tree.root = null;
+  renderTree();
+  clearLog();
+  setStatus('Tree cleared. Insert a value to begin.', null);
+  ['chipsPre','chipsIn','chipsPost'].forEach(id => { document.getElementById(id).innerHTML = '<span class="placeholder">not run yet</span>'; });
+});
+
+document.getElementById('preorderBtn').addEventListener('click', () => doTraversal('pre'));
+document.getElementById('inorderBtn').addEventListener('click', () => doTraversal('in'));
+document.getElementById('postorderBtn').addEventListener('click', () => doTraversal('post'));
+document.getElementById('resetHighlightBtn').addEventListener('click', () => { clearTransientVisuals(); setStatus('View reset.', null); });
+
+function clearLog(){ logView.innerHTML = ''; }
+
+/* =========================================================
+   TABS
+   ========================================================= */
+function switchTab(name){
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab===name));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.toggle('active', p.id==='pane-'+name));
+}
+document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
+
+/* =========================================================
+   TOP CONTROLS
+   ========================================================= */
+document.getElementById('stepModeToggle').addEventListener('change', (e) => { state.stepMode = e.target.checked; nextStepBtn.disabled = !(state.stepMode && state.busy); });
+document.getElementById('speedSlider').addEventListener('input', (e) => { state.speedMs = 1320 - parseInt(e.target.value,10); });
+state.speedMs = 1320 - parseInt(document.getElementById('speedSlider').value,10);
+
+const legendModal = document.getElementById('legendModal');
+document.getElementById('legendBtn').addEventListener('click', () => legendModal.classList.remove('hidden'));
+document.getElementById('legendClose').addEventListener('click', () => legendModal.classList.add('hidden'));
+document.getElementById('legendBackdrop').addEventListener('click', () => legendModal.classList.add('hidden'));
+
+/* =========================================================
+   INIT
+   ========================================================= */
+buildCodeTabs();
+setActiveFn('insert', null);
+renderTree();
+
+})();
+</script>
+</body>
+</html>

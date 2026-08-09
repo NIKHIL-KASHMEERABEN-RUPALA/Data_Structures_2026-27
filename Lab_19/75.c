@@ -66,13 +66,9 @@ struct Node *insert(struct Node *node, int key)
 }
 
 
-/*
-    BST ma specific key Search karva mate nu Function.
 
-    Base cases:
-        1. root == NULL     -> Key tree ma nathi (Key not found)
-        2. root->key == key -> Key mali gayi (Key found)
-*/
+
+
 struct Node *search(struct Node *root, int key)
 {
     /* Base case: Tree empty hoy OR key match thai jaay */
@@ -88,11 +84,12 @@ struct Node *search(struct Node *root, int key)
 }
 
 
-/*
-    Subtree mathi minimum value walo node shodhto function.
 
-    BST rule pramane, minimum value hamesha extreme left node par j malse.
-*/
+   
+
+    // BST rule pramane, minimum value hamesha extreme left node par j malse.
+
+    
 struct Node *minValueNode(struct Node *node)
 {
     struct Node *current;
