@@ -194,7 +194,7 @@ void RPREORDER(struct Node *T)
     // Current root node ni key print/process karo 
     printf("%d ", T->key);
 
-    /* Left subtree travers karo */
+    // Left subtree travers karo 
     if (T->left != NULL)
         RPREORDER(T->left);
 
