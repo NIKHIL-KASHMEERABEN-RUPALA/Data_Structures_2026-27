@@ -170,7 +170,7 @@ struct Node *deleteNode(struct Node *root, int key)
             CASE 3:
             Node ne 2 children chhe.
 
-            Right subtree mathi smallest node shodho = Inorder Successor.
+            Right subtree mathi smallest node find karo  = Inorder Successor.
         */
         temp = minValueNode(root->right);
 
