@@ -230,14 +230,11 @@ void RINORDER(struct Node *T)
     if (T->right != NULL)
         RINORDER(T->right);
 }
+   
 
+    // Traversal Order:
+    //     Left Subtree -> Right Subtree -> Root
 
-/*
-    Recursive Postorder Traversal.
-
-    Traversal Order:
-        Left Subtree -> Right Subtree -> Root
-*/
 void RPOSTORDER(struct Node *T)
 {
     /* Empty tree check */
