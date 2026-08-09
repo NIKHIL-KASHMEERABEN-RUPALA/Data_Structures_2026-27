@@ -25,25 +25,19 @@ struct Node *newNode(int item)
     return temp;
 }
 
-// BST ma navo node recursive manner ma insert karva mate nu function
 struct Node *insert(struct Node *node, int key)
 {
-    // Base case: Jo subtree empty (NULL) hoy, toh navo node create kari return karo
     if (node == NULL)
         return newNode(key);
 
-    // Duplicate key validation - identical keys ignore karva mate
     if (node->key == key)
         return node;
 
-    // Jo key moti hoy toh Right subtree ma recursive insert call karo
     if (node->key < key)
         node->right = insert(node->right, key);
-    // Jo key nani hoy toh Left subtree ma recursive insert call karo
     else
         node->left = insert(node->left, key);
 
-    // Unchanged node pointer return karo
     return node;
 }
 
