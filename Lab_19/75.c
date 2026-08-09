@@ -205,14 +205,15 @@ void RPREORDER(struct Node *T)
 }
 
 
-/*
-    Recursive Inorder Traversal.
 
-    Traversal Order:
-        Left Subtree -> Root -> Right Subtree
+//     Recursive Inorder Traversal.
 
-    Note: BST ma Inorder Traversal thi elements hamesha sorted order ma malse.
-*/
+//     Traversal Order:
+//         Left Subtree -> Root -> Right Subtree
+
+//     Note: BST ma Inorder Traversal thi elements hamesha sorted order ma malse.
+
+
 void RINORDER(struct Node *T)
 {
     /* Empty tree check */
