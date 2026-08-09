@@ -179,13 +179,12 @@ struct Node *deleteNode(struct Node *root, int key)
 }
 
 
-/*
-    Recursive Preorder Traversal.
 
-    Traversal Order:
-        Root -> Left Subtree -> Right Subtree
+    // Recursive Preorder Traversal.
 
-*/
+    // Traversal Order:
+    //     Root -> Left Subtree -> Right Subtree
+
 void RPREORDER(struct Node *T)
 {
     /* Empty tree condition check */
