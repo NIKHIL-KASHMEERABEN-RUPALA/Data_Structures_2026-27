@@ -121,7 +121,7 @@ struct Node *deleteNode(struct Node *root, int key)
 {
     struct Node *temp;
 
-    /* Tree empty hoy athva key exist na karti hoy */
+    //  Tree empty hoy athva key exist na karti hoy 
     if (root == NULL)
         return root;
 
