@@ -33,20 +33,20 @@ struct Node *newNode(int item)
 }
 
 
-/*
-    BST na Standard Rules:
-        Smaller key  -> Left subtree ma jaase
-        Greater key  -> Right subtree ma jaase
-        Equal key    -> Duplicate allow nathi, so insert nai thaye
-*/
+// 
+//     BST na Standard Rules:
+//         Smaller key  -> Left subtree ma jaase
+//         Greater key  -> Right subtree ma jaase
+//         Equal key    -> Duplicate allow nathi, so insert nai thaye
+// 
 
 struct Node *insert(struct Node *node, int key)
 {
-    /* Jo Tree empty (NULL) hoy, toh navo node banavi ne return karo */
+    //  Jo Tree empty (NULL) hoy, toh navo node banavi ne return karo 
     if (node == NULL)
         return newNode(key);
 
-    /* Duplicate key validation - already exist karti key insert na thaye */
+    //  Duplicate key validation - already exist karti key insert na thaye 
     if (node->key == key)
     {
         printf("Duplicate key is not allowed.\n");
