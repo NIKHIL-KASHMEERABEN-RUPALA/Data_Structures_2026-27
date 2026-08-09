@@ -17,7 +17,6 @@ struct Node *newNode(int item)
     // Heap memory ma node mate space allocate karo
     temp = (struct Node *)malloc(sizeof(struct Node));
 
-    // Node na member variables (key, left, right pointers) initialize karo
     temp->key = item;
     temp->left = NULL;
     temp->right = NULL;
