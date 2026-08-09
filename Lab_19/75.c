@@ -227,7 +227,7 @@ void RINORDER(struct Node *T)
     // Root node ni key print karo 
     printf("%d ", T->key);
 
-    /* Right subtree traverse karo */
+    // Right subtree traverse karo 
     if (T->right != NULL)
         RINORDER(T->right);
 }
