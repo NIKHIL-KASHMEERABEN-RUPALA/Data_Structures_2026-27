@@ -160,12 +160,12 @@ struct Node *deleteNode(struct Node *root, int key)
             return temp;
         }
 
-        /*
-            CASE 3:
-            Node ne 2 children chhe.
+        
+        //     CASE 3:
+        //     Node ne 2 children chhe.
 
-            Right subtree mathi smallest node find karo  = Inorder Successor.
-        */
+        //     Right subtree mathi smallest node find karo  = Inorder Successor.
+        
         temp = minValueNode(root->right);
 
         /* Inorder successor ni key current node ma copy karo */
