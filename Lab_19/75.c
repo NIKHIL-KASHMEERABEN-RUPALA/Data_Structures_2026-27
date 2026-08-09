@@ -125,11 +125,11 @@ struct Node *deleteNode(struct Node *root, int key)
     if (root == NULL)
         return root;
 
-    /*
-        Delete karva mate node ne search karo:
-        Smaller key -> Left subtree
-        Greater key -> Right subtree
-    */
+    // 
+    //     Delete karva mate node ne search karo:
+    //     Smaller key -> Left subtree
+    //     Greater key -> Right subtree
+    // 
     if (key < root->key)
     {
         root->left = deleteNode(root->left, key);
@@ -140,12 +140,12 @@ struct Node *deleteNode(struct Node *root, int key)
     }
     else
     {
-        /*
-            Target Node mali gayo!
+        // 
+        //     Target Node mali gayo!
 
-            CASE 1 and CASE 2:
-            Zero child OR Single child condition.
-        */
+        //     CASE 1 and CASE 2:
+        //     Zero child OR Single child condition.
+        // 
         if (root->left == NULL)
         {
             temp = root->right;
