@@ -139,7 +139,7 @@ struct Node *deleteNode(struct Node *root, int key)
     else
     {
         // 
-        //     Target Node mali gayo!
+        //     Target Node madiii gayo!
 
         //     CASE 1 and CASE 2:
         //     Zero child OR Single child condition.
