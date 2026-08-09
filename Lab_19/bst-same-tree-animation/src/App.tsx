@@ -232,7 +232,7 @@ export default function App() {
           BST Same Tree Visualizer
         </motion.h1>
         <p style={{ color: 'var(--muted)', marginTop: 8, fontSize: 15 }}>
-          Professional animation of recursive insert + sameTree comparison
+          made by Nikhil 😊
         </p>
       </header>
 
