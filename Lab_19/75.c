@@ -168,7 +168,7 @@ struct Node *deleteNode(struct Node *root, int key)
         
         temp = minValueNode(root->right);
 
-        /* Inorder successor ni key current node ma copy karo */
+        // Inorder successor ni key current node ma copy karo
         root->key = temp->key;
 
         /* Duplicate Inorder Successor node ne recursive delete karo */
