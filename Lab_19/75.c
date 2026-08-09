@@ -53,15 +53,15 @@ struct Node *insert(struct Node *node, int key)
         return node;
     }
 
-    /* Jo key moti (greater) hoy toh Right subtree ma recursive insert call karo */
+    // Jo key moti (greater) hoy toh Right subtree ma recursive insert call karo
     if (node->key < key)
         node->right = insert(node->right, key);
 
-    /* Jo key nani (smaller) hoy toh Left subtree ma recursive insert call karo */
+    // Jo key nani (smaller) hoy toh Left subtree ma recursive insert call karo
     else
         node->left = insert(node->left, key);
 
-    /* Unchanged node pointer return karo */
+    // Unchanged node pointer return karo 
     return node;
 }
 
