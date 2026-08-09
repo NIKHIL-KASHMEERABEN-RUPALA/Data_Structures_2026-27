@@ -198,7 +198,7 @@ void RPREORDER(struct Node *T)
     if (T->left != NULL)
         RPREORDER(T->left);
 
-    /* Right subtree travers karo */
+    // Right subtree travers karo
     if (T->right != NULL)
         RPREORDER(T->right);
 }
