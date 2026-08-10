@@ -10,7 +10,7 @@ struct Node
 };
 
 
-struct Node *newNode(int item)
+struct Node *createNode(int item)
 {
     struct Node *temp;
 
@@ -38,7 +38,7 @@ struct Node *insert(struct Node *node, int key)
 {
     //  Jo Tree empty (NULL) hoy, toh navo node banavi ne return karo 
     if (node == NULL)
-        return newNode(key);
+        return createNode(key);
 
     //  Duplicate key validation - already exist karti key insert na thay
     if (node->key == key)
@@ -79,7 +79,7 @@ struct Node *search(struct Node *root, int key)
 
 
 
-   
+    
 
     // BST rule pramane, minimum value hamesha extreme left node par j malse.
 
@@ -105,15 +105,15 @@ struct Node *minValueNode(struct Node *node)
     // Total 3 Cases handled :
 
     // Case 1: Node leaf node hoy (Zero children).
-    //         -> Direct memory free kari ne delete dyo.
+    //          -> Direct memory free kari ne delete dyo.
 
     // Case 2: Node ne just 1 Child hoy.
-    //         -> Node ne ena child sathe replace kari dyo.
+    //          -> Node ne ena child sathe replace kari dyo.
 
     // Case 3: Node ne 2 Children hoy.
-    //         -> Inorder successor (Right subtree ni minimum key) shodho.
-    //         -> Successor ni key copy karo.
-    //         -> Successor node ne delete karo.
+    //          -> Inorder successor (Right subtree ni minimum key) shodho.
+    //          -> Successor ni key copy karo.
+    //          -> Successor node ne delete karo.
 
 struct Node *deleteNode(struct Node *root, int key)
 {
@@ -124,9 +124,9 @@ struct Node *deleteNode(struct Node *root, int key)
         return root;
 
     // 
-    //     Delete karva mate node ne search karo:
-    //     Smaller key -> Left subtree
-    //     Greater key -> Right subtree
+    //      Delete karva mate node ne search karo:
+    //      Smaller key -> Left subtree
+    //      Greater key -> Right subtree
     // 
     if (key < root->key)
     {
@@ -139,10 +139,10 @@ struct Node *deleteNode(struct Node *root, int key)
     else
     {
         // 
-        //     Target Node madiii gayo!
+        //      Target Node madiii gayo!
 
-        //     CASE 1 and CASE 2:
-        //     Zero child OR Single child condition.
+        //      CASE 1 and CASE 2:
+        //      Zero child OR Single child condition.
         // 
         if (root->left == NULL)
         {
@@ -159,10 +159,10 @@ struct Node *deleteNode(struct Node *root, int key)
         }
 
         
-        //     CASE 3:
-        //     Node ne 2 children chhe.
+        //      CASE 3:
+        //      Node ne 2 children chhe.
 
-        //     Right subtree mathi smallest node find karo  = Inorder Successor.
+        //      Right subtree mathi smallest node find karo  = Inorder Successor.
         
         temp = minValueNode(root->right);
 
@@ -181,7 +181,7 @@ struct Node *deleteNode(struct Node *root, int key)
     // Recursive Preorder Traversal.
 
     // Traversal Order:
-    //     Root -> Left Subtree -> Right Subtree
+    //      Root -> Left Subtree -> Right Subtree
 
 void RPREORDER(struct Node *T)
 {
@@ -203,12 +203,12 @@ void RPREORDER(struct Node *T)
 
 
 
-//     Recursive Inorder Traversal.
+//      Recursive Inorder Traversal.
 
-//     Traversal Order:
-//         Left Subtree -> Root -> Right Subtree
+//      Traversal Order:
+//          Left Subtree -> Root -> Right Subtree
 
-//     Note: BST ma Inorder Traversal thi elements hamesha sorted order ma malse.
+//      Note: BST ma Inorder Traversal thi elements hamesha sorted order ma malse.
 
 
 void RINORDER(struct Node *T)
@@ -228,10 +228,10 @@ void RINORDER(struct Node *T)
     if (T->right != NULL)
         RINORDER(T->right);
 }
-   
+    
 
     // Traversal Order:
-    //     Left Subtree -> Right Subtree -> Root
+    //      Left Subtree -> Right Subtree -> Root
 
 void RPOSTORDER(struct Node *T)
 {
