@@ -32,8 +32,7 @@ struct Node *insert(struct Node *node, int key)
 
     if (node->key == key)
         return node;
-
-        
+      
     if (node->key < key)
         node->right = insert(node->right, key);
     else
