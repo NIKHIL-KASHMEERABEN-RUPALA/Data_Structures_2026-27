@@ -233,7 +233,6 @@ void RINORDER(struct Node *T)
     // Traversal Order:
     //     Left Subtree -> Right Subtree -> Root
 
-    
 void RPOSTORDER(struct Node *T)
 {
     // Empty tree check 
