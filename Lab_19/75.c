@@ -21,7 +21,7 @@ struct Node *newNode(int item)
     if (temp == NULL)
     {
         printf("Memory allocation failed.\n");
-        exit(1);
+        exit(1);    
     }
 
     // Node na member variables initialize karo
