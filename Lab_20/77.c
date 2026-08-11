@@ -74,6 +74,7 @@ int main()
     // Root node creation
     root = newNode(8);
 
+
     // Level 1 Nodes creation
     root->left = newNode(5);
     root->right = newNode(5);
