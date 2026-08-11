@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>2-3 Tree Lab — Multiway Search Trees, Traced Live</title>
+<style>
+  :root{
+    --bg-0:#060910;
+    --bg-1:#0A0F1A;
+    --bg-2:#0E1524;
+    --panel: rgba(255,255,255,0.045);
+    --panel-strong: rgba(255,255,255,0.07);
+    --panel-border: rgba(255,255,255,0.09);
+    --text-0:#EAF0FA;
+    --text-1:#9FAEC7;
+    --text-2:#5E6C86;
+    --cyan:#2FD8E8;
+    --cyan-dim: rgba(47,216,232,0.16);
+    --teal:#34D9B4;
+    --green:#3ADE95;
+    --green-dim: rgba(58,222,149,0.16);
+    --amber:#F6BB4B;
+    --amber-dim: rgba(246,187,75,0.16);
+    --red:#F1667A;
+    --red-dim: rgba(241,102,122,0.16);
+    --violet:#B08CF6;
+    --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "Cascadia Code", "SF Mono", "JetBrains Mono", Consolas, "Liberation Mono", Menlo, monospace;
+    --dur: 0.55s;
+  }
+  @media (prefers-reduced-motion: reduce){ :root{ --dur: 0.001s; } }
+
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 12% -10%, rgba(47,216,232,0.10), transparent 60%),
+      radial-gradient(900px 500px at 105% 10%, rgba(176,140,246,0.08), transparent 55%),
+      linear-gradient(180deg, var(--bg-0), var(--bg-1) 40%, var(--bg-1));
+    color: var(--text-0);
+    font-family: var(--font-ui);
+    overflow:hidden;
+  }
+  ::selection{ background: var(--cyan-dim); color: var(--text-0); }
+  ::-webkit-scrollbar{ width:9px; height:9px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+  ::-webkit-scrollbar-thumb{ background: rgba(255,255,255,0.12); border-radius:8px; }
+  ::-webkit-scrollbar-thumb:hover{ background: rgba(255,255,255,0.2); }
+
+  .app{
+    height:100vh;
+    display:grid;
+    grid-template-rows: auto 1fr;
+    gap:12px;
+    padding:14px 16px 16px;
+    animation: appIn .6s ease both;
+  }
+  @keyframes appIn{ from{ opacity:0; transform: translateY(6px);} to{ opacity:1; transform:none; } }
+
+  header.top{
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding: 10px 16px;
+    background: var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:14px;
+    backdrop-filter: blur(14px);
+  }
+  .brand{ display:flex; flex-direction:column; gap:2px; }
+  .brand .eyebrow{
+    font-family: var(--font-mono); font-size:10.5px; letter-spacing:.18em; text-transform:uppercase;
+    color: var(--cyan); opacity:.85;
+  }
+  .brand h1{
+    margin:0; font-size:19px; font-weight:700; letter-spacing:-0.01em;
+    background: linear-gradient(90deg, #F3F7FF 10%, var(--cyan) 60%, var(--teal) 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .top-actions{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+
+  .chip-toggle{
+    display:flex; align-items:center; gap:7px;
+    font-family: var(--font-mono); font-size:12px; color: var(--text-1);
+    padding:7px 11px; border-radius:999px; border:1px solid var(--panel-border); background: rgba(255,255,255,0.03);
+    cursor:pointer; user-select:none;
+  }
+  .chip-toggle input{ accent-color: var(--cyan); }
+  .chip-toggle:hover{ border-color: rgba(255,255,255,0.2); }
+
+  .speed-wrap{ display:flex; align-items:center; gap:7px; font-family:var(--font-mono); font-size:11.5px; color:var(--text-1); }
+  .speed-wrap input[type=range]{ width:88px; accent-color: var(--teal); }
+
+  .icon-btn{
+    width:34px; height:34px; border-radius:10px; border:1px solid var(--panel-border);
+    background: rgba(255,255,255,0.03); color: var(--text-1); font-size:15px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; transition: all .15s ease;
+  }
+  .icon-btn:hover{ color: var(--text-0); border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.06); }
+
+  .main{
+    display:grid;
+    grid-template-columns: 1fr 380px;
+    gap:12px;
+    min-height:0;
+  }
+  @media (max-width: 940px){
+    .main{ grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+  }
+
+  .panel{
+    background: var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:16px;
+    backdrop-filter: blur(14px);
+    display:flex; flex-direction:column;
+    min-height:0;
+  }
+
+  .tree-panel{ padding:12px; gap:10px; }
+  .toolbar{
+    display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+    padding:8px; border-radius:12px; background: rgba(255,255,255,0.025); border:1px solid var(--panel-border);
+  }
+  .field{ display:flex; align-items:center; gap:6px; }
+  .field input[type=text], .field input[type=number]{
+    width:108px; background: var(--bg-2); border:1px solid var(--panel-border); color: var(--text-0);
+    padding:7px 9px; border-radius:9px; font-family: var(--font-mono); font-size:13px; outline:none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .field input:focus{ border-color: var(--cyan); box-shadow: 0 0 0 3px var(--cyan-dim); }
+  .field input.wide{ width:170px; }
+
+  button.btn{
+    font-family: var(--font-ui); font-size:12.5px; font-weight:600; letter-spacing:.01em;
+    padding:8px 13px; border-radius:9px; border:1px solid var(--panel-border); cursor:pointer;
+    background: rgba(255,255,255,0.04); color: var(--text-0);
+    transition: transform .12s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
+    white-space:nowrap;
+  }
+  button.btn:hover:not(:disabled){ transform: translateY(-1px); border-color: rgba(255,255,255,0.28); background: rgba(255,255,255,0.07); }
+  button.btn:active:not(:disabled){ transform: translateY(0); }
+  button.btn:disabled{ opacity:.4; cursor:not-allowed; }
+  button.btn.primary{ background: linear-gradient(135deg, rgba(47,216,232,0.22), rgba(52,217,180,0.14)); border-color: rgba(47,216,232,0.45); color:#DFFCFF; }
+  button.btn.primary:hover:not(:disabled){ box-shadow: 0 0 0 3px var(--cyan-dim); }
+  button.btn.danger{ background: linear-gradient(135deg, rgba(241,102,122,0.18), rgba(241,102,122,0.08)); border-color: rgba(241,102,122,0.4); color:#FFE1E5; }
+  button.btn.ghost{ background: transparent; }
+  button.btn.small{ padding:6px 10px; font-size:11.5px; }
+
+  .toolbar .spacer{ flex:1; }
+
+  .canvas-wrap{
+    position:relative; flex:1; min-height:0; border-radius:12px; overflow:auto;
+    background:
+      radial-gradient(600px 300px at 50% 0%, rgba(47,216,232,0.06), transparent 60%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 34px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 34px),
+      var(--bg-2);
+    border:1px solid var(--panel-border);
+  }
+  svg#treeSvg{ display:block; }
+
+  .empty-state{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:8px; color: var(--text-2); text-align:center; pointer-events:none;
+  }
+  .empty-state .glyph{
+    width:52px; height:52px; border-radius:14px; border:1.5px dashed rgba(255,255,255,0.18);
+    display:flex; align-items:center; justify-content:center; font-size:22px; color: var(--text-2);
+    animation: pulseGlyph 2.6s ease-in-out infinite;
+  }
+  @keyframes pulseGlyph{ 0%,100%{ opacity:.55; transform:scale(1); } 50%{ opacity:1; transform:scale(1.06); } }
+  .empty-state b{ color: var(--text-1); font-weight:600; font-size:13.5px; }
+  .empty-state span{ font-size:11.5px; }
+
+  .edge{ stroke: rgba(255,255,255,0.16); stroke-width:2; fill:none; transition: stroke .25s ease, stroke-width .25s ease, filter .25s ease; }
+  .edge.active{ stroke: var(--cyan); stroke-width:3; filter: drop-shadow(0 0 6px rgba(47,216,232,0.85)); }
+  .edge.danger{ stroke: var(--red); stroke-width:3; filter: drop-shadow(0 0 6px rgba(241,102,122,0.85)); }
+  .edge.promote{ stroke: var(--amber); stroke-width:3; filter: drop-shadow(0 0 6px rgba(246,187,75,0.85)); }
+
+  .node{ cursor:pointer; }
+  .node-inner{ transition: transform .3s cubic-bezier(.34,1.56,.64,1); transform-origin:center; }
+  .node.leaving .node-inner{ transform: scale(0); opacity:0; }
+  .node .disc{
+    fill: #121B2E; stroke: rgba(255,255,255,0.22); stroke-width:1.6;
+    transition: stroke .25s ease, fill .25s ease, filter .25s ease, stroke-width .25s ease;
+  }
+  .node text.val{
+    font-family: var(--font-mono); font-weight:700; font-size:13px; fill: var(--text-0);
+    text-anchor:middle; dominant-baseline:central; pointer-events:none;
+  }
+  .node.root .disc{ stroke: var(--violet); stroke-width:2.2; }
+  .node.comparing .disc{ stroke: var(--cyan); fill:#132530; filter: drop-shadow(0 0 10px rgba(47,216,232,0.7)); stroke-width:2.4; }
+  .node.found .disc{ stroke: var(--green); fill:#0F2A21; filter: drop-shadow(0 0 12px rgba(58,222,149,0.85)); stroke-width:2.6; }
+  .node.warning .disc{ stroke: var(--amber); fill:#2A2110; filter: drop-shadow(0 0 10px rgba(246,187,75,0.7)); }
+  .node.split .disc{ stroke: var(--amber); fill:#2A2110; filter: drop-shadow(0 0 12px rgba(246,187,75,0.85)); animation: pulseSplit .6s ease; }
+  .node.promote .disc{ stroke: var(--teal); filter: drop-shadow(0 0 12px rgba(52,217,180,0.8)); }
+  .node.visited .disc{ stroke: rgba(176,140,246,0.8); }
+  @keyframes pulseSplit{ 0%,100%{ transform:scale(1);} 50%{ transform:scale(1.08);} }
+
+  .bubble{ font-family: var(--font-mono); font-size:10.5px; fill: var(--bg-0); }
+  .bubble-bg{ fill: var(--cyan); opacity:.95; }
+  .bubble.warn-bg{ fill: var(--amber); }
+  .bubble.promote-bg{ fill: var(--teal); }
+
+  .seq-badge circle{ fill: var(--violet); }
+  .seq-badge text{ font-family: var(--font-mono); font-size:9.5px; font-weight:800; fill:#0B0716; text-anchor:middle; dominant-baseline:central; }
+
+  .tooltip{
+    position:absolute; z-index:5; pointer-events:none;
+    background: rgba(10,15,26,0.96); border:1px solid rgba(255,255,255,0.14); border-radius:10px;
+    padding:8px 10px; font-family: var(--font-mono); font-size:11px; color: var(--text-1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); opacity:0; transform: translateY(4px); transition: opacity .12s ease, transform .12s ease;
+    min-width:148px;
+  }
+  .tooltip.show{ opacity:1; transform:none; }
+  .tooltip b{ color: var(--text-0); }
+  .tooltip .row{ display:flex; justify-content:space-between; gap:14px; padding:1px 0; }
+  .tooltip .row span:last-child{ color: var(--cyan); }
+
+  .status-bar{
+    display:flex; align-items:center; gap:9px;
+    padding:9px 12px; border-radius:10px; background: rgba(255,255,255,0.03); border:1px solid var(--panel-border);
+    font-family: var(--font-mono); font-size:12px; color: var(--text-1); min-height:16px;
+  }
+  .status-bar .dot{ width:7px; height:7px; border-radius:50%; background: var(--cyan); flex:none; box-shadow: 0 0 8px var(--cyan); }
+  .status-bar.warn .dot{ background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+  .status-bar.ok .dot{ background: var(--green); box-shadow: 0 0 8px var(--green); }
+  .status-bar span.msg{ color: var(--text-0); }
+
+  .side-panel{ overflow:hidden; }
+  .tabs{ display:flex; gap:4px; padding:10px 10px 0; }
+  .tab-btn{
+    flex:1; font-family: var(--font-ui); font-size:11.5px; font-weight:600; letter-spacing:.01em;
+    padding:8px 6px; text-align:center; border-radius:9px 9px 0 0; cursor:pointer; color: var(--text-2);
+    border:1px solid transparent; border-bottom:none; background:transparent; transition: all .15s ease;
+  }
+  .tab-btn:hover{ color: var(--text-1); }
+  .tab-btn.active{ color: var(--text-0); background: var(--panel-strong); border-color: var(--panel-border); }
+  .tab-content{ flex:1; min-height:0; padding:2px 14px 14px; overflow:hidden; display:flex; flex-direction:column; }
+  .tab-pane{ display:none; flex-direction:column; gap:12px; min-height:0; flex:1; padding-top:12px; }
+  .tab-pane.active{ display:flex; }
+
+  .field-block{ display:flex; flex-direction:column; gap:6px; }
+  .field-block label{ font-size:11px; color: var(--text-2); font-family: var(--font-mono); letter-spacing:.03em; }
+  .field-row{ display:flex; gap:8px; }
+  .field-row input{ flex:1; background: var(--bg-2); border:1px solid var(--panel-border); color: var(--text-0);
+    padding:8px 10px; border-radius:9px; font-family: var(--font-mono); font-size:13px; outline:none; min-width:0; }
+  .field-row input:focus{ border-color: var(--cyan); box-shadow: 0 0 0 3px var(--cyan-dim); }
+  .btn-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  hr.sep{ border:none; border-top:1px solid var(--panel-border); margin:2px 0; }
+
+  .legend-mini{ display:flex; flex-wrap:wrap; gap:6px; font-family: var(--font-mono); font-size:10.5px; color: var(--text-2); }
+  .legend-mini .sw{ display:inline-flex; align-items:center; gap:5px; padding:3px 7px; border-radius:999px; background: rgba(255,255,255,0.03); border:1px solid var(--panel-border); }
+  .legend-mini .sw i{ width:8px; height:8px; border-radius:50%; display:inline-block; }
+
+  .code-tabs{ display:flex; flex-wrap:wrap; gap:5px; }
+  .code-tab{
+    font-family: var(--font-mono); font-size:10.5px; padding:4px 8px; border-radius:6px; cursor:pointer;
+    color: var(--text-2); border:1px solid var(--panel-border); background: rgba(255,255,255,0.02);
+  }
+  .code-tab:hover{ color: var(--text-1); }
+  .code-tab.active{ color: var(--bg-0); background: var(--cyan); border-color: var(--cyan); font-weight:700; }
+  .code-view{
+    flex:1; min-height:0; overflow:auto; background: var(--bg-2); border:1px solid var(--panel-border); border-radius:10px;
+    padding:10px 0;
+  }
+  .code-line{
+    font-family: var(--font-mono); font-size:12px; line-height:20px; white-space:pre; padding:0 12px 0 14px;
+    border-left:3px solid transparent; color: var(--text-1); transition: background .2s ease, border-color .2s ease;
+  }
+  .code-line.hl{ background: rgba(47,216,232,0.09); border-left-color: var(--cyan); color: var(--text-0); }
+  .code-line.hl-warn{ background: rgba(241,102,122,0.10); border-left-color: var(--red); color: var(--text-0); }
+  .tok-kw{ color: var(--violet); } .tok-fn{ color: var(--cyan); } .tok-num{ color: var(--amber); }
+  .tok-str{ color: var(--green); } .tok-com{ color: var(--text-2); font-style:italic; }
+
+  .log{ flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; gap:6px; padding-right:2px; }
+  .log-entry{
+    font-family: var(--font-mono); font-size:11.5px; line-height:1.5; padding:7px 9px; border-radius:8px;
+    background: rgba(255,255,255,0.03); border-left:3px solid var(--panel-border); color: var(--text-1);
+    animation: logIn .25s ease both;
+  }
+  @keyframes logIn{ from{ opacity:0; transform: translateX(-4px);} to{ opacity:1; transform:none;} }
+  .log-entry b{ color: var(--text-0); }
+  .log-entry.head{ color: var(--cyan); border-left-color: var(--cyan); font-weight:700; background: var(--cyan-dim); }
+  .log-entry.ok{ border-left-color: var(--green); }
+  .log-entry.warn{ border-left-color: var(--amber); }
+  .log-entry.danger{ border-left-color: var(--red); }
+
+  .trav-block{ display:flex; flex-direction:column; gap:5px; }
+  .trav-title{ display:flex; align-items:center; justify-content:space-between; }
+  .trav-title span{ font-family: var(--font-mono); font-size:11px; color: var(--text-2); letter-spacing:.03em; }
+  .trav-chips{ display:flex; flex-wrap:wrap; gap:5px; min-height:28px; align-items:center; padding:6px; border-radius:8px; background: rgba(255,255,255,0.025); border:1px solid var(--panel-border); }
+  .trav-chip{
+    font-family: var(--font-mono); font-size:12px; font-weight:700; padding:3px 8px; border-radius:6px;
+    background: rgba(176,140,246,0.16); color:#E6DBFF; border:1px solid rgba(176,140,246,0.35);
+    animation: chipIn .25s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  @keyframes chipIn{ from{ opacity:0; transform: scale(.5);} to{ opacity:1; transform:none;} }
+  .trav-chips .placeholder{ color: var(--text-2); font-family: var(--font-mono); font-size:11px; }
+
+  .modal{ position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .modal.hidden{ display:none; }
+  .modal-backdrop{ position:absolute; inset:0; background: rgba(3,5,10,0.7); backdrop-filter: blur(3px); }
+  .modal-card{
+    position:relative; max-width:580px; width:100%; max-height:82vh; overflow:auto;
+    background: linear-gradient(180deg, #10182A, #0B111E); border:1px solid var(--panel-border); border-radius:16px;
+    padding:22px 24px; box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+    animation: modalIn .28s cubic-bezier(.2,.9,.3,1) both;
+  }
+  @keyframes modalIn{ from{ opacity:0; transform: translateY(10px) scale(.98);} to{ opacity:1; transform:none;} }
+  .modal-card h2{ margin:0 0 4px; font-size:17px; }
+  .modal-card h2 .accent{ color: var(--cyan); }
+  .modal-card p{ font-size:13px; line-height:1.6; color: var(--text-1); }
+  .modal-card .legend-full{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:14px 0; }
+  .modal-card .legend-full .row{ display:flex; align-items:center; gap:8px; font-size:12px; color: var(--text-1); }
+  .modal-card .legend-full i{ width:11px; height:11px; border-radius:50%; flex:none; }
+  .modal-close{ position:absolute; top:14px; right:14px; }
+
+  @media (max-width: 640px){
+    .field input.wide{ width:120px; }
+    .brand h1{ font-size:16px; }
+    .top-actions{ display:none; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="brand">
+      <span class="eyebrow">Data Structures Lab</span>
+      <h1>2-3 Tree Lab — Multiway Search Trees, Traced Live</h1>
+      <p style="margin:0; font-size:0.95rem; color: var(--text-1);">made by Nikhil 😊</p>
+    </div>
+    <div class="top-actions">
+      <label class="chip-toggle"><input type="checkbox" id="stepModeToggle"> Step&nbsp;Mode</label>
+      <div class="speed-wrap">
+        <span>Speed</span>
+        <input type="range" id="speedSlider" min="120" max="1200" value="550" step="10">
+      </div>
+      <button class="icon-btn" id="legendBtn" title="How 2-3 Trees work">?</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <section class="panel tree-panel">
+      <div class="toolbar">
+        <div class="field">
+          <input type="text" id="insertInput" placeholder="insert value">
+          <button class="btn primary small" id="insertBtn">Insert</button>
+        </div>
+        <div class="spacer"></div>
+        <button class="btn small" id="demoBtn">▶ Demo Sequence</button>
+        <button class="btn small" id="randomBtn">🎲 Random</button>
+        <button class="btn ghost small" id="clearBtn">Clear</button>
+        <button class="btn small" id="nextStepBtn" disabled>Next Step ▸</button>
+      </div>
+
+      <div class="canvas-wrap" id="canvasWrap">
+        <svg id="treeSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="empty-state" id="emptyState">
+          <div class="glyph">＋</div>
+          <b>Start by inserting a key…</b>
+          <span>Try 10 → 20 → 30 to watch the first split.</span>
+        </div>
+        <div class="tooltip" id="nodeTooltip"></div>
+      </div>
+
+      <div class="status-bar" id="statusBar"><span class="dot"></span><span class="msg">Ready. Insert a value to begin.</span></div>
+    </section>
+
+    <aside class="panel side-panel">
+      <div class="tabs">
+        <div class="tab-btn active" data-tab="controls">Controls</div>
+        <div class="tab-btn" data-tab="code">Code</div>
+        <div class="tab-btn" data-tab="explain">Steps</div>
+        <div class="tab-btn" data-tab="traversal">Traversal</div>
+      </div>
+      <div class="tab-content">
+
+        <div class="tab-pane active" id="pane-controls">
+          <div class="field-block">
+            <label>INSERT MULTIPLE (comma separated)</label>
+            <div class="field-row">
+              <input type="text" id="bulkInput" placeholder="e.g. 10, 20, 30, 15, 25">
+              <button class="btn small" id="bulkBtn">Add All</button>
+            </div>
+          </div>
+          <hr class="sep">
+          <div class="field-block">
+            <label>TRAVERSAL</label>
+            <div class="btn-grid">
+              <button class="btn small" id="inorderBtn">Inorder</button>
+              <button class="btn ghost small" id="resetHighlightBtn">Reset View</button>
+            </div>
+          </div>
+          <hr class="sep">
+          <div class="field-block">
+            <label>LEGEND</label>
+            <div class="legend-mini">
+              <span class="sw"><i style="background:var(--cyan)"></i>comparing</span>
+              <span class="sw"><i style="background:var(--green)"></i>inserted</span>
+              <span class="sw"><i style="background:var(--amber)"></i>split / overflow</span>
+              <span class="sw"><i style="background:var(--teal)"></i>promoted</span>
+              <span class="sw"><i style="background:var(--violet)"></i>root / visited</span>
+            </div>
+          </div>
+          <div class="field-block" style="margin-top:auto;">
+            <label>STATS</label>
+            <div class="legend-mini" id="statsRow">
+              <span class="sw">nodes: 0</span>
+              <span class="sw">height: 0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="pane-code">
+          <div class="code-tabs" id="codeTabs"></div>
+          <div class="code-view" id="codeView"></div>
+        </div>
+
+        <div class="tab-pane" id="pane-explain">
+          <div class="log" id="logView"></div>
+        </div>
+
+        <div class="tab-pane" id="pane-traversal">
+          <div class="trav-block">
+            <div class="trav-title"><span>INORDER (sorted order)</span></div>
+            <div class="trav-chips" id="chipsIn"><span class="placeholder">not run yet</span></div>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+  </div>
+</div>
+
+<div class="modal hidden" id="legendModal">
+  <div class="modal-backdrop" id="legendBackdrop"></div>
+  <div class="modal-card">
+    <button class="icon-btn modal-close" id="legendClose">✕</button>
+    <h2>How a <span class="accent">2-3 Tree</span> works</h2>
+    <p>A <b>2-3 Tree</b> is a balanced multiway search tree. Every internal node is either a <b>2-node</b> (1 key, 2 children) or a <b>3-node</b> (2 keys, 3 children). All leaves are at the same depth, guaranteeing O(log n) height.</p>
+    <p><b>Insertion rule:</b> Insert into a leaf. If the leaf already has 2 keys, it temporarily becomes a 4-node, then <b>splits</b>: the middle key is <b>promoted</b> to the parent and the remaining keys form two 2-nodes. The split may cascade all the way to the root, increasing the tree height by one.</p>
+    <div class="legend-full">
+      <div class="row"><i style="background:var(--cyan)"></i>Node currently being examined</div>
+      <div class="row"><i style="background:var(--green)"></i>Key successfully inserted</div>
+      <div class="row"><i style="background:var(--amber)"></i>Overflow / split happening</div>
+      <div class="row"><i style="background:var(--teal)"></i>Middle key being promoted</div>
+      <div class="row"><i style="background:var(--violet)"></i>Root node / visited in traversal</div>
+    </div>
+    <p>Toggle <b>Step Mode</b> to walk through every comparison, promotion and split one click at a time.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* =========================================================
+   C SOURCE — displayed in the Code tab (mirrors your code)
+   ========================================================= */
+const CODE = {
+  newNode: [
+    ['nn1','struct node *newNode(int key) {'],
+    ['nn2','    struct node *temp = (struct node *)malloc(sizeof(struct node));'],
+    ['nn3','    temp->key[0] = key;'],
+    ['nn4','    temp->n = 1;'],
+    ['nn5','    temp->child[0] = temp->child[1] = temp->child[2] = NULL;'],
+    ['nn6','    return temp;'],
+    ['nn7','}'],
+  ],
+  insertRec: [
+    ['ir1','int insertRec(struct node *root, int key, int *upKey, struct node **newRight) {'],
+    ['ir2','    /* CASE 1: Leaf node */'],
+    ['ir3','    if (root->child[0] == NULL) {'],
+    ['ir4','        if (root->n == 1) {  /* 2-node → become 3-node */'],
+    ['ir5','            /* insert key in sorted order */'],
+    ['ir6','            root->n = 2; return 0;'],
+    ['ir7','        }'],
+    ['ir8','        /* 3-node overflow → split */'],
+    ['ir9','        /* sort 3 keys, promote middle, create new right */'],
+    ['ir10','        *upKey = middle; root->n = 1; *newRight = newNode(largest);'],
+    ['ir11','        return 1;  /* split flag */'],
+    ['ir12','    }'],
+    ['ir13','    /* CASE 2: Internal node – choose child */'],
+    ['ir14','    if (key < root->key[0]) i = 0;'],
+    ['ir15','    else if (root->n == 1 || key < root->key[1]) i = 1;'],
+    ['ir16','    else i = 2;'],
+    ['ir17','    if (insertRec(root->child[i], key, upKey, newRight) == 0) return 0;'],
+    ['ir18','    /* Child split – insert promoted key */'],
+    ['ir19','    if (root->n == 1) { /* no overflow */ root->n = 2; return 0; }'],
+    ['ir20','    /* Internal overflow → split again */'],
+    ['ir21','    return 1;'],
+    ['ir22','}'],
+  ],
+  insert: [
+    ['in1','void insert(struct node **root, int key) {'],
+    ['in2','    if (*root == NULL) { *root = newNode(key); return; }'],
+    ['in3','    if (insertRec(*root, key, &upKey, &newRight) == 0) return;'],
+    ['in4','    /* Root split → height increases */'],
+    ['in5','    newRoot = newNode(upKey);'],
+    ['in6','    newRoot->child[0] = *root;'],
+    ['in7','    newRoot->child[1] = newRight;'],
+    ['in8','    *root = newRoot;'],
+    ['in9','}'],
+  ],
+  inorder: [
+    ['io1','void inorder(struct node *root) {'],
+    ['io2','    if (root == NULL) return;'],
+    ['io3','    if (root->n == 1) {'],
+    ['io4','        inorder(root->child[0]);'],
+    ['io5','        printf("%d ", root->key[0]);'],
+    ['io6','        inorder(root->child[1]);'],
+    ['io7','    } else {'],
+    ['io8','        inorder(root->child[0]);'],
+    ['io9','        printf("%d ", root->key[0]);'],
+    ['io10','        inorder(root->child[1]);'],
+    ['io11','        printf("%d ", root->key[1]);'],
+    ['io12','        inorder(root->child[2]);'],
+    ['io13','    }'],
+    ['io14','}'],
+  ],
+};
+const FN_LABELS = { newNode:'newNode', insertRec:'insertRec', insert:'insert', inorder:'inorder' };
+
+const TOKEN_RE = /(\/\/.*$)|("(?:[^"\\]|\\.)*")|\b(struct|int|void|if|else|while|return|NULL)\b|\b(newNode|insertRec|insert|inorder|malloc|sizeof|printf)\b|\b(\d+)\b/g;
+function highlightC(line){
+  const esc = line.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return esc.replace(TOKEN_RE, (m, com, str, kw, fn, num) => {
+    if (com) return '<span class="tok-com">'+com+'</span>';
+    if (str) return '<span class="tok-str">'+str+'</span>';
+    if (kw)  return '<span class="tok-kw">'+kw+'</span>';
+    if (fn)  return '<span class="tok-fn">'+fn+'</span>';
+    if (num) return '<span class="tok-num">'+num+'</span>';
+    return m;
+  });
+}
+
+/* =========================================================
+   2-3 TREE MODEL
+   ========================================================= */
+let nodeIdCounter = 1;
+function makeNode(key){
+  return {
+    id: 'n'+(nodeIdCounter++),
+    keys: [key],
+    n: 1,
+    children: [null, null, null]
+  };
+}
+const tree = { root: null };
+
+function isLeaf(node){ return node && node.children[0] === null; }
+
+function collectNodesEdges(){
+  const nodes = [], edges = [];
+  (function walk(node, parent, childIdx){
+    if (!node) return;
+    nodes.push(node);
+    if (parent) edges.push({ id: parent.id+'__'+node.id+'_'+childIdx, from: parent.id, to: node.id, idx: childIdx });
+    for (let i = 0; i < 3; i++) walk(node.children[i], node, i);
+  })(tree.root, null, 0);
+  return { nodes, edges };
+}
+
+const NODE_H = 36, KEY_W = 34, SPACING_Y = 92, MARGIN_X = 48, MARGIN_Y = 42;
+function nodeWidth(n){ return n.n === 1 ? KEY_W + 12 : KEY_W*2 + 18; }
+
+function computeLayout(){
+  const positions = {};
+  let maxDepth = 0;
+  // First pass: assign leaf order (inorder positions)
+  let leafCounter = 0;
+  const leafPos = {};
+  (function assignLeaves(node, depth){
+    if (!node) return;
+    maxDepth = Math.max(maxDepth, depth);
+    if (isLeaf(node)){
+      leafPos[node.id] = leafCounter++;
+      return;
+    }
+    for (let i = 0; i < 3; i++) assignLeaves(node.children[i], depth+1);
+  })(tree.root, 0);
+
+  // Second pass: position every node at the midpoint of its subtree leaves
+  (function place(node, depth){
+    if (!node) return;
+    if (isLeaf(node)){
+      const x = MARGIN_X + leafPos[node.id] * (KEY_W + 28);
+      positions[node.id] = { x, y: MARGIN_Y + depth * SPACING_Y, w: nodeWidth(node) };
+      return;
+    }
+    const childXs = [];
+    for (let i = 0; i < 3; i++){
+      if (node.children[i]){
+        place(node.children[i], depth+1);
+        childXs.push(positions[node.children[i].id].x);
+      }
+    }
+    const x = childXs.reduce((a,b)=>a+b,0) / childXs.length;
+    positions[node.id] = { x, y: MARGIN_Y + depth * SPACING_Y, w: nodeWidth(node) };
+  })(tree.root, 0);
+
+  const count = Object.keys(positions).length;
+  let maxX = 0;
+  for (const id in positions) maxX = Math.max(maxX, positions[id].x + positions[id].w/2);
+  const width = Math.max(420, maxX + MARGIN_X + 40);
+  const height = MARGIN_Y*2 + maxDepth*SPACING_Y + 40;
+  return { positions, width, height, count, maxDepth };
+}
+
+function treeHeight(node){
+  if (!node) return 0;
+  if (isLeaf(node)) return 1;
+  let h = 0;
+  for (let i = 0; i < 3; i++) h = Math.max(h, treeHeight(node.children[i]));
+  return 1 + h;
+}
+
+/* =========================================================
+   ALGORITHM GENERATORS (mirror your insertRec / insert)
+   ========================================================= */
+function step(s){ return s; }
+
+function* insertRecGen(node, key){
+  // Returns { split: bool, upKey, newRight }
+  yield step({fn:'insertRec', line:'ir1', type:'call', nodeId:node.id, msg:'insertRec called on node ['+node.keys.join(',')+'] with key '+key});
+
+  if (isLeaf(node)){
+    yield step({fn:'insertRec', line:'ir3', type:'leaf', nodeId:node.id, msg:'This is a leaf node.'});
+
+    if (node.n === 1){
+      yield step({fn:'insertRec', line:'ir4', type:'compare', nodeId:node.id, msg:'2-node → insert '+key+' in sorted order.'});
+      if (key === node.keys[0]){
+        yield step({fn:'insertRec', line:'ir5', type:'duplicate', nodeId:node.id, warning:true, msg:'Duplicate key '+key+' ignored.'});
+        return { split: false };
+      }
+      if (key < node.keys[0]){
+        node.keys = [key, node.keys[0]];
+      } else {
+        node.keys = [node.keys[0], key];
+      }
+      node.n = 2;
+      yield step({fn:'insertRec', line:'ir6', type:'inserted', nodeId:node.id, structural:true, msg: key+' inserted. Node is now a 3-node ['+node.keys.join(',')+'].'});
+      return { split: false };
+    }
+
+    // 3-node leaf → overflow
+    yield step({fn:'insertRec', line:'ir8', type:'overflow', nodeId:node.id, msg:'3-node already full → OVERFLOW. Will split.'});
+    if (key === node.keys[0] || key === node.keys[1]){
+      yield step({fn:'insertRec', line:'ir8', type:'duplicate', nodeId:node.id, warning:true, msg:'Duplicate key ignored.'});
+      return { split: false };
+    }
+    const temp = [...node.keys, key].sort((a,b)=>a-b);
+    yield step({fn:'insertRec', line:'ir9', type:'sort', nodeId:node.id, msg:'Three keys sorted: '+temp.join(', ')});
+    const mid = temp[1], leftK = temp[0], rightK = temp[2];
+    yield step({fn:'insertRec', line:'ir10', type:'promote', nodeId:node.id, msg:'Middle key '+mid+' will be promoted. Left keeps '+leftK+', new right gets '+rightK+'.'});
+    node.keys = [leftK];
+    node.n = 1;
+    const right = makeNode(rightK);
+    yield step({fn:'insertRec', line:'ir11', type:'split', nodeId:node.id, newRightId:right.id, structural:true, msg:'Split complete. Promote '+mid+'.'});
+    return { split: true, upKey: mid, newRight: right };
+  }
+
+  // Internal node – choose child
+  let i;
+  if (key < node.keys[0]) i = 0;
+  else if (node.n === 1 || key < node.keys[1]) i = 1;
+  else i = 2;
+
+  yield step({fn:'insertRec', line: i===0?'ir14':(i===1?'ir15':'ir16'), type:'compare', nodeId:node.id,
+    msg: 'Choose child['+i+'] because '+(i===0 ? key+' < '+node.keys[0] : (i===1 ? (node.n===1?'only one key':'key < '+node.keys[1]) : 'key ≥ '+node.keys[1]))});
+
+  if (!node.children[i]){
+    // should not happen in proper 2-3 tree
+    return { split: false };
+  }
+
+  yield step({fn:'insertRec', line:'ir17', type:'go-child', nodeId:node.id, edgeFrom:node.id, edgeTo:node.children[i].id, msg:'Recurse into child['+i+'].'});
+  const res = yield* insertRecGen(node.children[i], key);
+
+  if (!res.split){
+    yield step({fn:'insertRec', line:'ir17', type:'no-split', nodeId:node.id, msg:'Child did not split. Return 0.'});
+    return { split: false };
+  }
+
+  // Child split – try to absorb promoted key
+  yield step({fn:'insertRec', line:'ir18', type:'child-split', nodeId:node.id, msg:'Child split! Need to insert promoted key '+res.upKey});
+
+  if (node.n === 1){
+    // room available
+    if (i === 0){
+      node.keys = [res.upKey, node.keys[0]];
+      node.children[2] = node.children[1];
+      node.children[1] = res.newRight;
+    } else {
+      node.keys = [node.keys[0], res.upKey];
+      node.children[2] = res.newRight;
+    }
+    node.n = 2;
+    yield step({fn:'insertRec', line:'ir19', type:'absorbed', nodeId:node.id, structural:true, msg:'Promoted key absorbed. Node is now 3-node ['+node.keys.join(',')+'].'});
+    return { split: false };
+  }
+
+  // Internal 3-node also overflows
+  yield step({fn:'insertRec', line:'ir20', type:'overflow', nodeId:node.id, msg:'Internal 3-node also overflows → split again.'});
+  const tempKeys = [...node.keys, res.upKey].sort((a,b)=>a-b);
+  const tempChild = [null,null,null,null];
+  if (i === 0){
+    tempChild[0] = node.children[0];
+    tempChild[1] = res.newRight;
+    tempChild[2] = node.children[1];
+    tempChild[3] = node.children[2];
+  } else if (i === 1){
+    tempChild[0] = node.children[0];
+    tempChild[1] = node.children[1];
+    tempChild[2] = res.newRight;
+    tempChild[3] = node.children[2];
+  } else {
+    tempChild[0] = node.children[0];
+    tempChild[1] = node.children[1];
+    tempChild[2] = node.children[2];
+    tempChild[3] = res.newRight;
+  }
+
+  const mid = tempKeys[1];
+  node.keys = [tempKeys[0]];
+  node.n = 1;
+  node.children[0] = tempChild[0];
+  node.children[1] = tempChild[1];
+  node.children[2] = null;
+
+  const right = makeNode(tempKeys[2]);
+  right.children[0] = tempChild[2];
+  right.children[1] = tempChild[3];
+
+  yield step({fn:'insertRec', line:'ir21', type:'split', nodeId:node.id, newRightId:right.id, structural:true,
+    msg:'Internal split. Promote '+mid+'. New right node created.'});
+  return { split: true, upKey: mid, newRight: right };
+}
+
+function* insertGen(key){
+  yield step({fn:'insert', line:'in1', type:'call', msg:'insert(&root, '+key+') called.'});
+
+  if (!tree.root){
+    yield step({fn:'insert', line:'in2', type:'empty', msg:'Tree is empty → create root with newNode('+key+').'});
+    yield step({fn:'newNode', line:'nn1', type:'create', msg:'newNode('+key+') allocates a fresh 2-node.'});
+    tree.root = makeNode(key);
+    yield step({fn:'insert', line:'in2', type:'inserted', nodeId:tree.root.id, structural:true, msg: key+' is now the root.'});
+    return { ok: true };
+  }
+
+  const res = yield* insertRecGen(tree.root, key);
+
+  if (!res.split){
+    yield step({fn:'insert', line:'in3', type:'done', msg:'Insertion finished without root split.'});
+    return { ok: true };
+  }
+
+  // Root split → height increases
+  yield step({fn:'insert', line:'in4', type:'root-split', msg:'ROOT SPLIT! Height of the tree will increase by 1.'});
+  yield step({fn:'newNode', line:'nn1', type:'create', msg:'Create new root with promoted key '+res.upKey});
+  const newRoot = makeNode(res.upKey);
+  newRoot.children[0] = tree.root;
+  newRoot.children[1] = res.newRight;
+  tree.root = newRoot;
+  yield step({fn:'insert', line:'in8', type:'inserted', nodeId:newRoot.id, structural:true, msg:'New root ['+res.upKey+'] created. Tree height increased.'});
+  return { ok: true };
+}
+
+function* inorderGen(node){
+  if (!node){
+    yield step({fn:'inorder', line:'io2', type:'null', msg:'Reached NULL — return.'});
+    return;
+  }
+  yield step({fn:'inorder', line:'io2', type:'visit-node', nodeId:node.id, msg:'Visit node ['+node.keys.join(',')+']'});
+
+  if (node.n === 1){
+    yield* inorderGen(node.children[0]);
+    yield step({fn:'inorder', line:'io5', type:'visit', nodeId:node.id, key:node.keys[0], msg:'printf: '+node.keys[0]});
+    yield* inorderGen(node.children[1]);
+  } else {
+    yield* inorderGen(node.children[0]);
+    yield step({fn:'inorder', line:'io9', type:'visit', nodeId:node.id, key:node.keys[0], msg:'printf: '+node.keys[0]});
+    yield* inorderGen(node.children[1]);
+    yield step({fn:'inorder', line:'io11', type:'visit', nodeId:node.id, key:node.keys[1], msg:'printf: '+node.keys[1]});
+    yield* inorderGen(node.children[2]);
+  }
+}
+
+/* =========================================================
+   DOM REFS & RENDERING
+   ========================================================= */
+const svg = document.getElementById('treeSvg');
+const canvasWrap = document.getElementById('canvasWrap');
+const emptyState = document.getElementById('emptyState');
+const tooltip = document.getElementById('nodeTooltip');
+const statusBar = document.getElementById('statusBar');
+const statusMsg = statusBar.querySelector('.msg');
+const logView = document.getElementById('logView');
+const codeTabs = document.getElementById('codeTabs');
+const codeView = document.getElementById('codeView');
+const nextStepBtn = document.getElementById('nextStepBtn');
+const statsRow = document.getElementById('statsRow');
+
+const NS = 'http://www.w3.org/2000/svg';
+function svgEl(tag, attrs){
+  const el = document.createElementNS(NS, tag);
+  if (attrs) for (const k in attrs) el.setAttribute(k, attrs[k]);
+  return el;
+}
+let edgesLayer = svgEl('g', {class:'edges-layer'});
+let nodesLayer = svgEl('g', {class:'nodes-layer'});
+let effectsLayer = svgEl('g', {class:'effects-layer'});
+svg.appendChild(edgesLayer); svg.appendChild(nodesLayer); svg.appendChild(effectsLayer);
+
+let currentPositions = {};
+let renderGen = 0;
+const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function createNodeEl(n){
+  const g = svgEl('g', {class:'node', 'data-id': n.id});
+  const inner = svgEl('g', {class:'node-inner'});
+  const w = nodeWidth(n);
+  const rect = svgEl('rect', {
+    class:'disc', x: -w/2, y: -NODE_H/2, width: w, height: NODE_H, rx: 10, ry: 10
+  });
+  inner.appendChild(rect);
+
+  if (n.n === 1){
+    const t = svgEl('text', {class:'val', x:0, y:1});
+    t.textContent = n.keys[0];
+    inner.appendChild(t);
+  } else {
+    const t1 = svgEl('text', {class:'val', x: -KEY_W/2 - 2, y:1});
+    t1.textContent = n.keys[0];
+    const t2 = svgEl('text', {class:'val', x: KEY_W/2 + 2, y:1});
+    t2.textContent = n.keys[1];
+    // subtle divider
+    const line = svgEl('line', {x1:0, y1:-NODE_H/2+6, x2:0, y2:NODE_H/2-6, stroke:'rgba(255,255,255,0.18)', 'stroke-width':1});
+    inner.appendChild(line);
+    inner.appendChild(t1); inner.appendChild(t2);
+  }
+  g.appendChild(inner);
+  g.addEventListener('mouseenter', (e) => showTooltip(n.id, e));
+  g.addEventListener('mousemove', (e) => positionTooltip(e));
+  g.addEventListener('mouseleave', hideTooltip);
+  return g;
+}
+
+function renderTree(){
+  const { nodes, edges } = collectNodesEdges();
+  const { positions, width, height, count, maxDepth } = computeLayout();
+
+  emptyState.style.display = nodes.length ? 'none' : 'flex';
+  svg.setAttribute('width', width);
+  svg.setAttribute('height', height);
+  svg.setAttribute('viewBox', '0 0 '+width+' '+height);
+
+  statsRow.innerHTML = '<span class="sw">nodes: '+count+'</span><span class="sw">height: '+treeHeight(tree.root)+'</span>';
+
+  const wantIds = new Set(nodes.map(n => n.id));
+  [...nodesLayer.children].forEach(el => {
+    const id = el.getAttribute('data-id');
+    if (!wantIds.has(id)){
+      el.classList.add('leaving');
+      setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, prefersReduced ? 0 : 320);
+    }
+  });
+  const wantEdgeIds = new Set(edges.map(e => e.id));
+  [...edgesLayer.children].forEach(el => {
+    const id = el.getAttribute('data-eid');
+    if (!wantEdgeIds.has(id) && el.parentNode) el.parentNode.removeChild(el);
+  });
+
+  nodes.forEach(n => {
+    let el = nodesLayer.querySelector('[data-id="'+n.id+'"]');
+    if (!el){
+      el = createNodeEl(n);
+      nodesLayer.appendChild(el);
+      if (!currentPositions[n.id]){
+        const p = positions[n.id];
+        currentPositions[n.id] = { x: p.x, y: p.y, w: p.w };
+      }
+    } else {
+      // update content if keys changed
+      const inner = el.querySelector('.node-inner');
+      inner.innerHTML = '';
+      const w = nodeWidth(n);
+      const rect = svgEl('rect', {class:'disc', x:-w/2, y:-NODE_H/2, width:w, height:NODE_H, rx:10, ry:10});
+      inner.appendChild(rect);
+      if (n.n === 1){
+        const t = svgEl('text', {class:'val', x:0, y:1}); t.textContent = n.keys[0]; inner.appendChild(t);
+      } else {
+        const line = svgEl('line', {x1:0, y1:-NODE_H/2+6, x2:0, y2:NODE_H/2-6, stroke:'rgba(255,255,255,0.18)', 'stroke-width':1});
+        const t1 = svgEl('text', {class:'val', x:-KEY_W/2-2, y:1}); t1.textContent = n.keys[0];
+        const t2 = svgEl('text', {class:'val', x: KEY_W/2+2, y:1}); t2.textContent = n.keys[1];
+        inner.appendChild(line); inner.appendChild(t1); inner.appendChild(t2);
+      }
+    }
+    el.classList.toggle('root', tree.root && n.id === tree.root.id);
+  });
+
+  edges.forEach(e => {
+    let el = edgesLayer.querySelector('[data-eid="'+e.id+'"]');
+    if (!el){
+      el = svgEl('line', {class:'edge', 'data-eid': e.id, 'data-from': e.from, 'data-to': e.to});
+      edgesLayer.appendChild(el);
+    }
+  });
+
+  animateTo(positions);
+}
+
+function easeInOutCubic(t){ return t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
+
+function animateTo(targetPositions){
+  const myGen = ++renderGen;
+  const startPositions = {};
+  for (const id in targetPositions) startPositions[id] = currentPositions[id] || targetPositions[id];
+  const duration = prefersReduced ? 1 : 520;
+  const startTime = performance.now();
+
+  function frame(now){
+    if (myGen !== renderGen) return;
+    const t = Math.min(1, (now-startTime)/duration);
+    const e = easeInOutCubic(t);
+
+    nodesLayer.querySelectorAll('.node').forEach(el => {
+      const id = el.getAttribute('data-id');
+      const tg = targetPositions[id];
+      if (!tg) return;
+      const s = startPositions[id] || tg;
+      const x = s.x + (tg.x-s.x)*e, y = s.y + (tg.y-s.y)*e;
+      el.setAttribute('transform', 'translate('+x+','+y+')');
+      currentPositions[id] = { x, y, w: tg.w };
+    });
+    edgesLayer.querySelectorAll('.edge').forEach(el => {
+      const fromId = el.getAttribute('data-from'), toId = el.getAttribute('data-to');
+      const tf = targetPositions[fromId], tt = targetPositions[toId];
+      if (!tf || !tt) return;
+      const sf = startPositions[fromId] || tf, st = startPositions[toId] || tt;
+      const x1 = sf.x + (tf.x-sf.x)*e, y1 = sf.y + (tf.y-sf.y)*e + NODE_H/2;
+      const x2 = st.x + (tt.x-st.x)*e, y2 = st.y + (tt.y-st.y)*e - NODE_H/2;
+      el.setAttribute('x1', x1); el.setAttribute('y1', y1);
+      el.setAttribute('x2', x2); el.setAttribute('y2', y2);
+    });
+
+    if (t < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+function nodeEl(id){ return id ? nodesLayer.querySelector('[data-id="'+id+'"]') : null; }
+function edgeEl(fromId, toId){
+  return edgesLayer.querySelector('[data-from="'+fromId+'"][data-to="'+toId+'"]') ||
+         edgesLayer.querySelector('[data-eid^="'+fromId+'__'+toId+'"]');
+}
+
+function clearTransientVisuals(){
+  nodesLayer.querySelectorAll('.node').forEach(el => el.classList.remove('comparing','found','warning','split','promote','visited'));
+  edgesLayer.querySelectorAll('.edge').forEach(el => el.classList.remove('active','danger','promote'));
+  effectsLayer.querySelectorAll('.bubble-group').forEach(el => el.remove());
+}
+
+function spawnRipple(id, kind){
+  const p = currentPositions[id];
+  if (!p) return;
+  const c = svgEl('circle', {cx:p.x, cy:p.y, r:22, fill:'none',
+    stroke: kind==='warn' ? 'var(--amber)' : (kind==='promote' ? 'var(--teal)' : 'var(--green)'),
+    'stroke-width':2, opacity:0.9});
+  c.style.transformOrigin = p.x+'px '+p.y+'px';
+  c.style.animation = (prefersReduced?'none':'rippleAnim .7s ease-out forwards');
+  effectsLayer.appendChild(c);
+  if (!document.getElementById('rippleKeyframes')){
+    const style = document.createElement('style');
+    style.id = 'rippleKeyframes';
+    style.textContent = '@keyframes rippleAnim{ from{ transform:scale(0.5); opacity:0.9;} to{ transform:scale(2.6); opacity:0;} }';
+    document.head.appendChild(style);
+  }
+  setTimeout(() => { if (c.parentNode) c.parentNode.removeChild(c); }, 750);
+}
+
+function spawnBubble(id, text, kind){
+  const p = currentPositions[id];
+  if (!p) return;
+  const g = svgEl('g', {class:'bubble-group'});
+  const padX = 6, h = 16;
+  const w = Math.max(30, text.length*5.6 + padX*2);
+  const bx = p.x - w/2, by = p.y - NODE_H/2 - h - 10;
+  let bgClass = 'bubble-bg';
+  if (kind==='warn') bgClass += ' warn-bg';
+  if (kind==='promote') bgClass += ' promote-bg';
+  const rect = svgEl('rect', {x:bx, y:by, width:w, height:h, rx:8, class:bgClass});
+  const t = svgEl('text', {x:p.x, y:by+h/2+0.5, class:'bubble', 'text-anchor':'middle', 'dominant-baseline':'central'});
+  t.textContent = text;
+  g.appendChild(rect); g.appendChild(t);
+  g.style.opacity = '0';
+  g.style.transition = 'opacity .18s ease, transform .18s ease';
+  g.style.transform = 'translateY(4px)';
+  effectsLayer.appendChild(g);
+  requestAnimationFrame(() => { g.style.opacity = '1'; g.style.transform = 'translateY(0)'; });
+  setTimeout(() => { if (g.parentNode){ g.style.opacity='0'; setTimeout(()=>g.remove(), 200); } }, 1400);
+}
+
+let seqCounter = 0;
+function spawnSeqBadge(id, n){
+  const p = currentPositions[id];
+  if (!p) return;
+  const g = svgEl('g', {class:'seq-badge bubble-group', transform:'translate('+(p.x + (p.w||30)/2 - 4)+','+(p.y - NODE_H/2 + 4)+')'});
+  const c = svgEl('circle', {r:8});
+  const t = svgEl('text', {y:0.5});
+  t.textContent = n;
+  g.appendChild(c); g.appendChild(t);
+  g.style.opacity='0'; g.style.transition='opacity .2s ease, transform .25s cubic-bezier(.34,1.56,.64,1)';
+  effectsLayer.appendChild(g);
+  requestAnimationFrame(() => { g.style.opacity='1'; });
+}
+
+/* =========================================================
+   TOOLTIP
+   ========================================================= */
+function findNodeById(id){
+  let found = null;
+  (function walk(node){ if (!node || found) return; if (node.id===id) found=node; for(let i=0;i<3;i++) walk(node.children[i]); })(tree.root);
+  return found;
+}
+function showTooltip(id, evt){
+  const n = findNodeById(id);
+  if (!n) return;
+  let childStr = [];
+  for (let i=0;i<3;i++) childStr.push(n.children[i] ? '['+n.children[i].keys.join(',')+']' : 'null');
+  tooltip.innerHTML =
+    '<div class="row"><span>keys</span><span><b>['+n.keys.join(', ')+']</b></span></div>'+
+    '<div class="row"><span>n</span><span>'+n.n+' ('+(n.n===1?'2-node':'3-node')+')</span></div>'+
+    '<div class="row"><span>child[0]</span><span>'+childStr[0]+'</span></div>'+
+    '<div class="row"><span>child[1]</span><span>'+childStr[1]+'</span></div>'+
+    '<div class="row"><span>child[2]</span><span>'+childStr[2]+'</span></div>';
+  tooltip.classList.add('show');
+  positionTooltip(evt);
+}
+function positionTooltip(evt){
+  const rect = canvasWrap.getBoundingClientRect();
+  const x = evt.clientX - rect.left + canvasWrap.scrollLeft + 14;
+  const y = evt.clientY - rect.top + canvasWrap.scrollTop + 14;
+  tooltip.style.left = x+'px'; tooltip.style.top = y+'px';
+}
+function hideTooltip(){ tooltip.classList.remove('show'); }
+
+/* =========================================================
+   CODE PANEL + LOG
+   ========================================================= */
+let activeFn = 'insert';
+function buildCodeTabs(){
+  codeTabs.innerHTML = '';
+  Object.keys(CODE).forEach(fn => {
+    const t = document.createElement('div');
+    t.className = 'code-tab' + (fn===activeFn ? ' active' : '');
+    t.textContent = FN_LABELS[fn];
+    t.dataset.fn = fn;
+    t.onclick = () => { setActiveFn(fn, null); };
+    codeTabs.appendChild(t);
+  });
+}
+function setActiveFn(fn, lineKey){
+  activeFn = fn;
+  codeTabs.querySelectorAll('.code-tab').forEach(t => t.classList.toggle('active', t.dataset.fn===fn));
+  codeView.innerHTML = '';
+  CODE[fn].forEach(([key, text]) => {
+    const div = document.createElement('div');
+    div.className = 'code-line';
+    div.dataset.line = key;
+    div.innerHTML = highlightC(text);
+    codeView.appendChild(div);
+  });
+  if (lineKey) highlightLine(fn, lineKey);
+}
+function highlightLine(fn, lineKey, warn){
+  if (activeFn !== fn) setActiveFn(fn, null);
+  codeView.querySelectorAll('.code-line').forEach(el => el.classList.remove('hl','hl-warn'));
+  const target = codeView.querySelector('[data-line="'+lineKey+'"]');
+  if (target){
+    target.classList.add(warn ? 'hl-warn' : 'hl');
+    if (typeof target.scrollIntoView === 'function') target.scrollIntoView({block:'nearest', behavior:'smooth'});
+  }
+}
+
+function logHeader(text){
+  const d = document.createElement('div');
+  d.className = 'log-entry head';
+  d.textContent = '▶ ' + text;
+  logView.appendChild(d);
+  logView.scrollTop = logView.scrollHeight;
+}
+function logEntry(text, kind){
+  const d = document.createElement('div');
+  d.className = 'log-entry' + (kind ? ' '+kind : '');
+  d.innerHTML = text;
+  logView.appendChild(d);
+  logView.scrollTop = logView.scrollHeight;
+  while (logView.children.length > 160) logView.removeChild(logView.firstChild);
+}
+function setStatus(text, kind){
+  statusMsg.textContent = text;
+  statusBar.classList.remove('warn','ok');
+  if (kind) statusBar.classList.add(kind);
+}
+
+/* =========================================================
+   STEP PLAYER
+   ========================================================= */
+const state = { stepMode:false, speedMs:550, busy:false };
+let resolveNext = null;
+
+function applyStep(s){
+  clearTransientVisuals();
+  if (s.fn && s.line) highlightLine(s.fn, s.line, !!s.warning);
+
+  if (s.edgeFrom && s.edgeTo){
+    const el = edgeEl(s.edgeFrom, s.edgeTo);
+    if (el) el.classList.add('active');
+  }
+  if (s.nodeId){
+    const el = nodeEl(s.nodeId);
+    if (el){
+      if (s.type==='inserted' || s.type==='found') el.classList.add('found');
+      else if (s.type==='duplicate' || s.type==='overflow') el.classList.add('warning');
+      else if (s.type==='split' || s.type==='root-split') el.classList.add('split');
+      else if (s.type==='promote') el.classList.add('promote');
+      else if (s.type==='visit') el.classList.add('visited');
+      else el.classList.add('comparing');
+    }
+  }
+
+  const msg = s.msg || '';
+  if (msg){
+    setStatus(msg, s.warning ? 'warn' : (s.type==='inserted'||s.type==='found'||s.type==='done' ? 'ok' : null));
+    logEntry(msg, s.warning ? 'warn' : (s.type==='inserted'||s.type==='found' ? 'ok' : (s.type==='split'||s.type==='overflow'?'warn':null)));
+  }
+
+  if (s.nodeId && (s.type==='compare' || s.type==='go-child' || s.type==='overflow' || s.type==='promote')){
+    const short = (s.msg||'').split('→')[0].trim().slice(0,28);
+    if (short) spawnBubble(s.nodeId, short, s.type==='promote'?'promote':(s.type==='overflow'?'warn':null));
+  }
+  if (s.type==='visit' && s.key !== undefined){
+    seqCounter++;
+    spawnSeqBadge(s.nodeId, seqCounter);
+  }
+
+  if (s.structural){
+    renderTree();
+    if (s.type==='inserted') setTimeout(() => spawnRipple(s.nodeId, 'ok'), 40);
+    if (s.type==='split' || s.type==='root-split') setTimeout(() => spawnRipple(s.nodeId, 'warn'), 40);
+    if (s.type==='promote') setTimeout(() => spawnRipple(s.nodeId, 'promote'), 40);
+  }
+}
+
+function waitTurn(){
+  if (state.stepMode){
+    nextStepBtn.disabled = false;
+    return new Promise(res => { resolveNext = res; });
+  }
+  nextStepBtn.disabled = true;
+  return new Promise(res => setTimeout(res, state.speedMs));
+}
+nextStepBtn.addEventListener('click', () => {
+  if (resolveNext){ const r = resolveNext; resolveNext = null; nextStepBtn.disabled = true; r(); }
+});
+
+async function runOp(genObj, onStep){
+  state.busy = true;
+  setControlsDisabled(true);
+  try {
+    let it = genObj.next();
+    while (!it.done){
+      applyStep(it.value);
+      if (onStep) onStep(it.value);
+      await waitTurn();
+      it = genObj.next();
+    }
+    return it.value;
+  } finally {
+    state.busy = false;
+    setControlsDisabled(false);
+    nextStepBtn.disabled = true;
+    setTimeout(() => { if (!state.busy) clearTransientVisuals(); }, prefersReduced ? 0 : 900);
+    renderTree();
+  }
+}
+
+const controlSelectors = ['#insertBtn','#demoBtn','#randomBtn','#clearBtn','#bulkBtn','#inorderBtn','#insertInput','#bulkInput'];
+function setControlsDisabled(disabled){
+  controlSelectors.forEach(sel => { const el = document.querySelector(sel); if (el) el.disabled = disabled; });
+}
+
+/* =========================================================
+   OPERATION HANDLERS
+   ========================================================= */
+function parseIntSafe(str){
+  const v = parseInt(String(str).trim(), 10);
+  return Number.isFinite(v) ? v : null;
+}
+
+async function doInsert(value){
+  logHeader('Insert '+value);
+  await runOp(insertGen(value));
+}
+
+async function doInorder(){
+  if (!tree.root){ setStatus('Tree is empty — nothing to traverse.', 'warn'); logHeader('Inorder'); logEntry('Tree is empty.', 'warn'); return; }
+  const chipsEl = document.getElementById('chipsIn');
+  chipsEl.innerHTML = '';
+  seqCounter = 0;
+  logHeader('Inorder traversal');
+  switchTab('traversal');
+  await runOp(inorderGen(tree.root), (s) => {
+    if (s.type === 'visit' && s.key !== undefined){
+      const chip = document.createElement('div');
+      chip.className = 'trav-chip';
+      chip.textContent = s.key;
+      chipsEl.appendChild(chip);
+    }
+  });
+}
+
+document.getElementById('insertBtn').addEventListener('click', () => {
+  const input = document.getElementById('insertInput');
+  const v = parseIntSafe(input.value);
+  if (v===null){ setStatus('Enter a valid integer to insert.', 'warn'); return; }
+  input.value = '';
+  doInsert(v);
+});
+document.getElementById('insertInput').addEventListener('keydown', (e) => { if (e.key==='Enter') document.getElementById('insertBtn').click(); });
+
+document.getElementById('bulkBtn').addEventListener('click', async () => {
+  const input = document.getElementById('bulkInput');
+  const parts = input.value.split(/[,\s]+/).map(s=>s.trim()).filter(Boolean);
+  const values = [];
+  parts.forEach(p => { const v = parseIntSafe(p); if (v!==null && !values.includes(v)) values.push(v); });
+  if (!values.length){ setStatus('Enter comma-separated integers.', 'warn'); return; }
+  input.value = '';
+  for (const v of values){ await doInsert(v); }
+});
+document.getElementById('bulkInput').addEventListener('keydown', (e) => { if (e.key==='Enter') document.getElementById('bulkBtn').click(); });
+
+document.getElementById('demoBtn').addEventListener('click', async () => {
+  tree.root = null; renderTree(); clearLog();
+  const seq = [10,20,30,15,25,5,35];
+  logHeader('Demo sequence: '+seq.join(', '));
+  for (const v of seq){ await doInsert(v); }
+});
+
+document.getElementById('randomBtn').addEventListener('click', async () => {
+  tree.root = null; renderTree(); clearLog();
+  const set = new Set();
+  while (set.size < 9) set.add(1 + Math.floor(Math.random()*60));
+  const values = [...set];
+  logHeader('Random insertion');
+  for (const v of values){ await doInsert(v); }
+});
+
+document.getElementById('clearBtn').addEventListener('click', () => {
+  tree.root = null;
+  renderTree();
+  clearLog();
+  setStatus('Tree cleared. Insert a value to begin.', null);
+  document.getElementById('chipsIn').innerHTML = '<span class="placeholder">not run yet</span>';
+});
+
+document.getElementById('inorderBtn').addEventListener('click', () => doInorder());
+document.getElementById('resetHighlightBtn').addEventListener('click', () => { clearTransientVisuals(); setStatus('View reset.', null); });
+
+function clearLog(){ logView.innerHTML = ''; }
+
+function switchTab(name){
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab===name));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.toggle('active', p.id==='pane-'+name));
+}
+document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
+
+document.getElementById('stepModeToggle').addEventListener('change', (e) => { state.stepMode = e.target.checked; nextStepBtn.disabled = !(state.stepMode && state.busy); });
+document.getElementById('speedSlider').addEventListener('input', (e) => { state.speedMs = 1320 - parseInt(e.target.value,10); });
+state.speedMs = 1320 - parseInt(document.getElementById('speedSlider').value,10);
+
+const legendModal = document.getElementById('legendModal');
+document.getElementById('legendBtn').addEventListener('click', () => legendModal.classList.remove('hidden'));
+document.getElementById('legendClose').addEventListener('click', () => legendModal.classList.add('hidden'));
+document.getElementById('legendBackdrop').addEventListener('click', () => legendModal.classList.add('hidden'));
+
+buildCodeTabs();
+setActiveFn('insert', null);
+renderTree();
+
+})();
+</script>
+</body>
+</html>
