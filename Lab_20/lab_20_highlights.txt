@@ -1,0 +1,73 @@
+Lab 20 Highlights
+
+1. Important Concepts Overview
+
+A. Tree Basics & Terminology
+- Root: Tree nu sau thi pehlu (top-level) node.
+- Leaf Node: Je node ne koi pan child node na hoy (left & right both NULL).
+- Height of a Tree: Root thi laine sau thi niche na leaf node sudhi no longest path (edges ni sankhya).
+- Balanced Tree: Evu tree jema left subtree ane right subtree ni height no difference controlled hoy.
+
+
+B. Symmetric Binary Tree
+- Concept: Tree ne vache thi cut karva ma ave to left ane right side ek bijani mirror image dekhavi joie.
+- Condition:
+  - Left->key == Right->key
+  - isMirror(Left->left, Right->right)
+  - isMirror(Left->right, Right->left)
+
+
+C. Height-Balanced Binary Tree (AVL Concept)
+- Balance Factor: Balance Factor = |Height(Left) - Height(Right)|
+- Condition: Tree balanced kahvay jo darek node mate balance factor ≤ 1 (0, 1, athva -1) hoy.
+- Optimization Trick: Recursive call ma j jo imbalance dekhay to tarat j -1 return kari devathi unnecessary checks stop thai jay che.
+
+
+D. Red-Black Tree (Self-Balancing BST)
+- Red-Black Tree ek complex pan atyant efficient self-balancing binary search tree che.
+- 5 Red-Black Properties (MCQs mate khas important):
+  1. Every Node Property: Darek node no color RED athva BLACK j hoy.
+  2. Root Property: Root node hamesha BLACK j hovo joie.
+  3. Leaf Property: Badha j NULL leaf nodes (NIL) BLACK hoy che.
+  4. Red Property (No Red-Red Conflict): RED node na children hamesha BLACK j hoy.
+  5. Black Height Property: Root thi koi pan leaf node sudhi na path ma BLACK nodes ni count same hovi joie.
+- Fixing Red-Red Conflicts (Rotations & Recoloring):
+  - Jyare pan navu node insert thay (je hamesha RED hoy che), tyare jo conflict ave to uncle node na color par depend karine decision levay che.
+  - Uncle is RED: Recoloring karo (Parent/Uncle ne BLACK, GrandParent ne RED).
+  - Uncle is BLACK/NULL: Rotations karo (LL, RR, LR, RL cases).
+
+
+E. 2-3 Tree (Multiway Search Tree)
+- 2-3 Tree ek B-tree nu special variation che, je bottom-up build thay che.
+- 2-Node: 1 key ane 2 children.
+- 3-Node: 2 keys ane 3 children.
+- Perfect Balance: Badha leaf nodes ekaj level (same depth) par hoy che.
+- Overflow Rule: Jo 3-node ma 3rd key insert karva jaiye, to overflow thay che ane middle key upar (parent taraf) promote thay che.
+
+
+
+
+
+
+2. Time & Space Complexity Table
+- Note: N = number of nodes, H = height of tree.
+- Recursive calls mate auxiliary space complexity tree ni height (O(H)) jitli hoy che.
+
+Data Structure / Algorithm            Best Case   Average Case   Worst Case     Space Complexity
+Symmetric Tree Check                 O(1)        O(N)           O(N)           O(H) ≈ O(N)
+Height Balance Check                 O(1)        O(N)           O(N)           O(H) ≈ O(N)
+Red-Black Tree Search                O(log N)    O(log N)       O(log N)       O(N)
+Red-Black Tree Insertion             O(log N)    O(log N)       O(log N)       O(N)
+Red-Black Tree Deletion              O(log N)    O(log N)       O(log N)       O(N)
+2-3 Tree Search / Insert             O(log N)    O(log N)       O(log N)       O(N)
+
+
+
+3. High-Yield MCQ Concepts
+- Tree traversal output for BST: BST no inorder traversal hamesha sorted (ascending order) sequence aape che.
+- Newly inserted node in Red-Black Tree: Red-Black Tree ma navu insert thayel node hamesha RED hoy che.
+- Maximum height of Red-Black Tree: N nodes dharavta maximum height 2 log2(N + 1) karta vadhu nathi.
+- 2-3 Tree growth: Normal BST no growth top-down thay che, jyare 2-3 Tree no growth bottom-up (niche thi upar) thay che.
+- 2-3 Tree leaves depth: 2-3 Tree ma badha leaf nodes ni depth hamesha exact same hoy che.
+- Balanced Tree worst case: Normal BST ni worst-case time complexity O(N) thai jay che (skewed tree ma), lekin AVL, Red-Black ane 2-3 Tree ma te hamesha O(log N) j rahe che.
+- Rotations in Red-Black vs AVL: Red-Black Tree ma AVL Tree karta ochha rotations ni zaroorat pade che, etle insertion/deletion mate Red-Black Tree vadhu fast ganay che.
