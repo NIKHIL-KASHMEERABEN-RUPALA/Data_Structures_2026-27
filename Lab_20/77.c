@@ -70,6 +70,7 @@ int main()
              / \   / \
             3   6 6   3
     */
+   
 
     // Root node creation
     root = newNode(8);
