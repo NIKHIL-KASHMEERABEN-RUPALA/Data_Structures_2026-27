@@ -4,7 +4,7 @@
 
 struct Node
 {
-    int key;
+    int info;
     struct Node *left;
     struct Node *right;
 };
@@ -25,7 +25,7 @@ struct Node *createNode(int item)
     }
 
     // Node na member variables initialize karo
-    temp->key = item;
+    temp->info = item;
     temp->left = NULL;
     temp->right = NULL;
 
@@ -34,26 +34,26 @@ struct Node *createNode(int item)
 
 
 
-struct Node *insert(struct Node *node, int key)
+struct Node *insert(struct Node *node, int info)
 {
     //  Jo Tree empty (NULL) hoy, toh navo node banavi ne return karo 
     if (node == NULL)
-        return createNode(key);
+        return createNode(info);
 
-    //  Duplicate key validation - already exist karti key insert na thay
-    if (node->key == key)
+    //  Duplicate info validation - already exist karti info insert na thay
+    if (node->info == info)
     {
-        printf("Duplicate key is not allowed.\n");
+        printf("Duplicate info is not allowed.\n");
         return node;
     }
 
-    // Jo key moti (greater) hoy toh Right subtree ma recursive insert call karo
-    if (node->key < key)
-        node->right = insert(node->right, key);
+    // Jo info moti (greater) hoy toh Right subtree ma recursive insert call karo
+    if (node->info < info)
+        node->right = insert(node->right, info);
 
-    // Jo key nani (smaller) hoy toh Left subtree ma recursive insert call karo
+    // Jo info nani (smaller) hoy toh Left subtree ma recursive insert call karo
     else
-        node->left = insert(node->left, key);
+        node->left = insert(node->left, info);
 
     // Unchanged node pointer return karo 
     return node;
@@ -63,18 +63,18 @@ struct Node *insert(struct Node *node, int key)
 
 
 
-struct Node *search(struct Node *root, int key)
+struct Node *search(struct Node *root, int info)
 {
     
-    if (root == NULL || root->key == key)
+    if (root == NULL || root->info == info)
         return root;
 
    
-    if (root->key < key)
-        return search(root->right, key);
+    if (root->info < info)
+        return search(root->right, info);
 
     
-    return search(root->left, key);
+    return search(root->left, info);
 }
 
 
@@ -111,30 +111,30 @@ struct Node *minValueNode(struct Node *node)
     //          -> Node ne ena child sathe replace kari dyo.
 
     // Case 3: Node ne 2 Children hoy.
-    //          -> Inorder successor (Right subtree ni minimum key) shodho.
-    //          -> Successor ni key copy karo.
+    //          -> Inorder successor (Right subtree ni minimum info) shodho.
+    //          -> Successor ni info copy karo.
     //          -> Successor node ne delete karo.
 
-struct Node *deleteNode(struct Node *root, int key)
+struct Node *deleteNode(struct Node *root, int info)
 {
     struct Node *temp;
 
-    //  Tree empty hoy athva key exist na karti hoy 
+    //  Tree empty hoy athva info exist na karti hoy 
     if (root == NULL)
         return root;
 
     // 
     //      Delete karva mate node ne search karo:
-    //      Smaller key -> Left subtree
-    //      Greater key -> Right subtree
+    //      Smaller info -> Left subtree
+    //      Greater info -> Right subtree
     // 
-    if (key < root->key)
+    if (info < root->info)
     {
-        root->left = deleteNode(root->left, key);
+        root->left = deleteNode(root->left, info);
     }
-    else if (key > root->key)
+    else if (info > root->info)
     {
-        root->right = deleteNode(root->right, key);
+        root->right = deleteNode(root->right, info);
     }
     else
     {
@@ -166,11 +166,11 @@ struct Node *deleteNode(struct Node *root, int key)
         
         temp = minValueNode(root->right);
 
-        // Inorder successor ni key current node ma copy karo
-        root->key = temp->key;
+        // Inorder successor ni info current node ma copy karo
+        root->info = temp->info;
 
         // Duplicate Inorder Successor node ne recursive delete karo
-        root->right = deleteNode(root->right, temp->key);
+        root->right = deleteNode(root->right, temp->info);
     }
 
     return root;
@@ -189,8 +189,8 @@ void RPREORDER(struct Node *T)
     if (T == NULL)
         return;
 
-    // Current root node ni key print/process karo 
-    printf("%d ", T->key);
+    // Current root node ni info print/process karo 
+    printf("%d ", T->info);
 
     // Left subtree travers karo 
     if (T->left != NULL)
@@ -221,8 +221,8 @@ void RINORDER(struct Node *T)
     if (T->left != NULL)
         RINORDER(T->left);
 
-    // Root node ni key print karo 
-    printf("%d ", T->key);
+    // Root node ni info print karo 
+    printf("%d ", T->info);
 
     // Right subtree traverse karo 
     if (T->right != NULL)
@@ -247,8 +247,8 @@ void RPOSTORDER(struct Node *T)
     if (T->right != NULL)
         RPOSTORDER(T->right);
 
-    //  Root node ni key print karo 
-    printf("%d ", T->key);
+    //  Root node ni info print karo 
+    printf("%d ", T->info);
 }
 
 
@@ -258,7 +258,7 @@ int main()
     struct Node *result;
 
     int choice;
-    int key;
+    int info;
 
     do
     {
@@ -279,11 +279,11 @@ int main()
         {
             case 1:
 
-                printf("Enter key to insert: ");
-                scanf("%d", &key);
+                printf("Enter info to insert: ");
+                scanf("%d", &info);
 
                 // Insert function call
-                root = insert(root, key);
+                root = insert(root, info);
 
                 printf("Node inserted successfully.\n");
 
@@ -292,14 +292,14 @@ int main()
 
             case 2:
 
-                printf("Enter key to delete: ");
-                scanf("%d", &key);
+                printf("Enter info to delete: ");
+                scanf("%d", &info);
 
                 
-                    // Delete karta pehla key exist kare chhe ke nai ae search karo,
+                    // Delete karta pehla info exist kare chhe ke nai ae search karo,
                     // jethi user ne proper confirmation message aapi shakaye.
                 
-                result = search(root, key);
+                result = search(root, info);
 
                 if (result == NULL)
                 {
@@ -307,7 +307,7 @@ int main()
                 }
                 else
                 {
-                    root = deleteNode(root, key);
+                    root = deleteNode(root, info);
                     printf("Node deleted successfully.\n");
                 }
 
@@ -316,16 +316,16 @@ int main()
 
             case 3:
 
-                printf("Enter key to search: ");
-                scanf("%d", &key);
+                printf("Enter info to search: ");
+                scanf("%d", &info);
 
                 // Search function call
-                result = search(root, key);
+                result = search(root, info);
 
                 if (result == NULL)
                     printf("Node not found.\n");
                 else
-                    printf("Node found: %d\n", result->key);
+                    printf("Node found: %d\n", result->info);
 
                 break;
 

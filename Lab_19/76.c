@@ -4,7 +4,7 @@
 // BST na node mate nu structure definition
 struct Node
 {
-    int key;               // Node ni data value store kare chhe
+    int info;               // Node ni data value store kare chhe
     struct Node *left;     // Left subtree no pointer
     struct Node *right;    // Right subtree no pointer
 };
@@ -17,7 +17,7 @@ struct Node *newNode(int item)
     // Heap memory ma node mate space allocate karo
     temp = (struct Node *)malloc(sizeof(struct Node));
 
-    temp->key = item;
+    temp->info = item;
     temp->left = NULL;
     temp->right = NULL;
 
@@ -25,18 +25,18 @@ struct Node *newNode(int item)
     return temp;
 }
 
-struct Node *insert(struct Node *node, int key)
+struct Node *insert(struct Node *node, int info)
 {
     if (node == NULL)
-        return newNode(key);
+        return newNode(info);
 
-    if (node->key == key)
+    if (node->info == info)
         return node;
       
-    if (node->key < key)
-        node->right = insert(node->right, key);
+    if (node->info < info)
+        node->right = insert(node->right, info);
     else
-        node->left = insert(node->left, key);
+        node->left = insert(node->left, info);
 
     return node;
 }
@@ -52,8 +52,8 @@ int sameTree(struct Node *root1, struct Node *root2)
     if (root1 == NULL || root2 == NULL)
         return 0;
 
-    // Value Check: Jo banne current nodes ni keys match na thay, toh structural inequality chhe
-    if (root1->key != root2->key)
+    // Value Check: Jo banne current nodes ni infos match na thay, toh structural inequality chhe
+    if (root1->info != root2->info)
         return 0;
 
     // Recursive Check: Left-to-left ane Right-to-right subtrees simultaneous compare karo
@@ -68,30 +68,30 @@ int main()
     struct Node *root1 = NULL;
     struct Node *root2 = NULL;
 
-    int n1, n2, key, i;
+    int n1, n2, info, i;
 
     // Pehla tree mate node count scan karo
     printf("Enter number of nodes for first tree: ");
     scanf("%d", &n1);
 
-    // Loop na through First tree ma keys recursive insert karo
+    // Loop na through First tree ma infos recursive insert karo
     printf("Enter nodes of first tree: ");
     for (i = 0; i < n1; i++)
     {
-        scanf("%d", &key);
-        root1 = insert(root1, key);
+        scanf("%d", &info);
+        root1 = insert(root1, info);
     }
 
     // Bija tree mate node count scan karo
     printf("Enter number of nodes for second tree: ");
     scanf("%d", &n2);
 
-    // Loop na through Second tree ma keys recursive insert karo
+    // Loop na through Second tree ma infos recursive insert karo
     printf("Enter nodes of second tree: ");
     for (i = 0; i < n2; i++)
     {
-        scanf("%d", &key);
-        root2 = insert(root2, key);
+        scanf("%d", &info);
+        root2 = insert(root2, info);
     }
 
     // sameTree function call kari result evaluate karo
