@@ -11,7 +11,7 @@ struct node
 };
 
 
-/* Dynamic memory allocation dwara new node create karva mate nu Function */
+/* Dynamic memory allocation through new node create karva mate nu Function */
 struct node *newNode(int key)
 {
     struct node *temp;
