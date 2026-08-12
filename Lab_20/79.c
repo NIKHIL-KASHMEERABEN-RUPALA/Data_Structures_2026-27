@@ -1,17 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*
-    Red-Black Tree Node nu Structure definition
+/* Color Encoding Constants */
+#define RED 0
+#define BLACK 1
 
-    Color Encoding:
-    color = 0 -> RED
-    color = 1 -> BLACK
+/*
+    Red-Black Tree Node Structure
 */
 struct node
 {
     int key;
-    int color;
+    int color; // RED (0) or BLACK (1)
 
     struct node *left;
     struct node *right;
@@ -20,77 +20,64 @@ struct node
 
 
 /*
-    New Red-Black Tree Node allocate ane initialize karva mate nu Function
+    Helper Function: Allocate and initialize a new Red-Black Tree node
 */
 struct node *newNode(int key)
 {
-    struct node *temp;
+    struct node *tempNode;
 
-    // Memory allocation as per structure size
-    temp = (struct node *)malloc(sizeof(struct node));
+    tempNode = (struct node *)malloc(sizeof(struct node));
 
-    temp->key = key;
+    tempNode->key = key;
 
-    /* Newly inserted node hamesha RED (0) j hoy che */
-    temp->color = 0;
+    /* Golden Rule: Newly inserted node is ALWAYS RED (0) initially */
+    tempNode->color = RED;
 
-    temp->left = NULL;
-    temp->right = NULL;
-    temp->parent = NULL;
+    tempNode->left = NULL;
+    tempNode->right = NULL;
+    tempNode->parent = NULL;
 
-    return temp;
+    return tempNode;
 }
 
 
 /*
     Left Rotation Function
-
-          x
-           \
-            y
-           / \
-          B   C
-
-            ↓
-
-            y
-           / \
-          x   C
-           \
-            B
+    
+    Pulls 'y' (right child) UP, and pushes 'rotatedNode' DOWN to the left.
 */
-struct node *leftRotate(struct node *root, struct node *x)
+struct node *leftRotate(struct node *root, struct node *rotatedNode)
 {
-    struct node *y;
+    struct node *rightChild;
 
-    y = x->right;
+    rightChild = rotatedNode->right;
 
-    /* y no left subtree x na right child tarike reassign karo */
-    x->right = y->left;
+    /* Step 1: Reassign rightChild's left subtree to rotatedNode's right */
+    rotatedNode->right = rightChild->left;
 
-    if (y->left != NULL)
-        y->left->parent = x;
+    if (rightChild->left != NULL)
+        rightChild->left->parent = rotatedNode;
 
-    /* y ne x na original parent sathe connect karo */
-    y->parent = x->parent;
+    /* Step 2: Connect rightChild to rotatedNode's parent */
+    rightChild->parent = rotatedNode->parent;
 
-    if (x->parent == NULL)
+    if (rotatedNode->parent == NULL)
     {
-        /* Jo x root hot, to y new root banse */
-        root = y;
+        /* If rotatedNode was Root, rightChild becomes the new Root */
+        root = rightChild;
     }
-    else if (x == x->parent->left)
+    else if (rotatedNode == rotatedNode->parent->left)
     {
-        x->parent->left = y;
+        rotatedNode->parent->left = rightChild;
     }
     else
     {
-        x->parent->right = y;
+        rotatedNode->parent->right = rightChild;
     }
 
-    /* x ne y na left child tarife place karo */
-    y->left = x;
-    x->parent = y;
+    /* Step 3: Put rotatedNode as rightChild's left child */
+    rightChild->left = rotatedNode;
+    rotatedNode->parent = rightChild;
 
     return root;
 }
@@ -98,271 +85,228 @@ struct node *leftRotate(struct node *root, struct node *x)
 
 /*
     Right Rotation Function
-
-              x
-             /
-            y
-           / \
-          A   B
-
-            ↓
-
-            y
-           / \
-          A   x
-             /
-            B
+    
+    Pulls 'leftChild' UP, and pushes 'rotatedNode' DOWN to the right.
 */
-struct node *rightRotate(struct node *root, struct node *x)
+struct node *rightRotate(struct node *root, struct node *rotatedNode)
 {
-    struct node *y;
+    struct node *leftChild;
 
-    y = x->left;
+    leftChild = rotatedNode->left;
 
-    /* y no right subtree x na left child tarife reassign karo */
-    x->left = y->right;
+    /* Step 1: Reassign leftChild's right subtree to rotatedNode's left */
+    rotatedNode->left = leftChild->right;
 
-    if (y->right != NULL)
-        y->right->parent = x;
+    if (leftChild->right != NULL)
+        leftChild->right->parent = rotatedNode;
 
-    /* y ne x na original parent sathe connect karo */
-    y->parent = x->parent;
+    /* Step 2: Connect leftChild to rotatedNode's parent */
+    leftChild->parent = rotatedNode->parent;
 
-    if (x->parent == NULL)
+    if (rotatedNode->parent == NULL)
     {
-        /* Jo x root hoto, to y new root banse */
-        root = y;
+        /* If rotatedNode was Root, leftChild becomes the new Root */
+        root = leftChild;
     }
-    else if (x == x->parent->right)
+    else if (rotatedNode == rotatedNode->parent->right)
     {
-        x->parent->right = y;
+        rotatedNode->parent->right = leftChild;
     }
     else
     {
-        x->parent->left = y;
+        rotatedNode->parent->left = leftChild;
     }
 
-    /* x ne y na right child tarife place karo */
-    y->right = x;
-    x->parent = y;
+    /* Step 3: Put rotatedNode as leftChild's right child */
+    leftChild->right = rotatedNode;
+    rotatedNode->parent = leftChild;
 
     return root;
 }
 
 
 /*
-    Insertion pachi Red-Red Conflict (violation) solve karva mate nu Function
+    Fix Insertion Function
+    
+    Fixes Red-Red violations after standard BST insertion using 
+    Recoloring and Rotations.
 */
-struct node *fixInsertion(struct node *root, struct node *z)
+struct node *fixInsertion(struct node *root, struct node *currentNode)
 {
-    struct node *parent;
-    struct node *grandParent;
-    struct node *uncle;
+    struct node *parentNode;
+    struct node *grandParentNode;
+    struct node *uncleNode;
 
     /*
-        Parent RED (0) hoy tya sudhi loop run thase.
-        RED parent + RED child = Red-Red Violation.
+        Loop runs as long as parent is RED.
+        RED parent + RED currentNode = Red-Red Violation!
     */
-    while (z != root &&
-           z->parent != NULL &&
-           z->parent->color == 0)
+    while (currentNode != root &&
+           currentNode->parent != NULL &&
+           currentNode->parent->color == RED)
     {
-        parent = z->parent;
-        grandParent = parent->parent;
-
+        parentNode = currentNode->parent;
+        grandParentNode = parentNode->parent;
 
         /*
-            CASE 1:
-            Parent, GrandParent no Left Child che
+            --------------------------------------------------------
+            GROUP A: Parent is the LEFT child of Grandparent
+            --------------------------------------------------------
         */
-        if (parent == grandParent->left)
+        if (parentNode == grandParentNode->left)
         {
-            uncle = grandParent->right;
-
+            uncleNode = grandParentNode->right;
 
             /*
-                Uncle RED che.
-
-                Recoloring Strategy:
-                Parent      -> BLACK (1)
-                Uncle       -> BLACK (1)
-                GrandParent -> RED (0)
+                CASE 1: Uncle is RED
+                Solution: Just Recolor!
             */
-            if (uncle != NULL && uncle->color == 0)
+            if (uncleNode != NULL && uncleNode->color == RED)
             {
-                parent->color = 1;
-                uncle->color = 1;
-                grandParent->color = 0;
+                parentNode->color = BLACK;
+                uncleNode->color = BLACK;
+                grandParentNode->color = RED;
 
-                /*
-                    GrandParent RED thayo, etle farithi upper level
-                    par conflict check karva pointer move karo.
-                */
-                z = grandParent;
+                // Move problem pointer up to Grandparent to check higher levels
+                currentNode = grandParentNode;
             }
-
             else
             {
                 /*
-                    CASE 2:
-                    Triangle Configuration (z, parent no Right Child che).
-
-                    Left Rotate kari Case 3 (Line Configuration) ma convert karo.
+                    CASE 2: Triangle Configuration (currentNode is RIGHT child)
+                    Solution: Left Rotate Parent to convert into Case 3 (Line shape)
                 */
-                if (z == parent->right)
+                if (currentNode == parentNode->right)
                 {
-                    z = parent;
+                    currentNode = parentNode;
+                    root = leftRotate(root, currentNode);
 
-                    root = leftRotate(root, z);
-
-                    parent = z->parent;
-                    grandParent = parent->parent;
+                    // Re-assign pointer references after rotation
+                    parentNode = currentNode->parent;
+                    grandParentNode = parentNode->parent;
                 }
 
-
                 /*
-                    CASE 3:
-                    Line Configuration (z, parent no Left Child che).
-
-                    Recolor karo ane GrandParent par Right Rotate karo.
+                    CASE 3: Line Configuration (currentNode is LEFT child)
+                    Solution: Recolor Parent & Grandparent, then Right Rotate Grandparent
                 */
-                parent->color = 1;
-                grandParent->color = 0;
+                parentNode->color = BLACK;
+                grandParentNode->color = RED;
 
-                root = rightRotate(root, grandParent);
+                root = rightRotate(root, grandParentNode);
             }
         }
 
-
         /*
-            MIRROR CASE:
-            Parent, GrandParent no Right Child che
+            --------------------------------------------------------
+            GROUP B (MIRROR): Parent is the RIGHT child of Grandparent
+            --------------------------------------------------------
         */
         else
         {
-            uncle = grandParent->left;
-
+            uncleNode = grandParentNode->left;
 
             /*
-                Uncle RED che -> Recoloring process.
+                CASE 1 (MIRROR): Uncle is RED
+                Solution: Just Recolor!
             */
-            if (uncle != NULL && uncle->color == 0)
+            if (uncleNode != NULL && uncleNode->color == RED)
             {
-                parent->color = 1;
-                uncle->color = 1;
-                grandParent->color = 0;
+                parentNode->color = BLACK;
+                uncleNode->color = BLACK;
+                grandParentNode->color = RED;
 
-                z = grandParent;
+                currentNode = grandParentNode;
             }
-
             else
             {
                 /*
-                    MIRROR CASE 2:
-                    Triangle Configuration (z, parent no Left Child che).
+                    CASE 2 (MIRROR): Triangle Configuration (currentNode is LEFT child)
+                    Solution: Right Rotate Parent to convert into Case 3 (Line shape)
                 */
-                if (z == parent->left)
+                if (currentNode == parentNode->left)
                 {
-                    z = parent;
+                    currentNode = parentNode;
+                    root = rightRotate(root, currentNode);
 
-                    root = rightRotate(root, z);
-
-                    parent = z->parent;
-                    grandParent = parent->parent;
+                    // Re-assign pointer references after rotation
+                    parentNode = currentNode->parent;
+                    grandParentNode = parentNode->parent;
                 }
 
-
                 /*
-                    MIRROR CASE 3:
-                    Line Configuration (z, parent no Right Child che).
+                    CASE 3 (MIRROR): Line Configuration (currentNode is RIGHT child)
+                    Solution: Recolor Parent & Grandparent, then Left Rotate Grandparent
                 */
-                parent->color = 1;
-                grandParent->color = 0;
+                parentNode->color = BLACK;
+                grandParentNode->color = RED;
 
-                root = leftRotate(root, grandParent);
+                root = leftRotate(root, grandParentNode);
             }
         }
     }
 
-
-    /*
-        Red-Black Tree Property: Root Node hamesha BLACK (1) j hovo joie.
-    */
-    root->color = 1;
+    /* Golden Rule: The Root Node must ALWAYS be BLACK (1) */
+    root->color = BLACK;
 
     return root;
 }
 
 
 /*
-    Red-Black Tree ma Key Insert karva mate nu Main Function.
-
-    Pehle normal BST insertion thase, pachi Red-Red violation fix thase.
+    Insert Function
+    
+    Inserts a key using standard Binary Search Tree logic,
+    then repairs any Red-Black Tree rule violations.
 */
 struct node *insert(struct node *root, int key)
 {
-    struct node *temp;
-    struct node *parent;
-    struct node *new;
+    struct node *tempTraversal;
+    struct node *parentNode;
+    struct node *insertedNode;
 
+    // Create the new node
+    insertedNode = newNode(key);
 
-    // New node create karo
-    new = newNode(key);
-
-
-    /*
-        Empty Tree Case:
-        New node j root banse ane root hamesha BLACK (1) hovo joie.
-    */
+    /* Case: Empty Tree */
     if (root == NULL)
     {
-        new->color = 1;
-        return new;
+        insertedNode->color = BLACK; // Root must be BLACK
+        return insertedNode;
     }
 
+    /* Standard Binary Search Tree Placement */
+    tempTraversal = root;
+    parentNode = NULL;
 
-    /*
-        Standard BST Insertion Traversal
-    */
-    temp = root;
-    parent = NULL;
-
-    while (temp != NULL)
+    while (tempTraversal != NULL)
     {
-        parent = temp;
+        parentNode = tempTraversal;
 
-        if (key < temp->key)
-            temp = temp->left;
+        if (key < tempTraversal->key)
+            tempTraversal = tempTraversal->left;
 
-        else if (key > temp->key)
-            temp = temp->right;
+        else if (key > tempTraversal->key)
+            tempTraversal = tempTraversal->right;
 
         else
         {
-            /*
-                Duplicate Keys Red-Black Tree ma allowed nathi.
-            */
-            free(new);
+            /* Duplicate Keys are NOT allowed in Red-Black Tree */
+            free(insertedNode);
             return root;
         }
     }
 
+    /* Connect Parent and Child Pointers */
+    insertedNode->parent = parentNode;
 
-    /*
-        New node ne ten na parent sathe link karo.
-    */
-    new->parent = parent;
-
-    if (key < parent->key)
-        parent->left = new;
+    if (key < parentNode->key)
+        parentNode->left = insertedNode;
     else
-        parent->right = new;
+        parentNode->right = insertedNode;
 
-
-    /*
-        Red-Red Violation handle karo ane updated Root return karo.
-    */
-    root = fixInsertion(root, new);
+    /* Fix Red-Red Violations and return updated Root */
+    root = fixInsertion(root, insertedNode);
 
     return root;
 }
@@ -370,8 +314,9 @@ struct node *insert(struct node *root, int key)
 
 /*
     Inorder Traversal Function
-
-    Tree elements ne Sorted order ma Color Code (R/B) sathe Display kare che.
+    
+    Prints tree elements in sorted order with color code:
+    R = RED, B = BLACK
 */
 void inorder(struct node *root)
 {
@@ -380,10 +325,9 @@ void inorder(struct node *root)
 
     inorder(root->left);
 
-    // Node Key ane teno color (R = RED, B = BLACK) print thase
     printf("%d(%s) ",
            root->key,
-           root->color == 0 ? "R" : "B");
+           root->color == RED ? "R" : "B");
 
     inorder(root->right);
 }
@@ -393,10 +337,7 @@ int main()
 {
     struct node *root = NULL;
 
-
-    /*
-        Insertion sequence execution
-    */
+    /* Insertion Test Sequence */
     root = insert(root, 10);
     root = insert(root, 20);
     root = insert(root, 30);
@@ -409,10 +350,9 @@ int main()
     root = insert(root, 32);
     root = insert(root, 50);
 
-
-    printf("Inorder Traversal:\n");
-
+    printf("Inorder Traversal (Key with Color):\n");
     inorder(root);
+    printf("\n");
 
     return 0;
 }
