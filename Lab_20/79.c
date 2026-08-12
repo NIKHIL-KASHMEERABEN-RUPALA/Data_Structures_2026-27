@@ -76,7 +76,7 @@ struct node *leftRotate(struct node *root, struct node *x)
 
     if (x->parent == NULL)
     {
-        /* Jo x root hoto, to y new root banse */
+        /* Jo x root hot, to y new root banse */
         root = y;
     }
     else if (x == x->parent->left)
