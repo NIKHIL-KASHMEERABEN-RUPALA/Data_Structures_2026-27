@@ -2,410 +2,359 @@
 #include <stdlib.h>
 
 /*
-    2-3 Tree Node Structure definition
-
-    n = currently node ma ketli keys present che
-    n = 1 -> Single key, maximum 2 child pointers
-    n = 2 -> Double keys, maximum 3 child pointers
+    2-3 Tree Node Structure Definition
+    
+    keysCount = 1 -> Single key (keys[0]), up to 2 children (children[0], children[1])
+    keysCount = 2 -> Double keys (keys[0], keys[1]), up to 3 children (children[0], children[1], children[2])
 */
 struct node
 {
-    int key[2];
-    int n;
+    int keys[2];
+    int keysCount;
 
-    struct node *child[3];
+    struct node *children[3];
 };
 
 
 /*
-    Single key sathe new node allocate ane initialize karva mate nu Function
+    Helper Function: Allocate and initialize a new 2-3 Tree node with a single key
 */
-struct node *newNode(int key)
+struct node *newNode(int initialKey)
 {
-    struct node *temp;
+    struct node *newNodePtr;
 
-    // Structure size pramane dynamic memory allocation
-    temp = (struct node *)malloc(sizeof(struct node));
+    newNodePtr = (struct node *)malloc(sizeof(struct node));
 
-    temp->key[0] = key;
-    temp->n = 1;
+    newNodePtr->keys[0] = initialKey;
+    newNodePtr->keysCount = 1;
 
-    // Initial state ma badha child pointers NULL set karyo
-    temp->child[0] = NULL;
-    temp->child[1] = NULL;
-    temp->child[2] = NULL;
+    // Initialize all child pointers to NULL
+    newNodePtr->children[0] = NULL;
+    newNodePtr->children[1] = NULL;
+    newNodePtr->children[2] = NULL;
 
-    return temp;
+    return newNodePtr;
 }
 
 
 /*
     Recursive Insertion Function for 2-3 Tree
 
-    Return 0: Split thayo nathi (Normal insertion)
-    Return 1: Node Split thayo che
+    Returns 0: Normal insertion (No split occurred at this node)
+    Returns 1: Node split occurred (Promotes middle key upward)
 
-    upKey    -> Parent level par promote thaye-li Middle Key
-    newRight -> Node split pachi create thaye-lo new Right Node
+    promotedKey  -> Key promoted to the parent level during a split
+    newRightNode -> New right node created as a result of a node split
 */
-int insertRec(struct node *root,
-              int key,
-              int *upKey,
-              struct node **newRight)
+int insertRecursive(struct node *currentNode,
+                    int keyToInsert,
+                    int *promotedKey,
+                    struct node **newRightNode)
 {
-    int i;
-    int tempKey[3];
+    int childIndex;
+    int sortedKeys[3];
 
-    struct node *tempChild[4];
-    struct node *right;
+    struct node *tempChildren[4];
+    struct node *createdRightNode;
 
 
     /*
-        CASE 1: Current node ek Leaf Node che
+        ================================================================
+        CASE 1: Current node is a LEAF NODE (children[0] == NULL)
+        ================================================================
     */
-    if (root->child[0] == NULL)
+    if (currentNode->children[0] == NULL)
     {
         /*
-            Node ma currently 1 key che (2-node condition).
-            Directly sorted order ma key insert thai jase.
+            Subcase 1A: Node currently has 1 key (Capacity for 1 more key).
+            Directly insert key in sorted order.
         */
-        if (root->n == 1)
+        if (currentNode->keysCount == 1)
         {
-            if (key < root->key[0])
+            if (keyToInsert < currentNode->keys[0])
             {
-                root->key[1] = root->key[0];
-                root->key[0] = key;
+                currentNode->keys[1] = currentNode->keys[0];
+                currentNode->keys[0] = keyToInsert;
             }
-            else if (key > root->key[0])
+            else if (keyToInsert > currentNode->keys[0])
             {
-                root->key[1] = key;
+                currentNode->keys[1] = keyToInsert;
             }
             else
             {
-                /* Duplicate keys handle thai rahya che - Ignored */
+                /* Ignore duplicate keys */
                 return 0;
             }
 
-            root->n = 2; // Key count update thayo
+            currentNode->keysCount = 2; // Updated key count
 
-            return 0;
+            return 0; // No split needed
         }
 
 
         /*
-            Node ma already 2 keys che (3-node condition).
-            3rd key insert thavathi OVERFLOW condition create thase.
-
-            Example: 10, 20 ma 15 insert karo -> 10, 15, 20
-            Middle key (15) Parent par promote thase.
+            Subcase 1B: Node already has 2 keys (Full).
+            Inserting a 3rd key creates an OVERFLOW that forces a SPLIT.
         */
-        if (key == root->key[0] ||
-            key == root->key[1])
+        if (keyToInsert == currentNode->keys[0] ||
+            keyToInsert == currentNode->keys[1])
         {
-            return 0;
+            return 0; // Ignore duplicate keys
         }
 
-        tempKey[0] = root->key[0];
-        tempKey[1] = root->key[1];
-        tempKey[2] = key;
+        sortedKeys[0] = currentNode->keys[0];
+        sortedKeys[1] = currentNode->keys[1];
+        sortedKeys[2] = keyToInsert;
 
 
-        /* Standard Sorting Algorithm thi badhi 3 keys ne order karo */
-        if (tempKey[0] > tempKey[1])
+        /* Sort all 3 keys using simple bubble sort */
+        if (sortedKeys[0] > sortedKeys[1])
         {
-            int t = tempKey[0];
-            tempKey[0] = tempKey[1];
-            tempKey[1] = t;
+            int temp = sortedKeys[0];
+            sortedKeys[0] = sortedKeys[1];
+            sortedKeys[1] = temp;
         }
 
-        if (tempKey[1] > tempKey[2])
+        if (sortedKeys[1] > sortedKeys[2])
         {
-            int t = tempKey[1];
-            tempKey[1] = tempKey[2];
-            tempKey[2] = t;
+            int temp = sortedKeys[1];
+            sortedKeys[1] = sortedKeys[2];
+            sortedKeys[2] = temp;
         }
 
-        if (tempKey[0] > tempKey[1])
+        if (sortedKeys[0] > sortedKeys[1])
         {
-            int t = tempKey[0];
-            tempKey[0] = tempKey[1];
-            tempKey[1] = t;
+            int temp = sortedKeys[0];
+            sortedKeys[0] = sortedKeys[1];
+            sortedKeys[1] = temp;
         }
 
 
-        /* Middle key parent level par promote karo */
-        *upKey = tempKey[1];
+        /* The middle key is promoted to the parent level */
+        *promotedKey = sortedKeys[1];
 
 
-        /* Current left node pase smaller key rehse */
-        root->key[0] = tempKey[0];
-        root->n = 1;
+        /* The current node retains the smallest key (Left Node) */
+        currentNode->keys[0] = sortedKeys[0];
+        currentNode->keysCount = 1;
 
 
-        /* Larger key sathe new Right Node create karo */
-        right = newNode(tempKey[2]);
+        /* Create a new Right Node containing the largest key */
+        createdRightNode = newNode(sortedKeys[2]);
 
-        *newRight = right;
+        *newRightNode = createdRightNode;
 
-        return 1; // Split condition flag return
+        return 1; // Signal a split to the parent
     }
 
 
     /*
-        CASE 2: Current node Internal Node che.
-        Key value compair karine correct Child Branch select karo.
+        ================================================================
+        CASE 2: Current node is an INTERNAL NODE
+        ================================================================
     */
-    if (key < root->key[0])
-        i = 0;
+    
+    // Determine which child branch to descend into based on key values
+    if (keyToInsert < currentNode->keys[0])
+        childIndex = 0;
 
-    else if (root->n == 1 || key < root->key[1])
-        i = 1;
+    else if (currentNode->keysCount == 1 || keyToInsert < currentNode->keys[1])
+        childIndex = 1;
 
     else
-        i = 2;
+        childIndex = 2;
 
 
-    /* Selected child branch ma recursively insert karo */
-    if (insertRec(root->child[i],
-                  key,
-                  upKey,
-                  newRight) == 0)
+    /* Recursively insert into the selected child subtree */
+    if (insertRecursive(currentNode->children[childIndex],
+                        keyToInsert,
+                        promotedKey,
+                        newRightNode) == 0)
     {
-        return 0; // Bottom level e split thayo nathi
+        return 0; // Child did not split, nothing left to fix
     }
 
 
     /*
-        Child node split thayo che!
-        Promoted key ne current Internal Node ma insert karvi padse.
+        A CHILD NODE SPLIT!
+        We must now absorb the promoted key and new child pointer into currentNode.
     */
 
     /*
-        Current node ma ek j key che (No overflow)
+        Subcase 2A: Current internal node has 1 key (Room for the promoted key).
     */
-    if (root->n == 1)
+    if (currentNode->keysCount == 1)
     {
-        if (i == 0)
+        if (childIndex == 0)
         {
             /*
-                Left Child (index 0) split thayo hoto.
-                Keys ane child pointers shift karo right direction ma.
+                Left child (index 0) split:
+                Shift existing keys and children rightward.
             */
-            root->key[1] = root->key[0];
-            root->key[0] = *upKey;
+            currentNode->keys[1] = currentNode->keys[0];
+            currentNode->keys[0] = *promotedKey;
 
-            root->child[2] = root->child[1];
-            root->child[1] = *newRight;
+            currentNode->children[2] = currentNode->children[1];
+            currentNode->children[1] = *newRightNode;
         }
         else
         {
             /*
-                Right Child (index 1) split thayo hoto.
+                Right child (index 1) split:
+                Place promoted key into right slot.
             */
-            root->key[1] = *upKey;
-            root->child[2] = *newRight;
+            currentNode->keys[1] = *promotedKey;
+            currentNode->children[2] = *newRightNode;
         }
 
-        root->n = 2;
+        currentNode->keysCount = 2;
 
-        return 0;
+        return 0; // Internal node absorbed the key without splitting
     }
 
 
     /*
-        Current node ma ALREADY 2 keys che.
-        Promoted key add thavathi Internal Node par pan Overflow thase.
+        Subcase 2B: Current internal node ALREADY has 2 keys.
+        Absorbing the promoted key causes an OVERFLOW on this internal node, forcing it to split as well!
     */
+    sortedKeys[0] = currentNode->keys[0];
+    sortedKeys[1] = currentNode->keys[1];
+    sortedKeys[2] = *promotedKey;
 
-    tempKey[0] = root->key[0];
-    tempKey[1] = root->key[1];
-    tempKey[2] = *upKey;
 
-
-    /*
-        Child split thavathi 4 Temporary Child pointers re-align karo.
-    */
-    if (i == 0)
+    /* Re-align all 4 temporary child pointers after the child split */
+    if (childIndex == 0)
     {
-        tempChild[0] = root->child[0];
-        tempChild[1] = *newRight;
-        tempChild[2] = root->child[1];
-        tempChild[3] = root->child[2];
+        tempChildren[0] = currentNode->children[0];
+        tempChildren[1] = *newRightNode;
+        tempChildren[2] = currentNode->children[1];
+        tempChildren[3] = currentNode->children[2];
     }
-
-    else if (i == 1)
+    else if (childIndex == 1)
     {
-        tempChild[0] = root->child[0];
-        tempChild[1] = root->child[1];
-        tempChild[2] = *newRight;
-        tempChild[3] = root->child[2];
+        tempChildren[0] = currentNode->children[0];
+        tempChildren[1] = currentNode->children[1];
+        tempChildren[2] = *newRightNode;
+        tempChildren[3] = currentNode->children[2];
     }
-
     else
     {
-        tempChild[0] = root->child[0];
-        tempChild[1] = root->child[1];
-        tempChild[2] = root->child[2];
-        tempChild[3] = *newRight;
+        tempChildren[0] = currentNode->children[0];
+        tempChildren[1] = currentNode->children[1];
+        tempChildren[2] = currentNode->children[2];
+        tempChildren[3] = *newRightNode;
     }
 
 
     /*
-        Internal Node Split Process:
-        Middle key *upKey tarife promote thase ane new Right Internal Node banse.
+        Internal Node Split Execution:
+        Middle key is promoted up, and a new right internal node is created.
     */
-    if (i == 0)
-    {
-        root->key[0] = tempKey[0];
-        *upKey = tempKey[1];
+    currentNode->keys[0] = sortedKeys[0];
+    *promotedKey = sortedKeys[1];
 
-        right = newNode(tempKey[2]);
+    createdRightNode = newNode(sortedKeys[2]);
 
-        root->child[0] = tempChild[0];
-        root->child[1] = tempChild[1];
+    currentNode->children[0] = tempChildren[0];
+    currentNode->children[1] = tempChildren[1];
 
-        right->child[0] = tempChild[2];
-        right->child[1] = tempChild[3];
-    }
-
-    else if (i == 1)
-    {
-        root->key[0] = tempKey[0];
-        *upKey = tempKey[1];
-
-        right = newNode(tempKey[2]);
-
-        root->child[0] = tempChild[0];
-        root->child[1] = tempChild[1];
-
-        right->child[0] = tempChild[2];
-        right->child[1] = tempChild[3];
-    }
-
-    else
-    {
-        root->key[0] = tempKey[0];
-        *upKey = tempKey[1];
-
-        right = newNode(tempKey[2]);
-
-        root->child[0] = tempChild[0];
-        root->child[1] = tempChild[1];
-
-        right->child[0] = tempChild[2];
-        right->child[1] = tempChild[3];
-    }
+    createdRightNode->children[0] = tempChildren[2];
+    createdRightNode->children[1] = tempChildren[3];
 
 
-    /* Current Left node no key count reset karo */
-    root->n = 1;
+    /* Reset current node's key count to 1 */
+    currentNode->keysCount = 1;
 
-    /* New right node pointer update karo */
-    *newRight = right;
+    /* Pass new right node back up */
+    *newRightNode = createdRightNode;
 
-    return 1; // Parent ne split notification moklo
+    return 1; // Signal parent that this internal node split
 }
 
 
 /*
-    Main Interface Function for Insertion in 2-3 Tree.
-    Jo Root node split thase to New Root Tree ni height vadharse.
+    Main Interface Function for Inserting into 2-3 Tree
 */
-void insert(struct node **root, int key)
+void insert(struct node **rootPtr, int keyToInsert)
 {
-    int upKey;
-    struct node *newRight;
-    struct node *newRoot;
+    int promotedKey;
+    struct node *newRightNode;
+    struct node *newRootNode;
 
 
-    /*
-        Empty Tree Case:
-        Root node allocate kari direct element insert karo.
-    */
-    if (*root == NULL)
+    /* Empty Tree Case */
+    if (*rootPtr == NULL)
     {
-        *root = newNode(key);
+        *rootPtr = newNode(keyToInsert);
         return;
     }
 
 
-    /* Recursive Insertion execute karo */
-    if (insertRec(*root,
-                  key,
-                  &upKey,
-                  &newRight) == 0)
+    /* Execute recursive insertion */
+    if (insertRecursive(*rootPtr,
+                        keyToInsert,
+                        &promotedKey,
+                        &newRightNode) == 0)
     {
-        return; // Normal insertion completed without root split
+        return; // Insertion completed without root splitting
     }
 
 
     /*
-        Root level par split thayo!
-        Promoted Key sathe New Root Node create karo (Tree Height increases by 1).
+        ROOT NODE SPLIT!
+        Create a new root containing the promoted key (Tree height increases by 1).
     */
-    newRoot = newNode(upKey);
+    newRootNode = newNode(promotedKey);
 
-    newRoot->child[0] = *root;
-    newRoot->child[1] = newRight;
+    newRootNode->children[0] = *rootPtr;
+    newRootNode->children[1] = newRightNode;
 
-    *root = newRoot;
+    *rootPtr = newRootNode;
 }
 
 
 /*
     Inorder Traversal for 2-3 Tree
-
-    Keys ne Sorted order ma Print karva mate multi-branch traversal:
-    - Single key node (2-node): Left Child -> Key0 -> Right Child
-    - Double key node (3-node): Child0 -> Key0 -> Child1 -> Key1 -> Child2
+    Prints tree keys in ascending sorted order.
 */
-void inorder(struct node *root)
+void inorder(struct node *rootNode)
 {
-    if (root == NULL)
+    if (rootNode == NULL)
         return;
 
-
-    if (root->n == 1)
+    if (rootNode->keysCount == 1)
     {
-        inorder(root->child[0]);
-
-        printf("%d ", root->key[0]);
-
-        inorder(root->child[1]);
+        inorder(rootNode->children[0]);
+        printf("%d ", rootNode->keys[0]);
+        inorder(rootNode->children[1]);
     }
-
     else
     {
-        inorder(root->child[0]);
-
-        printf("%d ", root->key[0]);
-
-        inorder(root->child[1]);
-
-        printf("%d ", root->key[1]);
-
-        inorder(root->child[2]);
+        inorder(rootNode->children[0]);
+        printf("%d ", rootNode->keys[0]);
+        inorder(rootNode->children[1]);
+        printf("%d ", rootNode->keys[1]);
+        inorder(rootNode->children[2]);
     }
 }
 
 
 int main()
 {
-    struct node *root = NULL;
+    struct node *rootNode = NULL;
 
-    /* Test dataset insertion sequence */
-    insert(&root, 10);
-    insert(&root, 20);
-    insert(&root, 30);
-    insert(&root, 15);
-    insert(&root, 25);
-    insert(&root, 5);
-    insert(&root, 35);
-
+    /* Insertion Test Sequence */
+    insert(&rootNode, 10);
+    insert(&rootNode, 20);
+    insert(&rootNode, 30);
+    insert(&rootNode, 15);
+    insert(&rootNode, 25);
+    insert(&rootNode, 5);
+    insert(&rootNode, 35);
 
     printf("Inorder Traversal:\n");
-
-    inorder(root);
+    inorder(rootNode);
+    printf("\n");
 
     return 0;
 }
