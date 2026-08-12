@@ -65,7 +65,7 @@ struct node *leftRotate(struct node *root, struct node *x)
 
     y = x->right;
 
-    /* y no left subtree x na right child tarife reassign karo */
+    /* y no left subtree x na right child tarike reassign karo */
     x->right = y->left;
 
     if (y->left != NULL)
