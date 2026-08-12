@@ -110,9 +110,9 @@ int main()
 
     // Height balance check and output printing
     if (isBalanced(root))
-        printf("TRUE");
+        printf("TRUE , this is a balanced tree ");
     else
-        printf("FALSE");
+        printf("FALSE , this is not a balanced tree ");
 
     return 0;
 }
