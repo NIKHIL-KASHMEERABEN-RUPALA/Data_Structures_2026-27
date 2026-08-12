@@ -59,7 +59,6 @@ int insertRecursive(struct node *currentNode,
     struct node *tempChildren[4];
     struct node *createdRightNode;
 
-    
 
     /*
         ================================================================
