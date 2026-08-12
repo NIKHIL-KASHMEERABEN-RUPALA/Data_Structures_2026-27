@@ -47,6 +47,7 @@ struct node *newNode(int initialKey)
     promotedKey  -> Key promoted to the parent level during a split
     newRightNode -> New right node created as a result of a node split
 */
+
 int insertRecursive(struct node *currentNode,
                     int keyToInsert,
                     int *promotedKey,
