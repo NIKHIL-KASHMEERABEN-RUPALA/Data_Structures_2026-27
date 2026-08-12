@@ -4,7 +4,7 @@
 /*
     Red-Black Tree Node nu Structure definition
 
-    Color encoding:
+    Color Encoding:
     color = 0 -> RED
     color = 1 -> BLACK
 */
@@ -19,20 +19,19 @@ struct node
 };
 
 
-/* New Red-Black Tree node allocate ane initialize karva mate nu Function */
+/*
+    New Red-Black Tree Node allocate ane initialize karva mate nu Function
+*/
 struct node *newNode(int key)
 {
     struct node *temp;
 
-    // Structure size pramane dynamic memory allocation
+    // Memory allocation as per structure size
     temp = (struct node *)malloc(sizeof(struct node));
 
     temp->key = key;
 
-    /*
-        Red-Black Tree Rule:
-        Newly inserted node hamesha RED (0) j hoy che.
-    */
+    /* Newly inserted node hamesha RED (0) j hoy che */
     temp->color = 0;
 
     temp->left = NULL;
@@ -46,94 +45,125 @@ struct node *newNode(int key)
 /*
     Left Rotation Function
 
-         x                         y
-          \                       / \
-           y        --->         x   C
-          /                       \
-         B                         B
+          x
+           \
+            y
+           / \
+          B   C
+
+            ↓
+
+            y
+           / \
+          x   C
+           \
+            B
 */
-void leftRotate(struct node **root, struct node *x)
+struct node *leftRotate(struct node *root, struct node *x)
 {
     struct node *y;
 
     y = x->right;
 
-    /* y no left subtree x na right child trife attach karo */
+    /* y no left subtree x na right child tarife reassign karo */
     x->right = y->left;
 
     if (y->left != NULL)
         y->left->parent = x;
 
-    /* y, x ni old parent position le che */
+    /* y ne x na original parent sathe connect karo */
     y->parent = x->parent;
 
     if (x->parent == NULL)
-        *root = y;                  // Jo x Root hoto, to y new Root banse
-
+    {
+        /* Jo x root hoto, to y new root banse */
+        root = y;
+    }
     else if (x == x->parent->left)
+    {
         x->parent->left = y;
-
+    }
     else
+    {
         x->parent->right = y;
+    }
 
-    /* x ne y na Left child tarife re-assign karo */
+    /* x ne y na left child tarife place karo */
     y->left = x;
     x->parent = y;
+
+    return root;
 }
 
 
 /*
     Right Rotation Function
 
-             x                     y
-            /                     / \
-           y        --->         A   x
-          / \                       /
-         A   B                     B
+              x
+             /
+            y
+           / \
+          A   B
+
+            ↓
+
+            y
+           / \
+          A   x
+             /
+            B
 */
-void rightRotate(struct node **root, struct node *x)
+struct node *rightRotate(struct node *root, struct node *x)
 {
     struct node *y;
 
     y = x->left;
 
-    /* y no right subtree x na left child tarife attach karo */
+    /* y no right subtree x na left child tarife reassign karo */
     x->left = y->right;
 
     if (y->right != NULL)
         y->right->parent = x;
 
-    /* y, x ni old parent position le che */
+    /* y ne x na original parent sathe connect karo */
     y->parent = x->parent;
 
     if (x->parent == NULL)
-        *root = y;                  // Jo x Root hoto, to y new Root banse
-
+    {
+        /* Jo x root hoto, to y new root banse */
+        root = y;
+    }
     else if (x == x->parent->right)
+    {
         x->parent->right = y;
-
+    }
     else
+    {
         x->parent->left = y;
+    }
 
-    /* x ne y na Right child tarife re-assign karo */
+    /* x ne y na right child tarife place karo */
     y->right = x;
     x->parent = y;
+
+    return root;
 }
 
 
 /*
-    Insertion pachi thāyela Red-Red Conflict ne fix karva mate nu Function.
-
-    Recoloring ane Rotation techniques thi balance restore karay che.
+    Insertion pachi Red-Red Conflict (violation) solve karva mate nu Function
 */
-void fixInsertion(struct node **root, struct node *z)
+struct node *fixInsertion(struct node *root, struct node *z)
 {
     struct node *parent;
     struct node *grandParent;
     struct node *uncle;
 
-    // Jo parent RED (0) hoy ane z root na hoy, tya sudhi loop chalashē (Red-Red violation)
-    while (z != *root &&
+    /*
+        Parent RED (0) hoy tya sudhi loop run thase.
+        RED parent + RED child = Red-Red Violation.
+    */
+    while (z != root &&
            z->parent != NULL &&
            z->parent->color == 0)
     {
@@ -142,7 +172,8 @@ void fixInsertion(struct node **root, struct node *z)
 
 
         /*
-            Case A: Parent, GrandParent no Left Child che
+            CASE 1:
+            Parent, GrandParent no Left Child che
         */
         if (parent == grandParent->left)
         {
@@ -150,12 +181,12 @@ void fixInsertion(struct node **root, struct node *z)
 
 
             /*
-                CASE 1: Uncle RED (0) che.
+                Uncle RED che.
 
-                Solution: Recoloring karo
-                Parent -> BLACK
-                Uncle -> BLACK
-                GrandParent -> RED
+                Recoloring Strategy:
+                Parent      -> BLACK (1)
+                Uncle       -> BLACK (1)
+                GrandParent -> RED (0)
             */
             if (uncle != NULL && uncle->color == 0)
             {
@@ -163,20 +194,26 @@ void fixInsertion(struct node **root, struct node *z)
                 uncle->color = 1;
                 grandParent->color = 0;
 
-                z = grandParent;    // GrandParent mathi farithi issue check karva pointer move karo
+                /*
+                    GrandParent RED thayo, etle farithi upper level
+                    par conflict check karva pointer move karo.
+                */
+                z = grandParent;
             }
 
             else
             {
                 /*
-                    CASE 2: z Right Child che (Triangle configuration).
+                    CASE 2:
+                    Triangle Configuration (z, parent no Right Child che).
 
-                    First, parent par Left Rotation karo to convert it into Case 3.
+                    Left Rotate kari Case 3 (Line Configuration) ma convert karo.
                 */
                 if (z == parent->right)
                 {
                     z = parent;
-                    leftRotate(root, z);
+
+                    root = leftRotate(root, z);
 
                     parent = z->parent;
                     grandParent = parent->parent;
@@ -184,21 +221,22 @@ void fixInsertion(struct node **root, struct node *z)
 
 
                 /*
-                    CASE 3: z Left Child che (Line configuration).
+                    CASE 3:
+                    Line Configuration (z, parent no Left Child che).
 
-                    Parent ane GrandParent nu Recoloring karo,
-                    ane GrandParent par Right Rotation karo.
+                    Recolor karo ane GrandParent par Right Rotate karo.
                 */
                 parent->color = 1;
                 grandParent->color = 0;
 
-                rightRotate(root, grandParent);
+                root = rightRotate(root, grandParent);
             }
         }
 
 
         /*
-            Case B: Parent, GrandParent no Right Child che (Mirror Cases)
+            MIRROR CASE:
+            Parent, GrandParent no Right Child che
         */
         else
         {
@@ -206,8 +244,7 @@ void fixInsertion(struct node **root, struct node *z)
 
 
             /*
-                CASE 1 (Mirror): Uncle RED (0) che.
-                Recoloring process execution.
+                Uncle RED che -> Recoloring process.
             */
             if (uncle != NULL && uncle->color == 0)
             {
@@ -221,14 +258,14 @@ void fixInsertion(struct node **root, struct node *z)
             else
             {
                 /*
-                    CASE 2 (Mirror): z Left Child che (Triangle configuration).
-
-                    Parent par Right Rotation karo.
+                    MIRROR CASE 2:
+                    Triangle Configuration (z, parent no Left Child che).
                 */
                 if (z == parent->left)
                 {
                     z = parent;
-                    rightRotate(root, z);
+
+                    root = rightRotate(root, z);
 
                     parent = z->parent;
                     grandParent = parent->parent;
@@ -236,55 +273,58 @@ void fixInsertion(struct node **root, struct node *z)
 
 
                 /*
-                    CASE 3 (Mirror): z Right Child che (Line configuration).
-
-                    Recolor karo ane GrandParent par Left Rotation karo.
+                    MIRROR CASE 3:
+                    Line Configuration (z, parent no Right Child che).
                 */
                 parent->color = 1;
                 grandParent->color = 0;
 
-                leftRotate(root, grandParent);
+                root = leftRotate(root, grandParent);
             }
         }
     }
 
 
     /*
-        Red-Black Tree Property 2: Root Node hamesha BLACK (1) hovo joie.
+        Red-Black Tree Property: Root Node hamesha BLACK (1) j hovo joie.
     */
-    (*root)->color = 1;
+    root->color = 1;
+
+    return root;
 }
 
 
 /*
-    Red-Black Tree ma key insert karva mate nu Function.
+    Red-Black Tree ma Key Insert karva mate nu Main Function.
 
     Pehle normal BST insertion thase, pachi Red-Red violation fix thase.
 */
-void insert(struct node **root, int key)
+struct node *insert(struct node *root, int key)
 {
-    struct node *new;
-    struct node *parent;
     struct node *temp;
+    struct node *parent;
+    struct node *new;
 
+
+    // New node create karo
     new = newNode(key);
+
 
     /*
         Empty Tree Case:
-        New node root banse ane teno color BLACK thai jase.
+        New node j root banse ane root hamesha BLACK (1) hovo joie.
     */
-    if (*root == NULL)
+    if (root == NULL)
     {
-        new->color = 1;     /* Root hamesha BLACK hovo joie */
-        *root = new;
-        return;
+        new->color = 1;
+        return new;
     }
 
 
     /*
-        Standard Binary Search Tree (BST) Insertion Traversal
+        Standard BST Insertion Traversal
     */
-    temp = *root;
+    temp = root;
     parent = NULL;
 
     while (temp != NULL)
@@ -303,12 +343,14 @@ void insert(struct node **root, int key)
                 Duplicate Keys Red-Black Tree ma allowed nathi.
             */
             free(new);
-            return;
+            return root;
         }
     }
 
 
-    // Parent pointers set karo
+    /*
+        New node ne ten na parent sathe link karo.
+    */
     new->parent = parent;
 
     if (key < parent->key)
@@ -318,16 +360,18 @@ void insert(struct node **root, int key)
 
 
     /*
-        Insert thaya pachi Red-Red Violation handle karo
+        Red-Red Violation handle karo ane updated Root return karo.
     */
-    fixInsertion(root, new);
+    root = fixInsertion(root, new);
+
+    return root;
 }
 
 
 /*
     Inorder Traversal Function
 
-    Tree elements ne Sorted order ma Color (R/B) sathe Print kare che.
+    Tree elements ne Sorted order ma Color Code (R/B) sathe Display kare che.
 */
 void inorder(struct node *root)
 {
@@ -336,7 +380,7 @@ void inorder(struct node *root)
 
     inorder(root->left);
 
-    // Node Key ane teno color (R = RED, B = BLACK) display thase
+    // Node Key ane teno color (R = RED, B = BLACK) print thase
     printf("%d(%s) ",
            root->key,
            root->color == 0 ? "R" : "B");
@@ -349,21 +393,25 @@ int main()
 {
     struct node *root = NULL;
 
-    // Test data insertion sequence
-    insert(&root, 10);
-    insert(&root, 20);
-    insert(&root, 30);
-    insert(&root, 15);
-    insert(&root, 25);
-    insert(&root, 5);
-    insert(&root, 12);
-    insert(&root, 35);
-    insert(&root, 40);
-    insert(&root, 32);
-    insert(&root, 50);
+
+    /*
+        Insertion sequence execution
+    */
+    root = insert(root, 10);
+    root = insert(root, 20);
+    root = insert(root, 30);
+    root = insert(root, 15);
+    root = insert(root, 25);
+    root = insert(root, 5);
+    root = insert(root, 12);
+    root = insert(root, 35);
+    root = insert(root, 40);
+    root = insert(root, 32);
+    root = insert(root, 50);
 
 
     printf("Inorder Traversal:\n");
+
     inorder(root);
 
     return 0;
