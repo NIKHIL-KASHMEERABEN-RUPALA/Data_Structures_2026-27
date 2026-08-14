@@ -31,7 +31,7 @@ struct node *newNode(int key)
     tempNode->key = key;
 
     /* Golden Rule: Newly inserted node is ALWAYS RED (0) initially */
-    tempNode->color = RED;
+    tempNode->color = 0;
 
     tempNode->left = NULL;
     tempNode->right = NULL;
