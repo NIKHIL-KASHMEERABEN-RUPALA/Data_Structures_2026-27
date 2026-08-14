@@ -145,7 +145,7 @@ struct node *fixInsertion(struct node *root, struct node *currentNode)
     */
     while (currentNode != root &&
            currentNode->parent != NULL &&
-           currentNode->parent->color == RED)
+           currentNode->parent->color == 0)
     {
         parentNode = currentNode->parent;
         grandParentNode = parentNode->parent;
@@ -163,11 +163,11 @@ struct node *fixInsertion(struct node *root, struct node *currentNode)
                 CASE 1: Uncle RED (0) che.
                 Solution: Simply Recoloring karo!
             */
-            if (uncleNode != NULL && uncleNode->color == RED)
+            if (uncleNode != NULL && uncleNode->color == 0)
             {
-                parentNode->color = BLACK;
-                uncleNode->color = BLACK;
-                grandParentNode->color = RED;
+                parentNode->color = 1;
+                uncleNode->color = 1;
+                grandParentNode->color = 0;
 
                 // Problem pointer ne Grandparent par move karo higher levels check karva
                 currentNode = grandParentNode;
@@ -192,8 +192,8 @@ struct node *fixInsertion(struct node *root, struct node *currentNode)
                     CASE 3: Line Configuration (currentNode LEFT child che)
                     Solution: Parent & Grandparent nu Recoloring karo, ane Grandparent par Right Rotate karo
                 */
-                parentNode->color = BLACK;
-                grandParentNode->color = RED;
+                parentNode->color = 1;
+                grandParentNode->color = 0;
 
                 root = rightRotate(root, grandParentNode);
             }
@@ -212,11 +212,11 @@ struct node *fixInsertion(struct node *root, struct node *currentNode)
                 CASE 1 (MIRROR): Uncle RED (0) che.
                 Solution: Simply Recoloring process execution!
             */
-            if (uncleNode != NULL && uncleNode->color == RED)
+            if (uncleNode != NULL && uncleNode->color == 0)
             {
-                parentNode->color = BLACK;
-                uncleNode->color = BLACK;
-                grandParentNode->color = RED;
+                parentNode->color = 1;
+                uncleNode->color = 1;
+                grandParentNode->color = 0;
 
                 currentNode = grandParentNode;
             }
@@ -240,8 +240,8 @@ struct node *fixInsertion(struct node *root, struct node *currentNode)
                     CASE 3 (MIRROR): Line Configuration (currentNode RIGHT child che)
                     Solution: Parent & Grandparent nu Recoloring karo, ane Grandparent par Left Rotate karo
                 */
-                parentNode->color = BLACK;
-                grandParentNode->color = RED;
+                parentNode->color = 1;
+                grandParentNode->color = 0;
 
                 root = leftRotate(root, grandParentNode);
             }
@@ -249,7 +249,7 @@ struct node *fixInsertion(struct node *root, struct node *currentNode)
     }
 
     /* Golden Rule: Root Node hamesha BLACK (1) j hovo joie */
-    root->color = BLACK;
+    root->color = 1;
 
     return root;
 }
