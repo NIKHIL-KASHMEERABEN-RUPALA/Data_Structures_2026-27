@@ -17,15 +17,15 @@ certain things to keep in mind while solving DSA problems
  1. Fundamental Arrays & Pointers
  Hashing: Frequency tables, complement lookups, prefix caches.
  Two Pointers: Opposite-direction sweeps, palindrome checks, collision points.
- Sliding Window: Fixed and dynamic windows, at-most-$K$ constraints.
+ Sliding Window: Fixed and dynamic windows, at-most-K constraints.
  Prefix Operations: Prefix Sum, Difference Arrays, Prefix XOR.
  Fast & Slow Pointers: Cycle detection (Floyd’s algorithm), midpoint discovery.
- Cyclic Sort: $O(N)$ placement for values in range $[1, N]$ or $[0, N]$.
+ Cyclic Sort: O(N) placement for values in range [1, N] or [0, N].
 
  2. Monotonic Structures & Heaps
  Stack & Monotonic Stack: Next Greater/Smaller Element, boundary expansion (e.g., largest histogram area).
  Queue & Monotonic Queue: Sliding window maximums, deque implementations.
- Heap / Priority Queue: Top-$K$ elements, running median, two-heap patterns.
+ Heap / Priority Queue: Top-K elements, running median, two-heap patterns.
  Intervals: Interval sorting, sweep-line algorithms, merging and intersection tests.
 
  3. Trees, Graphs & Disjoint Sets
@@ -42,19 +42,19 @@ certain things to keep in mind while solving DSA problems
  Binary Search Variants: Classic search, lower/upper bounds, Binary Search on the Answer.
  Dynamic Programming:
    1D / 2D Tabulation & Memoization
-   $0/1$ and Unbounded Knapsack
-   Longest Increasing Subsequence (LIS) in $O(N \log N)$
+   0/1 and Unbounded Knapsack
+   Longest Increasing Subsequence (LIS) in O(N \log N)
    String / Edit Distance / Matrix Chain
    Tree DP and Bitmask DP
- Bit Manipulation & State Compression: Bitwise masks, bit tricks ($x \ \& \ (x - 1)$), submask enumeration.
+ Bit Manipulation & State Compression: Bitwise masks, bit tricks (x \ \& \ (x - 1)), submask enumeration.
  Greedy: Activity selection, interval scheduling, exchange arguments.
  Matrix/Grid Traversals: Flood fill, multi-source BFS, directional vectors.
 
  5. Advanced Range Queries & Complex Trees
  Segment Trees: Point updates, range queries, lazy propagation.
- Fenwick Tree (Binary Indexed Tree): Point update, prefix queries in $O(\log N)$.
- Meet in the Middle: Splitting search spaces to reduce $O(2^N)$ to $O(2^{N/2})$.
- Advanced Graph Theory: Strongly Connected Components (Tarjan / Kosaraju), Bridges & Articulation Points, Binary Lifting for $O(\log N)$ LCA.
+ Fenwick Tree (Binary Indexed Tree): Point update, prefix queries in O(\log N).
+ Meet in the Middle: Splitting search spaces to reduce O(2^N) to O(2^{N/2}).
+ Advanced Graph Theory: Strongly Connected Components (Tarjan / Kosaraju), Bridges & Articulation Points, Binary Lifting for O(\log N) LCA.
 
 
 
