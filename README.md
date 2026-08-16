@@ -1,6 +1,8 @@
-# DSA Patterns — Ultimate Nutshell
+# Data Structures & Algorithms (2026–2027)
 
-Essential patterns for technical interviews at top-tier companies (**Google**, **Netflix**, **Meta**, **IBM**, **NVIDIA**, **xAI**, **Microsoft**, etc.):
+> Comprehensive archive of solved coding interview problems mapped across standard LeetCode tags and high-yield DSA patterns.
+
+## DSA Patterns — Ultimate Nutshell
 
 * **Hashing** — HashMap / HashSet, frequency counting, complement lookups
 * **Two Pointers**
@@ -31,7 +33,7 @@ Essential patterns for technical interviews at top-tier companies (**Google**, *
 * **Segment Tree**
 * **Meet in the Middle**
 * **Bitmask / State Compression**
-* **Advanced Graph & Tree** — Strongly Connected Components (SCC), Bridges, LCA, Binary Lifting
+* **Advanced Graph & Tree** — SCC, Bridges, LCA, Binary Lifting
 
 ---
 
@@ -42,19 +44,6 @@ Essential patterns for technical interviews at top-tier companies (**Google**, *
 
 | Problem |
 | :--- |
-| [0108-convert-sorted-array-to-binary-search-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0108-convert-sorted-array-to-binary-search-tree) |
-
-## Divide and Conquer
-
-| Problem |
-| :--- |
-| [0108-convert-sorted-array-to-binary-search-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0108-convert-sorted-array-to-binary-search-tree) |
-
-## Tree
-
-| Problem |
-| :--- |
-| [0104-maximum-depth-of-binary-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0104-maximum-depth-of-binary-tree) |
 | [0108-convert-sorted-array-to-binary-search-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0108-convert-sorted-array-to-binary-search-tree) |
 
 ## Binary Search Tree
@@ -70,15 +59,28 @@ Essential patterns for technical interviews at top-tier companies (**Google**, *
 | [0104-maximum-depth-of-binary-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0104-maximum-depth-of-binary-tree) |
 | [0108-convert-sorted-array-to-binary-search-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0108-convert-sorted-array-to-binary-search-tree) |
 
+## Breadth-First Search
+
+| Problem |
+| :--- |
+| [0104-maximum-depth-of-binary-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0104-maximum-depth-of-binary-tree) |
+
 ## Depth-First Search
 
 | Problem |
 | :--- |
 | [0104-maximum-depth-of-binary-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0104-maximum-depth-of-binary-tree) |
 
-## Breadth-First Search
+## Divide and Conquer
+
+| Problem |
+| :--- |
+| [0108-convert-sorted-array-to-binary-search-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0108-convert-sorted-array-to-binary-search-tree) |
+
+## Tree
 
 | Problem |
 | :--- |
 | [0104-maximum-depth-of-binary-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0104-maximum-depth-of-binary-tree) |
+| [0108-convert-sorted-array-to-binary-search-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0108-convert-sorted-array-to-binary-search-tree) |
 <!---LeetCode Topics End-->
