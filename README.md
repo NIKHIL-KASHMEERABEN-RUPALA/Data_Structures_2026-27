@@ -1,8 +1,8 @@
 2 goals of this repository -
 
- ⚡ LeetCode & Algorithmic Patterns 
+ ⚡ LeetCode & Algorithmic Patterns understanding 
 
-A comprehensive, pattern-driven repository tracking my daily problem-solving journey toward top-tier software engineering roles. Initiated on August 15, 2026 this space documents optimal solutions, mathematical proofs, and pattern-recognition blueprints across 30+ core DSA paradigms.
+A comprehensive, pattern-driven repository tracking my daily problem-solving journey toward top-tier software engineering roles. Initiated since 30th April , 2026 this space documents optimal solutions, mathematical proofs, and pattern-recognition blueprints across 30+ core DSA paradigms.
 
 
  🎯 Purpose & Philosophy
@@ -11,7 +11,7 @@ Rather than chasing raw problem counts, this repository emphasizes deep pattern 
 
 
 
-certain things to keep in mind while solving DSA problems 
+certain things to keep in mind while solving DSA problems :
 
 
  1. Fundamental Arrays & Pointers
