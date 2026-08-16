@@ -95,7 +95,7 @@ Bitmask / State Compression
 Advanced Graph/Tree — SCC, Bridges, LCA, Binary Lifting
 
 <!---LeetCode Topics Start-->
-# LeetCode Topics
+# LeetCode Solved Topics Archive 
 ## Array
 |  |
 | ------- |
