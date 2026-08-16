@@ -144,7 +144,7 @@ def main():
     save_cache(cache)
 
     # Generate the Markdown block
-    lines = ["<!---LeetCode Topics Start-->", "# LeetCode Solved Questions Archive\n"]
+    lines = ["<!---LeetCode Topics Start-->", "# My Leet_Code Archive\n"]
     for topic in sorted(topic_map.keys()):
         lines.append(f"## {topic}\n")
         lines.append("| Problem |")
