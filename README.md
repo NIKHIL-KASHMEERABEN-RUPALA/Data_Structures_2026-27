@@ -107,6 +107,7 @@ Advanced Graph/Tree — SCC, Bridges, LCA, Binary Lifting
 ## Tree
 |  |
 | ------- |
+| [0104-maximum-depth-of-binary-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0104-maximum-depth-of-binary-tree) |
 | [0108-convert-sorted-array-to-binary-search-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0108-convert-sorted-array-to-binary-search-tree) |
 ## Binary Search Tree
 |  |
@@ -115,5 +116,14 @@ Advanced Graph/Tree — SCC, Bridges, LCA, Binary Lifting
 ## Binary Tree
 |  |
 | ------- |
+| [0104-maximum-depth-of-binary-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0104-maximum-depth-of-binary-tree) |
 | [0108-convert-sorted-array-to-binary-search-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0108-convert-sorted-array-to-binary-search-tree) |
+## Depth-First Search
+|  |
+| ------- |
+| [0104-maximum-depth-of-binary-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0104-maximum-depth-of-binary-tree) |
+## Breadth-First Search
+|  |
+| ------- |
+| [0104-maximum-depth-of-binary-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0104-maximum-depth-of-binary-tree) |
 <!---LeetCode Topics End-->
