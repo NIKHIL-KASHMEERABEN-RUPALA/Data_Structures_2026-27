@@ -1,4 +1,4 @@
-# Data Structures & Algorithms (2026–2027)
+# Data Structures & Algorithms 
 
 > Comprehensive archive of solved coding interview problems mapped across standard LeetCode tags and high-yield DSA patterns.
 
