@@ -161,6 +161,7 @@
 
 | Problem |
 | :--- |
+| [0086-partition-list](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0086-partition-list) |
 | [0109-convert-sorted-list-to-binary-search-tree](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0109-convert-sorted-list-to-binary-search-tree) |
 | [0203-remove-linked-list-elements](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0203-remove-linked-list-elements) |
 | [0206-reverse-linked-list](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0206-reverse-linked-list) |
@@ -225,6 +226,7 @@
 | Problem |
 | :--- |
 | [0011-container-with-most-water](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0011-container-with-most-water) |
+| [0086-partition-list](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0086-partition-list) |
 
 ## Zero-Sum Game
 
