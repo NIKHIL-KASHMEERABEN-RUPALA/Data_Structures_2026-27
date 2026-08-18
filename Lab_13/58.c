@@ -8,7 +8,7 @@ struct Node
     struct Node *next;
 };
 
-// Stack no head pointer jene apde top kahishu (Initially NULL)
+// Stack no head pointer jene apde top kesu (Initially NULL)
 struct Node *top = NULL;
 
 // Stack ni andar element add karva mate push function
