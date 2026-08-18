@@ -1,85 +1,117 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-struct Node{
+/* Singly Linked List Node nu Structural Definition (Data field ane Self-referential Pointer) */
+struct Node {
     int info;
-    struct Node*next;
+    struct Node *next;
 };
 
-struct Node*front = NULL;
-struct Node*rear = NULL;
+/* Global Pointer References: Queue na Entry (Rear) ane Exit (Front) boundary tracking mate */
+struct Node *front = NULL;
+struct Node *rear = NULL;
 
 
-void enqueue(int x){
+/*
+    Queue ma navo Element/Node dynamically allocate kari Rear End par Enqueue/Insert karva mate nu Function.
+*/
+void enqueue(int x) {
 
-    struct Node*newNode = (struct Node*)malloc(sizeof(struct Node));
+    // Dynamic Heap Memory Allocation using malloc
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
 
-    if(newNode==NULL){
-        printf("\n overflow ! memory not available");
+    /* Memory Exhaustion Check: Heap full thaya par NULL check kari Overflow handle karo */
+    if (newNode == NULL) {
+        printf("\n Overflow ! Dynamic memory allocation failed.");
         return;
     }
+    
+    // Payload Data Initialization ane Next Pointer Termination
     newNode->info = x;
     newNode->next = NULL;
-    if(front==NULL){
+
+    /* Base Condition: Jo Queue completely Empty hoy, to Front ane Rear banne new node ne point karse */
+    if (front == NULL) {
         front = rear = newNode;
     }
-    else{
+    /* Linked List Expansion: Existing Rear node na next pointer ne link kari Rear Reference update karo */
+    else {
         rear->next = newNode;
         rear = newNode;
     }
 }
 
 
-void dequeue(){
-    if(front==NULL){
-        printf("\n Underflow ! ");
+/*
+    Queue mathi Element Dequeue/Remove karva mate nu Function (FIFO - First-In-First-Out Strategy).
+    Aa operation Front boundary thi Node eliminate kare che.
+*/
+void dequeue() {
+    /* Underflow Condition: Check karo ke Linked List empty to nathi */
+    if (front == NULL) {
+        printf("\n Underflow ! Queue contains no elements to remove.");
         return;
     }
-    struct Node*temp = front;
-    printf("\n Deleted %d successfully ",temp->info);
+    
+    // Deallocation mate Front Node no Temporary Reference retain karo
+    struct Node *temp = front;
+    printf("\n Deleted %d successfully ", temp->info);
+    
+    // Front pointer ne successor node par transition/advance karo
     front = front->next;
-    if(front==NULL){
+    
+    /* Boundary Reset: Jo Queue no single/last node delete thayo hoy, to Rear pointer ne pan NULL set karo */
+    if (front == NULL) {
         rear = NULL;
     }
+    
+    // Memory Leak prevent karva mate Dynamic Memory Explicitly Free/Deallocate karo
     free(temp);
 }
 
 
-void display(){
-    if(front==NULL){
+/*
+    Linked List Queue na elements ne Linear Sequential Traversal kari Console par Print karva mate nu Function.
+*/
+void display() {
+    /* Empty State Verification */
+    if (front == NULL) {
         printf("\n Queue is already empty ! ");
         return;
     }
-    struct Node*temp = front;
-    printf("\n Queue is :       \n");
-    while(temp!=NULL){
-        printf("\n %d ",temp->info);
-        temp=temp->next;
+    
+    // Traversal Iterator pointer initialization Front thi
+    struct Node *temp = front;
+    printf("\n Queue is : \n");
+    
+    // Sequential Linear Traversal jya sudhi NULL terminator encounter na thay
+    while (temp != NULL) {
+        printf("\n %d ", temp->info);
+        temp = temp->next;
     }
-
-
 }
 
 
-void peek()
-{
-    if (front == NULL)
-    {
+/*
+    Front-most Element ne retrieve/inspect karva mate nu Function without removing the node.
+*/
+void peek() {
+    /* State Validation Check */
+    if (front == NULL) {
         printf("Queue is Empty.\n");
         return;
     }
 
+    // Access the Payload value of the Front Node
     printf("Front Element = %d\n", front->info);
 }
 
 
-
-int main()
-{
+int main() {
     int choice, value;
 
-    while (1)
-    {
+    /* Interactive Menu-Driven CLI Execution Loop */
+    while (1) {
         printf("\n QUEUE USING LINKED LIST \n");
         printf("1. Enqueue\n");
         printf("2. Dequeue\n");
@@ -89,8 +121,8 @@ int main()
         printf("Enter Choice: ");
         scanf("%d", &choice);
 
-        switch (choice)
-        {
+        /* Control Flow Dispatch using Switch Statement */
+        switch (choice) {
         case 1:
             printf("Enter Value: ");
             scanf("%d", &value);
@@ -114,6 +146,7 @@ int main()
             return 0;
 
         default:
+            // Input Validation Exception
             printf("Invalid Choice!\n");
         }
     }
