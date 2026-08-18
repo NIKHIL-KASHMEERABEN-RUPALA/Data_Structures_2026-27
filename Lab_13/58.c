@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Stack Node mate struct ni ghoshana (Structure Definition)
+// Stack Node mate struct nu declaration (Structure Definition)
 struct Node
 {
     int data;
