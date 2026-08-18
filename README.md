@@ -96,6 +96,7 @@
 | Problem |
 | :--- |
 | [1114-print-in-order](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/1114-print-in-order) |
+| [1115-print-foobar-alternately](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/1115-print-foobar-alternately) |
 
 ## Counting
 
