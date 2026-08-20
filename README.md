@@ -129,6 +129,7 @@
 | [0184-department-highest-salary](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0184-department-highest-salary) |
 | [0185-department-top-three-salaries](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0185-department-top-three-salaries) |
 | [0196-delete-duplicate-emails](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0196-delete-duplicate-emails) |
+| [0197-rising-temperature](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0197-rising-temperature) |
 
 ## Depth-First Search
 
