@@ -10,7 +10,6 @@ int top = -1;
 void push()
 {
     int value;
-
     // Base Guard / Error Check: Jo stack aakho bharai gayo hoy toh overflow thashe
     if (top == MAX - 1)
     {
