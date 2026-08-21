@@ -28,6 +28,7 @@ void push()
     stack[top] = value;
 
     printf("%d inserted successfully.\n", value);
+    
 
 }
 
