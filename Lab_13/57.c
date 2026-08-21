@@ -21,9 +21,10 @@ void push()
     printf("Enter value to PUSH: ");
     scanf("%d", &value);
     
-    
+
     // Index ne badhavo ane value ne top position par assign karo
     top++;
+    
     stack[top] = value;
 
     printf("%d inserted successfully.\n", value);
