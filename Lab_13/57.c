@@ -1,7 +1,6 @@
 #include <stdio.h>
 
 #define MAX 100      // Stack ni maximum capacity set kari chhe
-
 // Global Array ane TOP variable nu declaration, je stack ni andar elements store karva mate use thase
 int stack[MAX];
 int top = -1;
