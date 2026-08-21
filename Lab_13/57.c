@@ -1,5 +1,4 @@
 
-
 #include <stdio.h>
 
 #define MAX 100      // Stack ni maximum capacity set kari chhe
