@@ -17,6 +17,7 @@ void push()
         printf("\nStack Overflow! Cannot insert more elements.\n");
         return;
     }
+    
 
     printf("Enter value to PUSH: ");
     scanf("%d", &value);
