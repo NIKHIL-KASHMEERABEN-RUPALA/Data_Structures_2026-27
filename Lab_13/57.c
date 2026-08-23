@@ -32,7 +32,6 @@ void push()
 
 }
 
-
 // Stack mathi top element delete karva mate pop function
 void pop()
 {
