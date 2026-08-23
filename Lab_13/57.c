@@ -31,6 +31,7 @@ void push()
     printf("%d inserted successfully.\n", value);
 
 }
+
 // Stack mathi top element delete karva mate pop function
 void pop()
 {
