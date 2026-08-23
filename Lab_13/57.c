@@ -18,7 +18,6 @@ void push()
         return;
     }
     
-
     printf("Enter value to PUSH: ");
     scanf("%d", &value);
     
