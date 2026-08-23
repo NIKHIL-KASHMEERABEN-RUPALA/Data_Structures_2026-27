@@ -36,6 +36,7 @@ void push()
 // Stack mathi top element delete karva mate pop function
 void pop()
 {
+    
     // Base Guard / Error Check: Jo stack pehle thi j khali hoy toh underflow thashe
     if (top == -1)
     {
