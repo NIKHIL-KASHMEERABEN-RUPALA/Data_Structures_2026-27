@@ -44,6 +44,7 @@
 
 | Problem |
 | :--- |
+| [0001-two-sum](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0001-two-sum) |
 | [0011-container-with-most-water](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0011-container-with-most-water) |
 | [0015-3sum](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0015-3sum) |
 | [0016-3sum-closest](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0016-3sum-closest) |
@@ -181,6 +182,7 @@
 
 | Problem |
 | :--- |
+| [0001-two-sum](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0001-two-sum) |
 | [0105-construct-binary-tree-from-preorder-and-inorder-traversal](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0105-construct-binary-tree-from-preorder-and-inorder-traversal) |
 | [0106-construct-binary-tree-from-inorder-and-postorder-traversal](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0106-construct-binary-tree-from-inorder-and-postorder-traversal) |
 
