@@ -8,8 +8,7 @@ int top = -1;
 
 // Stack ni andar element insert karva mate push function
 void push()
-{
-    
+{ 
     int value;
 
     // Base Guard / Error Check: Jo stack aakho bharai gayo hoy toh overflow thashe
