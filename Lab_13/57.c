@@ -9,6 +9,7 @@ int top = -1;
 // Stack ni andar element insert karva mate push function
 void push()
 {
+    
     int value;
 
     // Base Guard / Error Check: Jo stack aakho bharai gayo hoy toh overflow thashe
@@ -21,7 +22,7 @@ void push()
     printf("Enter value to PUSH: ");
     scanf("%d", &value);
     
-    
+
 
     // Index ne badhavo ane value ne top position par assign karo
     top++;
