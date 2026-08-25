@@ -6,6 +6,7 @@
 
 Priority Queue e special type ni Queue chhe.
 
+
 Normal Queue ma FIFO (First In First Out) hoy.
 
 Priority Queue ma Highest Priority valo element pela remove thay.
