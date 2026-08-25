@@ -22,12 +22,7 @@ struct Node* newNode(int val) {
 /*
     Inorder Array ma target key/value no exact Index locate karva mate Linear Search Function
 */
-int search(int in[], int start, int end, int val) {
-    for (int i = start; i <= end; i++) {
-        if (in[i] == val) return i;
-    }
-    return -1; // Value na male to -1 return thase (Boundary Exception)
-}
+
 
 /*
     Preorder ane Inorder Sequences par thi Binary Tree Reconstruct karva mate nu Recursive Function.
