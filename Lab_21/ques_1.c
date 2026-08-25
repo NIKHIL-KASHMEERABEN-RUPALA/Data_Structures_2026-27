@@ -11,6 +11,12 @@ struct Node {
 /*
     Dynamic Heap Memory Allocate kari new Node initialize karva mate nu Helper Function
 */
+struct Node* newNode(int val) {
+    struct Node* node = (struct Node*)malloc(sizeof(struct Node));
+    node->data = val;
+    node->left = node->right = NULL; // Left ane Right Child Pointers initially NULL set karela che
+    return node;
+}
 
 
 /*
