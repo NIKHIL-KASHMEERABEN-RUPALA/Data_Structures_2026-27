@@ -2,10 +2,7 @@
 #include <stdlib.h>
 
 /* Binary Search Tree (BST) Node nu Structural Blueprint */
-struct Node {
-    int data;
-    struct Node *left, *right;
-};
+
 
 /*
     Dynamic Heap Memory Allocate kari new Node initialize karva mate nu Helper Function
