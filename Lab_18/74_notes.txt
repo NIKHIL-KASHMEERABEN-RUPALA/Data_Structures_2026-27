@@ -11,6 +11,7 @@ Normal Queue ma FIFO (First In First Out) hoy.
 Priority Queue ma Highest Priority valo element pela remove thay.
 
 
+
 # Time Complexity (Most Important for Exam ⭐)
 
 | Operation          | Time Complexity | Reason                                               |
