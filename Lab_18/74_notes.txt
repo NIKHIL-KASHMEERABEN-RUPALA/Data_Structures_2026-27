@@ -2,6 +2,7 @@
 
 ---
 
+
 # 1. Priority Queue Shu Chhe?
 
 Priority Queue e special type ni Queue chhe.
