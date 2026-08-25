@@ -2,6 +2,10 @@
 #include <stdlib.h>
 
 /* Binary Search Tree (BST) Node nu Structural Blueprint */
+struct Node {
+    int data;
+    struct Node *left, *right;
+};
 
 
 /*
