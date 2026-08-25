@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+/* Binary Search Tree (BST) Node Structure Definition */
+struct Node {
+    int data;
+    struct Node *left;
+    struct Node *right;
+};
+
+/*
+    Helper Function: Dynamic Memory Allocate kari new Node initialize karva mate
+*/
+struct Node* newNode(int val) {
+    struct Node* node = (struct Node*)malloc(sizeof(struct Node));
+    node->data = val;
+    node->left = NULL;
+    node->right = NULL;
+    return node;
+}
+
+/*
+    Sorted Array mathi Height-Balanced BST construct karva mate nu Recursive Function.
+    Divide and Conquer Strategy: Middle Element ne Root banavi Left ane Right Subtrees balance kare che.
+*/
+struct Node* sortedArrayToBST(int arr[], int start, int end) {
+    /* Base Case: Valid subarray boundaries exhaust thai jay to NULL return karo */
+    if (start > end) {
+        return NULL;
+    }
+
+    /* 
+       Middle Index Calculation:
+       Integer overflow prevent karva mate formula: start + (end - start) / 2
+    */
+    int mid = start + (end - start) / 2;
+
+    /* Middle element ne Current Subtree no Root Node assign karo */
+    struct Node* root = newNode(arr[mid]);
+
+    /* 
+       Recursive Divide and Conquer Calls:
+       - Left Subtree range:  [start, mid - 1] (Middle thi dabi baju na elements)
+       - Right Subtree range: [mid + 1, end]   (Middle thi jamni baju na elements)
+    */
+    root->left = sortedArrayToBST(arr, start, mid - 1);
+    root->right = sortedArrayToBST(arr, mid + 1, end);
+
+    return root;
+}
+
+/*
+    Tree ni Structural Height ane Balance check karva Preorder Traversal (Root -> Left -> Right)
+*/
+void printPreorder(struct Node* node) {
+    if (node == NULL) return;
+    printf("%d ", node->data);
+    printPreorder(node->left);
+    printPreorder(node->right);
+}
+
+/*
+    Tree Sorted Sequence retain kare che ke nahi te verify karva Inorder Traversal (Left -> Root -> Right)
+*/
+void printInorder(struct Node* node) {
+    if (node == NULL) return;
+    printInorder(node->left);
+    printf("%d ", node->data);
+    printInorder(node->right);
+}
+
+int main() {
+    /* Input: Sorted Array (Ascending Order) */
+    int arr[] = {4, 10, 12, 15, 18, 22, 24};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    /* Balanced BST Construction Function Call */
+    struct Node* root = sortedArrayToBST(arr, 0, n - 1);
+
+    /* Output Traversal Verification */
+    printf("Preorder Traversal of Balanced BST: ");
+    printPreorder(root);
+    printf("\n");
+
+    printf("Inorder Traversal of Balanced BST:  ");
+    printInorder(root);
+    printf("\n");
+
+    return 0;
+}
