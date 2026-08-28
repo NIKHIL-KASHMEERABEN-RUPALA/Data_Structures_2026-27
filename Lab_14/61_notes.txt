@@ -1,4 +1,4 @@
- * EXAM MATE IMPORTANT MCQ CONCEPTS: BALANCED PARENTHESES
+ * 
  * 
  * 1. MAXIMUM STACK DEPTH (WORST-CASE SPACE OVERHEAD)
  *    - MCQ ma puchay ke "((((((((" chhe toh stack ni maximum size ketli thashe?
