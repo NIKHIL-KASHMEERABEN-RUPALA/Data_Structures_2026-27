@@ -1,6 +1,5 @@
  * EXAM MATE IMPORTANT MCQ CONCEPTS: LINKED STACK IMPLEMENTATION
  * 
-
  * 1. DYNAMIC MEMORY BENEFITS
  *    - Linked list vala stack ma predefined MAX size ni jarur nathi hotis.
  *    - Memory dynamically grow ane shrink thai sake chhe execution time par.
