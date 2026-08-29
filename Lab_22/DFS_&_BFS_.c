@@ -17,6 +17,7 @@ struct Node {
     struct Node* next;      // next padoshi (neighbor) ni link
 };
 
+
 /* ===== Graph ni structure ===== */
 struct Graph {
     int numVertices;            // total ketla vertex che
