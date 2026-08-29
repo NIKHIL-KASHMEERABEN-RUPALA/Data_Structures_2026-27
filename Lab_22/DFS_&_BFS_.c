@@ -43,6 +43,7 @@ struct Graph* createGraph(int vertices) {
     for (int i = 0; i < vertices; i++)
         graph->adjList[i] = NULL;
 
+    
     return graph;
 }
 
