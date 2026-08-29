@@ -60,6 +60,7 @@ void addEdge(struct Graph* graph, int src, int dest) {
     graph->adjList[dest] = newNode;
 }
 
+
 /* ---- Adjacency list print karva no function ---- */
 void printGraph(struct Graph* graph) {
     printf("Adjacency List (graph nu representation):\n");
