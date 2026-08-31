@@ -3,6 +3,7 @@
 > Comprehensive archive of solved coding interview problems mapped across standard LeetCode tags and high-yield DSA patterns.
 
 ## DSA Patterns — Ultimate Nutshell
+<br>
 
 * **Hashing** — HashMap / HashSet, frequency counting, complement lookups
 * **Two Pointers**
