@@ -59,6 +59,7 @@
 | [3568-minimum-moves-to-clean-the-classroom](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/3568-minimum-moves-to-clean-the-classroom) |
 | [3875-construct-uniform-parity-array-i](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/3875-construct-uniform-parity-array-i) |
 | [3876-construct-uniform-parity-array-ii](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/3876-construct-uniform-parity-array-ii) |
+| [3903-smallest-stable-index-i](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/3903-smallest-stable-index-i) |
 
 ## Binary Search
 
@@ -244,6 +245,12 @@
 | Problem |
 | :--- |
 | [2029-stone-game-ix](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/2029-stone-game-ix) |
+
+## Prefix Sum
+
+| Problem |
+| :--- |
+| [3903-smallest-stable-index-i](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/3903-smallest-stable-index-i) |
 
 ## Recursion
 
