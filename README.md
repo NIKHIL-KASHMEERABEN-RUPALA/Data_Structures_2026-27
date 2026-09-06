@@ -169,6 +169,7 @@
 
 | Problem |
 | :--- |
+| [0115-distinct-subsequences](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0115-distinct-subsequences) |
 | [0486-predict-the-winner](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0486-predict-the-winner) |
 
 ## Game Theory
@@ -276,6 +277,12 @@
 | :--- |
 | [0173-binary-search-tree-iterator](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0173-binary-search-tree-iterator) |
 | [1019-next-greater-node-in-linked-list](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/1019-next-greater-node-in-linked-list) |
+
+## String
+
+| Problem |
+| :--- |
+| [0115-distinct-subsequences](https://github.com/NIKHIL-KASHMEERABEN-RUPALA/Data_Structures_2026-27/tree/master/0115-distinct-subsequences) |
 
 ## Tree
 
